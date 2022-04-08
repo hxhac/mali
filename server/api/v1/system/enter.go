@@ -1,11 +1,15 @@
 package system
 
-import "github.com/flipped-aurora/gin-vue-admin/server/service"
+import (
+	habit "github.com/flipped-aurora/gin-vue-admin/server/api/v1/daily/rss"
+	"github.com/flipped-aurora/gin-vue-admin/server/service"
+)
 
 type ApiGroup struct {
 	DBApi
 	JwtApi
 	BaseApi
+	habit.RssApi
 	SystemApi
 	CasbinApi
 	AutoCodeApi

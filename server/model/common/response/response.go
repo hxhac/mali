@@ -53,3 +53,8 @@ func FailWithMessage(message string, c *gin.Context) {
 func FailWithDetailed(data interface{}, message string, c *gin.Context) {
 	Result(ERROR, data, message, c)
 }
+
+// SendXML 返回xml
+func SendXML(ctx *gin.Context, res string) {
+	ctx.Data(http.StatusOK, "application/xml; charset=utf-8", []byte(res))
+}
