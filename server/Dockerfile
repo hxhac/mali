@@ -15,9 +15,10 @@ RUN apk add --no-cache build-base=0.5-r2
 RUN update-ca-certificates
 
 # 编译项目
-COPY . .
 COPY go.mod .
+COPY go.sum .
 RUN go mod download
+COPY . .
 RUN GOOS=linux GOARCH=amd64 go build -o server .
 
 # 二阶段编译
