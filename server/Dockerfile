@@ -15,10 +15,6 @@ RUN apk add --no-cache build-base=0.5-r2
 RUN update-ca-certificates
 
 # 编译项目
-#COPY go.mod .
-#COPY go.sum .
-#COPY public .
-#COPY config.toml .
 COPY . .
 RUN go mod download
 RUN GOOS=linux GOARCH=amd64 go build -o server .
@@ -32,10 +28,9 @@ COPY --from=builder /build/resource ./resource
 COPY --from=builder /build/config.docker.yaml ./config.docker.yaml
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 
-RUN cd ./ && ls
-#RUN apk add --no-cache tzdata
-#RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
-#RUN echo "Asia/shanghai" > /etc/timezone;
+RUN apk add --no-cache tzdata
+RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+RUN echo "Asia/shanghai" > /etc/timezone;
 
 EXPOSE 8888
 ENTRYPOINT ./server -c config.docker.yaml
