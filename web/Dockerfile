@@ -1,8 +1,8 @@
 FROM node:16 as builder
 
-WORKDIR /gva_web/
-COPY package.json .
-COPY . .
+WORKDIR /gva_web
+COPY /web/package.json .
+COPY /web .
 
 RUN npm install --production && yarn build
 
