@@ -37,17 +37,16 @@
 				@selection-change="handleSelectionChange"
 			>
 				<el-table-column type="selection" width="55"/>
-				<!--        <el-table-column align="left" label="日期" width="180">-->
-				<!--            <template #default="scope">{{ formatDate(scope.row.CreatedAt) }}</template>-->
-				<!--        </el-table-column>-->
-				<el-table-column align="left" label="prefix字段" prop="prefix" min-width="10%"/>
-				<el-table-column align="left" label="cron字段" prop="cron" min-width="10%"/>
-				<el-table-column align="left" label="task字段" prop="task" min-width="30%"/>
-<!--				<el-table-column align="left" label="remark字段" prop="remark" min-width="30%"/>-->
+				<el-table-column align="left" label="商品名称" prop="name" min-width="10%"/>
+				<el-table-column align="left" label="商品分类" prop="goods_category.cate_name"
+				                 min-width="5%"/>
+				<el-table-column align="left" label="价格" prop="price" min-width="5%"/>
+				<el-table-column align="left" label="综合评分" prop="rank" min-width="5%"/>
+				<el-table-column align="left" label="remark字段" prop="remark" min-width="30%"/>
 				<el-table-column align="left" label="按钮组" min-width="10%">
 					<template #default="scope">
 						<el-button type="text" icon="edit" size="small" class="table-button"
-						           @click="updateLifeYearlyFunc(scope.row)">变更
+						           @click="updateGoodsEvaluationFunc(scope.row)">变更
 						</el-button>
 						<el-button type="text" icon="delete" size="small"
 						           @click="deleteRow(scope.row)">删除
@@ -69,18 +68,33 @@
 		</div>
 		<el-dialog v-model="dialogFormVisible" :before-close="closeDialog" title="弹窗操作">
 			<el-form :model="formData" label-position="right" label-width="80px">
-				<el-form-item label="cron字段:">
-					<el-input v-model="formData.cron" clearable placeholder="请输入"/>
+				<el-form-item label="name字段:">
+					<el-input v-model="formData.name" clearable placeholder="请输入"/>
 				</el-form-item>
-				<el-form-item label="prefix字段:">
-					<el-input v-model="formData.prefix" clearable placeholder="请输入"/>
+				<el-form-item label="price字段:">
+					<el-input v-model.number="formData.price" clearable placeholder="请输入"/>
 				</el-form-item>
+				<el-form-item label="cateId字段:">
+					<!--          <el-input v-model.number="formData.goods_category.cate_name" clearable placeholder="请输入"/>-->
+					<!--          <el-input v-model="formData.goods_category.cate_name" clearable placeholder="请输入"/>-->
+					<el-select v-model="formData.goods_category.cate_name" placeholder="请选择下拉选择" clearable
+					           :style="{width: '100%'}">
+						<el-option v-for="(item, index) in dataOptions" :key="index"
+						           :label="item.label"
+						           :value="item.value" :disabled="item.disabled"></el-option>
+					</el-select>
+				</el-form-item>
+<!--				<el-form-item label="rank字段:">-->
+<!--					<el-input-number v-model="formData.rank" style="width:100%" :precision="2"-->
+<!--					                 clearable/>-->
+<!--				</el-form-item>-->
+
 				<el-form-item label="remark字段:">
-					<editor api-key="nuhgvje7hy67lk5k0n2xnvu5p3oni5b2bwaklgsxj0li2tmu" v-model="formData.remark" placeholder="请输入编辑器"
-					        :height="300" :init="editorInit"
-					></editor>
+					<el-input v-model="formData.remark" clearable placeholder="请输入"/>
 				</el-form-item>
-			
+				<!--        <el-form-item label="userId字段:">-->
+				<!--          <el-input v-model.number="formData.userId" clearable placeholder="请输入"/>-->
+				<!--        </el-form-item>-->
 			</el-form>
 			<template #footer>
 				<div class="dialog-footer">
@@ -93,92 +107,55 @@
 </template>
 
 <script>
-
 export default {
-	name: 'LifeYearly',
-	components: {
-		'editor': Editor
-	},
+	name: 'GoodsEvaluation',
 	data() {
 		return {
-			// tinymce的初始化配置
-			editorInit: {
-				//tinumce容器
-				selector: '#tinymce',
-				menubar: 'file edit view',
-				plugins: 'lists link image table code help wordcount textpattern',
-				//配置语言
-				// language_url: '/tinymce/langs/zh_CN.js',
-				// language: 'zh_CN',
-				//配置皮肤
-				// skin_url: '/tinymce/skins/ui/oxide',
-				//配置编辑器高度
-				height: 500,
-				min_height: 300,
-				max_height: 650,
-				width: 1000,
-				min_width: 900,
-				max_width: 1200,
-				text_patterns: [
-					{start: '#', format: 'h1'},
-					{start: '##', format: 'h2'},
-					{start: '###', format: 'h3'},
-					{start: '####', format: 'h4'},
-					{start: '#####', format: 'h5'},
-					{start: '######', format: 'h6'},
-					{start: '* ', cmd: 'InsertUnorderedList'},
-					{start: '- ', cmd: 'InsertUnorderedList'},
-					{start: '1. ', cmd: 'InsertOrderedList', value: {'list-style-type': 'decimal'}},
-					{start: '1) ', cmd: 'InsertOrderedList', value: {'list-style-type': 'decimal'}},
-					{
-						start: 'a. ',
-						cmd: 'InsertOrderedList',
-						value: {'list-style-type': 'lower-alpha'}
-					},
-					{
-						start: 'a) ',
-						cmd: 'InsertOrderedList',
-						value: {'list-style-type': 'lower-alpha'}
-					},
-					{
-						start: 'i. ',
-						cmd: 'InsertOrderedList',
-						value: {'list-style-type': 'lower-roman'}
-					},
-					{
-						start: 'i) ',
-						cmd: 'InsertOrderedList',
-						value: {'list-style-type': 'lower-roman'}
-					}
-				]
-			}
+			dataOptions: [],//下拉菜单
 		}
+	},
+	methods: {
+		categoryInfo(){
+			this.dataOptions.push({value:'请选择', label: ''})
+			// this.categoryInfo({}).then(response => {
+			// 	response.data.forEach(item => {
+			//
+			// 	})
+			// })
+			f
+		}
+	},
+	mounted() {
+		this.categoryInfo()
 	}
 }
 </script>
 
 <script setup>
 import {
-	createLifeYearly,
-	deleteLifeYearly,
-	deleteLifeYearlyByIds,
-	updateLifeYearly,
-	findLifeYearly,
-	getLifeYearlyList
-} from '@/api/lifeYearly'
+	createGoodsEvaluation,
+	deleteGoodsEvaluation,
+	deleteGoodsEvaluationByIds,
+	updateGoodsEvaluation,
+	findGoodsEvaluation,
+	getGoodsEvaluationList
+} from '@/api/goodsEvaluation'
 
 // 全量引入格式化工具 请按需保留
 import {getDictFunc, formatDate, formatBoolean, filterDict} from '@/utils/format'
 import {ElMessage, ElMessageBox} from 'element-plus'
 import {ref} from 'vue'
-import Editor from '@tinymce/tinymce-vue'
 
 // 自动化生成的字典（可能为空）以及字段
 const formData = ref({
-	cron: '',
-	prefix: '',
+	name: '',
+	price: 0,
+	cateId: 0,
+	rank: 0,
+	detail: '',
 	remark: '',
-	task: '',
+	userId: 0,
+	goods_category: {cate_name: '', cate_id: 0},
 })
 
 // =========== 表格控制部分 ===========
@@ -214,7 +191,7 @@ const handleCurrentChange = (val) => {
 
 // 查询
 const getTableData = async () => {
-	const table = await getLifeYearlyList({
+	const table = await getGoodsEvaluationList({
 		page: page.value,
 		pageSize: pageSize.value, ...searchInfo.value
 	})
@@ -237,7 +214,6 @@ const setOptions = async () => {
 // 获取需要的字典 可能为空 按需保留
 setOptions()
 
-
 // 多选数据
 const multipleSelection = ref([])
 // 多选
@@ -252,10 +228,9 @@ const deleteRow = (row) => {
 		cancelButtonText: '取消',
 		type: 'warning'
 	}).then(() => {
-		deleteLifeYearlyFunc(row)
+		deleteGoodsEvaluationFunc(row)
 	})
 }
-
 
 // 批量删除控制标记
 const deleteVisible = ref(false)
@@ -274,7 +249,7 @@ const onDelete = async () => {
 	multipleSelection.value.map(item => {
 		ids.push(item.ID)
 	})
-	const res = await deleteLifeYearlyByIds({ids})
+	const res = await deleteGoodsEvaluationByIds({ids})
 	if (res.code === 0) {
 		ElMessage({
 			type: 'success',
@@ -292,19 +267,18 @@ const onDelete = async () => {
 const type = ref('')
 
 // 更新行
-const updateLifeYearlyFunc = async (row) => {
-	const res = await findLifeYearly({ID: row.ID})
+const updateGoodsEvaluationFunc = async (row) => {
+	const res = await findGoodsEvaluation({ID: row.ID})
 	type.value = 'update'
 	if (res.code === 0) {
-		formData.value = res.data.relifeYearly
+		formData.value = res.data.regoodsEvaluation
 		dialogFormVisible.value = true
 	}
 }
 
-
 // 删除行
-const deleteLifeYearlyFunc = async (row) => {
-	const res = await deleteLifeYearly({ID: row.ID})
+const deleteGoodsEvaluationFunc = async (row) => {
+	const res = await deleteGoodsEvaluation({ID: row.ID})
 	if (res.code === 0) {
 		ElMessage({
 			type: 'success',
@@ -330,10 +304,14 @@ const openDialog = () => {
 const closeDialog = () => {
 	dialogFormVisible.value = false
 	formData.value = {
-		cron: '',
-		prefix: '',
+		name: '',
+		price: 0,
+		cateId: 0,
+		rank: 0,
+		detail: '',
 		remark: '',
-		task: '',
+		userId: 0,
+		goods_category: []
 	}
 }
 // 弹窗确定
@@ -341,13 +319,13 @@ const enterDialog = async () => {
 	let res
 	switch (type.value) {
 		case 'create':
-			res = await createLifeYearly(formData.value)
+			res = await createGoodsEvaluation(formData.value)
 			break
 		case 'update':
-			res = await updateLifeYearly(formData.value)
+			res = await updateGoodsEvaluation(formData.value)
 			break
 		default:
-			res = await createLifeYearly(formData.value)
+			res = await createGoodsEvaluation(formData.value)
 			break
 	}
 	if (res.code === 0) {

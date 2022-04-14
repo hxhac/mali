@@ -9,11 +9,11 @@ import (
 	"gorm.io/gorm"
 )
 
-//@author: [piexlmax](https://github.com/piexlmax)
-//@function: DeleteSysDictionary
-//@description: 创建字典数据
-//@param: sysDictionary model.SysDictionary
-//@return: err error
+// @author: [piexlmax](https://github.com/piexlmax)
+// @function: DeleteSysDictionary
+// @description: 创建字典数据
+// @param: sysDictionary model.SysDictionary
+// @return: err error
 
 type DictionaryService struct{}
 
@@ -25,11 +25,11 @@ func (dictionaryService *DictionaryService) CreateSysDictionary(sysDictionary sy
 	return err
 }
 
-//@author: [piexlmax](https://github.com/piexlmax)
-//@function: DeleteSysDictionary
-//@description: 删除字典数据
-//@param: sysDictionary model.SysDictionary
-//@return: err error
+// @author: [piexlmax](https://github.com/piexlmax)
+// @function: DeleteSysDictionary
+// @description: 删除字典数据
+// @param: sysDictionary model.SysDictionary
+// @return: err error
 
 func (dictionaryService *DictionaryService) DeleteSysDictionary(sysDictionary system.SysDictionary) (err error) {
 	err = global.GVA_DB.Where("id = ?", sysDictionary.ID).Preload("SysDictionaryDetails").First(&sysDictionary).Error
@@ -50,19 +50,19 @@ func (dictionaryService *DictionaryService) DeleteSysDictionary(sysDictionary sy
 	return
 }
 
-//@author: [piexlmax](https://github.com/piexlmax)
-//@function: UpdateSysDictionary
-//@description: 更新字典数据
-//@param: sysDictionary *model.SysDictionary
-//@return: err error
+// @author: [piexlmax](https://github.com/piexlmax)
+// @function: UpdateSysDictionary
+// @description: 更新字典数据
+// @param: sysDictionary *model.SysDictionary
+// @return: err error
 
 func (dictionaryService *DictionaryService) UpdateSysDictionary(sysDictionary *system.SysDictionary) (err error) {
 	var dict system.SysDictionary
 	sysDictionaryMap := map[string]interface{}{
-		"Name":   sysDictionary.Name,
-		"Type":   sysDictionary.Type,
-		"Status": sysDictionary.Status,
-		"Desc":   sysDictionary.Desc,
+		"CateName": sysDictionary.Name,
+		"Type":     sysDictionary.Type,
+		"Status":   sysDictionary.Status,
+		"Desc":     sysDictionary.Desc,
 	}
 	db := global.GVA_DB.Where("id = ?", sysDictionary.ID).First(&dict)
 	if dict.Type != sysDictionary.Type {
@@ -74,23 +74,23 @@ func (dictionaryService *DictionaryService) UpdateSysDictionary(sysDictionary *s
 	return err
 }
 
-//@author: [piexlmax](https://github.com/piexlmax)
-//@function: GetSysDictionary
-//@description: 根据id或者type获取字典单条数据
-//@param: Type string, Id uint
-//@return: err error, sysDictionary model.SysDictionary
+// @author: [piexlmax](https://github.com/piexlmax)
+// @function: GetSysDictionary
+// @description: 根据id或者type获取字典单条数据
+// @param: Type string, Id uint
+// @return: err error, sysDictionary model.SysDictionary
 
 func (dictionaryService *DictionaryService) GetSysDictionary(Type string, Id uint) (err error, sysDictionary system.SysDictionary) {
 	err = global.GVA_DB.Where("type = ? OR id = ? and status = ?", Type, Id, true).Preload("SysDictionaryDetails", "status = ?", true).First(&sysDictionary).Error
 	return
 }
 
-//@author: [piexlmax](https://github.com/piexlmax)
-//@author: [SliverHorn](https://github.com/SliverHorn)
-//@function: GetSysDictionaryInfoList
-//@description: 分页获取字典列表
-//@param: info request.SysDictionarySearch
-//@return: err error, list interface{}, total int64
+// @author: [piexlmax](https://github.com/piexlmax)
+// @author: [SliverHorn](https://github.com/SliverHorn)
+// @function: GetSysDictionaryInfoList
+// @description: 分页获取字典列表
+// @param: info request.SysDictionarySearch
+// @return: err error, list interface{}, total int64
 
 func (dictionaryService *DictionaryService) GetSysDictionaryInfoList(info request.SysDictionarySearch) (err error, list interface{}, total int64) {
 	limit := info.PageSize

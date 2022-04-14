@@ -7,10 +7,10 @@ import service from '@/utils/request'
 // @Produce application/json
 // @Param data body model.GoodsEvaluation true "创建GoodsEvaluation"
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"获取成功"}"
-// @Router /ge/createGoodsEvaluation [post]
+// @Router /goodsEvaluation/createGoodsEvaluation [post]
 export const createGoodsEvaluation = (data) => {
   return service({
-    url: '/ge/createGoodsEvaluation',
+    url: '/goodsEvaluation/createGoodsEvaluation',
     method: 'post',
     data
   })
@@ -23,10 +23,10 @@ export const createGoodsEvaluation = (data) => {
 // @Produce application/json
 // @Param data body model.GoodsEvaluation true "删除GoodsEvaluation"
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"删除成功"}"
-// @Router /ge/deleteGoodsEvaluation [delete]
+// @Router /goodsEvaluation/deleteGoodsEvaluation [delete]
 export const deleteGoodsEvaluation = (data) => {
   return service({
-    url: '/ge/deleteGoodsEvaluation',
+    url: '/goodsEvaluation/deleteGoodsEvaluation',
     method: 'delete',
     data
   })
@@ -39,10 +39,10 @@ export const deleteGoodsEvaluation = (data) => {
 // @Produce application/json
 // @Param data body request.IdsReq true "批量删除GoodsEvaluation"
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"删除成功"}"
-// @Router /ge/deleteGoodsEvaluation [delete]
+// @Router /goodsEvaluation/deleteGoodsEvaluation [delete]
 export const deleteGoodsEvaluationByIds = (data) => {
   return service({
-    url: '/ge/deleteGoodsEvaluationByIds',
+    url: '/goodsEvaluation/deleteGoodsEvaluationByIds',
     method: 'delete',
     data
   })
@@ -55,10 +55,10 @@ export const deleteGoodsEvaluationByIds = (data) => {
 // @Produce application/json
 // @Param data body model.GoodsEvaluation true "更新GoodsEvaluation"
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"更新成功"}"
-// @Router /ge/updateGoodsEvaluation [put]
+// @Router /goodsEvaluation/updateGoodsEvaluation [put]
 export const updateGoodsEvaluation = (data) => {
   return service({
-    url: '/ge/updateGoodsEvaluation',
+    url: '/goodsEvaluation/updateGoodsEvaluation',
     method: 'put',
     data
   })
@@ -71,10 +71,10 @@ export const updateGoodsEvaluation = (data) => {
 // @Produce application/json
 // @Param data query model.GoodsEvaluation true "用id查询GoodsEvaluation"
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"查询成功"}"
-// @Router /ge/findGoodsEvaluation [get]
+// @Router /goodsEvaluation/findGoodsEvaluation [get]
 export const findGoodsEvaluation = (params) => {
   return service({
-    url: '/ge/findGoodsEvaluation',
+    url: '/goodsEvaluation/findGoodsEvaluation',
     method: 'get',
     params
   })
@@ -87,10 +87,10 @@ export const findGoodsEvaluation = (params) => {
 // @Produce application/json
 // @Param data query request.PageInfo true "分页获取GoodsEvaluation列表"
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"获取成功"}"
-// @Router /ge/getGoodsEvaluationList [get]
+// @Router /goodsEvaluation/getGoodsEvaluationList [get]
 export const getGoodsEvaluationList = (params) => {
   return service({
-    url: '/ge/getGoodsEvaluationList',
+    url: '/goodsEvaluation/getGoodsEvaluationList',
     method: 'get',
     params
   })
