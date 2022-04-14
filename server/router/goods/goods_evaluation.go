@@ -11,17 +11,17 @@ type GoodsEvaluationRouter struct {
 
 // InitGoodsEvaluationRouter 初始化 GoodsEvaluation 路由信息
 func (s *GoodsEvaluationRouter) InitGoodsEvaluationRouter(Router *gin.RouterGroup) {
-	geRouter := Router.Group("ge").Use(middleware.OperationRecord())
-	geRouterWithoutRecord := Router.Group("ge")
-	var geApi = v1.ApiGroupApp.GoodsApiGroup.GoodsEvaluationApi
+	goodsEvaluationRouter := Router.Group("goodsEvaluation").Use(middleware.OperationRecord())
+	goodsEvaluationRouterWithoutRecord := Router.Group("goodsEvaluation")
+	var goodsEvaluationApi = v1.ApiGroupApp.GoodsApiGroup.GoodsEvaluationApi
 	{
-		geRouter.POST("createGoodsEvaluation", geApi.CreateGoodsEvaluation)   // 新建GoodsEvaluation
-		geRouter.DELETE("deleteGoodsEvaluation", geApi.DeleteGoodsEvaluation) // 删除GoodsEvaluation
-		geRouter.DELETE("deleteGoodsEvaluationByIds", geApi.DeleteGoodsEvaluationByIds) // 批量删除GoodsEvaluation
-		geRouter.PUT("updateGoodsEvaluation", geApi.UpdateGoodsEvaluation)    // 更新GoodsEvaluation
+		goodsEvaluationRouter.POST("createGoodsEvaluation", goodsEvaluationApi.CreateGoodsEvaluation)   // 新建GoodsEvaluation
+		goodsEvaluationRouter.DELETE("deleteGoodsEvaluation", goodsEvaluationApi.DeleteGoodsEvaluation) // 删除GoodsEvaluation
+		goodsEvaluationRouter.DELETE("deleteGoodsEvaluationByIds", goodsEvaluationApi.DeleteGoodsEvaluationByIds) // 批量删除GoodsEvaluation
+		goodsEvaluationRouter.PUT("updateGoodsEvaluation", goodsEvaluationApi.UpdateGoodsEvaluation)    // 更新GoodsEvaluation
 	}
 	{
-		geRouterWithoutRecord.GET("findGoodsEvaluation", geApi.FindGoodsEvaluation)        // 根据ID获取GoodsEvaluation
-		geRouterWithoutRecord.GET("getGoodsEvaluationList", geApi.GetGoodsEvaluationList)  // 获取GoodsEvaluation列表
+		goodsEvaluationRouterWithoutRecord.GET("findGoodsEvaluation", goodsEvaluationApi.FindGoodsEvaluation)        // 根据ID获取GoodsEvaluation
+		goodsEvaluationRouterWithoutRecord.GET("getGoodsEvaluationList", goodsEvaluationApi.GetGoodsEvaluationList)  // 获取GoodsEvaluation列表
 	}
 }

@@ -128,6 +128,7 @@ func (goodsEvaluationApi *GoodsEvaluationApi) FindGoodsEvaluation(c *gin.Context
 func (goodsEvaluationApi *GoodsEvaluationApi) GetGoodsEvaluationList(c *gin.Context) {
 	var pageInfo goodsReq.GoodsEvaluationSearch
 	_ = c.ShouldBindQuery(&pageInfo)
+
 	if err, list, total := goodsEvaluationService.GetGoodsEvaluationInfoList(pageInfo); err != nil {
 		global.GVA_LOG.Error("获取失败!", zap.Error(err))
 		response.FailWithMessage("获取失败", c)
