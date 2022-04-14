@@ -2,8 +2,9 @@ FROM golang:alpine AS builder
 
 # 为我们的镜像设置必要的环境变量
 ENV GO111MODULE=on \
-    CGO_ENABLED=1 \
+    CGO_ENABLED=0 \
     GOOS=linux \
+    GOPROXY=https://proxy.golang.com.cn,direct \
     GOARCH=amd64
 
 WORKDIR /build
@@ -18,8 +19,9 @@ RUN update-ca-certificates
 COPY go.mod .
 COPY go.sum .
 RUN go mod download
+
 COPY . .
-RUN GOOS=linux GOARCH=amd64 go build -o server .
+RUN go build -o server .
 
 # 二阶段编译
 FROM alpine AS releaser
