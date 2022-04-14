@@ -1,10 +1,10 @@
 FROM node:16 as builder
 
 WORKDIR /gva_web
-COPY /web/package.json .
+COPY /web/yarn.lock .
 COPY /web .
 
-RUN npm install --production && yarn build
+RUN yarn install && yarn build
 
 FROM nginx:alpine
 
