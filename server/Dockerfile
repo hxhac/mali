@@ -16,6 +16,7 @@ RUN update-ca-certificates
 
 # 编译项目
 COPY . .
+COPY go.mod .
 RUN go mod download
 RUN GOOS=linux GOARCH=amd64 go build -o server .
 
