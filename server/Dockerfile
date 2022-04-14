@@ -1,24 +1,41 @@
-FROM golang:alpine as builder
+FROM golang:alpine AS builder
 
-WORKDIR /go/src/github.com/flipped-aurora/gin-vue-admin/server
+# 为我们的镜像设置必要的环境变量
+ENV GO111MODULE=on \
+    CGO_ENABLED=1 \
+    GOOS=linux \
+    GOARCH=amd64
+
+WORKDIR /build
+
+# 安装ca-certificates，发送HTTPS请求，否则会报错"x509: certificate signed by unknown authority"
+RUN apk update && apk upgrade
+RUN apk add --no-cache ca-certificates
+RUN apk add --no-cache build-base=0.5-r2
+RUN update-ca-certificates
+
+# 编译项目
+#COPY go.mod .
+#COPY go.sum .
+#COPY public .
+#COPY config.toml .
 COPY . .
+RUN go mod download
+RUN GOOS=linux GOARCH=amd64 go build -o server .
 
-RUN go env -w GO111MODULE=on \
-    && go env -w GOPROXY=https://goproxy.cn,direct \
-    && go env -w CGO_ENABLED=0 \
-    && go env \
-    && go mod tidy \
-    && go build -o server .
+# 二阶段编译
+FROM alpine AS releaser
 
-FROM alpine:latest
+WORKDIR ./
+COPY --from=builder /build/server ./server
+COPY --from=builder /build/resource ./resource
+COPY --from=builder /build/config.docker.yaml ./config.docker.yaml
+COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 
-LABEL MAINTAINER="SliverHorn@sliver_horn@qq.com"
-
-WORKDIR /go/src/github.com/flipped-aurora/gin-vue-admin/server
-
-COPY --from=0 /go/src/github.com/flipped-aurora/gin-vue-admin/server/server ./
-COPY --from=0 /go/src/github.com/flipped-aurora/gin-vue-admin/server/resource ./resource/
-COPY --from=0 /go/src/github.com/flipped-aurora/gin-vue-admin/server/config.docker.yaml ./
+RUN cd ./ && ls
+#RUN apk add --no-cache tzdata
+#RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+#RUN echo "Asia/shanghai" > /etc/timezone;
 
 EXPOSE 8888
 ENTRYPOINT ./server -c config.docker.yaml

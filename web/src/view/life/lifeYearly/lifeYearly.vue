@@ -43,7 +43,7 @@
 				<el-table-column align="left" label="prefix字段" prop="prefix" min-width="10%"/>
 				<el-table-column align="left" label="cron字段" prop="cron" min-width="10%"/>
 				<el-table-column align="left" label="task字段" prop="task" min-width="30%"/>
-<!--				<el-table-column align="left" label="remark字段" prop="remark" min-width="30%"/>-->
+				<el-table-column align="left" label="remark字段" prop="remark" min-width="30%"/>
 				<el-table-column align="left" label="按钮组" min-width="10%">
 					<template #default="scope">
 						<el-button type="text" icon="edit" size="small" class="table-button"
@@ -75,8 +75,14 @@
 				<el-form-item label="prefix字段:">
 					<el-input v-model="formData.prefix" clearable placeholder="请输入"/>
 				</el-form-item>
+				<el-form-item label="task字段:">
+					<el-input v-model="formData.task" clearable placeholder="请输入"/>
+				</el-form-item>
 				<el-form-item label="remark字段:">
-					<editor api-key="nuhgvje7hy67lk5k0n2xnvu5p3oni5b2bwaklgsxj0li2tmu" v-model="formData.remark" placeholder="请输入编辑器"
+					<el-input v-model="formData.remark" clearable placeholder="请输入"/>
+				</el-form-item>
+				<el-form-item label="more字段:">
+					<editor api-key="nuhgvje7hy67lk5k0n2xnvu5p3oni5b2bwaklgsxj0li2tmu" v-model="formData.more" placeholder="请输入编辑器"
 					        :height="300" :init="editorInit"
 					></editor>
 				</el-form-item>
@@ -179,6 +185,7 @@ const formData = ref({
 	prefix: '',
 	remark: '',
 	task: '',
+	more: '',
 })
 
 // =========== 表格控制部分 ===========
