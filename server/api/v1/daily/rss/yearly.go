@@ -11,7 +11,6 @@ import (
 	"github.com/gogf/gf/container/garray"
 	"github.com/gogf/gf/text/gstr"
 
-	"github.com/flipped-aurora/gin-vue-admin/server/utils/helper/html"
 	"github.com/flipped-aurora/gin-vue-admin/server/utils/helper/time"
 
 	resp "github.com/flipped-aurora/gin-vue-admin/server/model/common/response"
@@ -48,7 +47,7 @@ func yearly() []rss.Item {
 			title := fmt.Sprintf("[%s] - [%s] - %s", item.Prefix, gtime.Date(), item.Task)
 			ret = append(ret, rss.Item{
 				Title:       title,
-				Contents:    html.Md2HTML(item.Remark),
+				Contents:    fmt.Sprintf("%s\n%s", item.Remark, item.More),
 				UpdatedTime: time.GetToday(),
 				ID:          rss.GenDateID("habit-notify", item.Task),
 			})
