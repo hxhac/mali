@@ -1,20 +1,20 @@
 import service from '@/utils/request'
 
 export const preview = (data) => {
-	return service({
-		url: '/autoCode/preview',
-		method: 'post',
-		data
-	})
+  return service({
+    url: '/autoCode/preview',
+    method: 'post',
+    data
+  })
 }
 
 export const createTemp = (data) => {
-	return service({
-		url: '/autoCode/createTemp',
-		method: 'post',
-		data,
-		responseType: 'blob'
-	})
+  return service({
+    url: '/autoCode/createTemp',
+    method: 'post',
+    data,
+    responseType: 'blob'
+  })
 }
 
 // @Tags SysApi
@@ -25,10 +25,10 @@ export const createTemp = (data) => {
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"创建成功"}"
 // @Router /autoCode/getDatabase [get]
 export const getDB = () => {
-	return service({
-		url: '/autoCode/getDB',
-		method: 'get'
-	})
+  return service({
+    url: '/autoCode/getDB',
+    method: 'get'
+  })
 }
 
 // @Tags SysApi
@@ -39,11 +39,11 @@ export const getDB = () => {
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"创建成功"}"
 // @Router /autoCode/getTables [get]
 export const getTable = (params) => {
-	return service({
-		url: '/autoCode/getTables',
-		method: 'get',
-		params
-	})
+  return service({
+    url: '/autoCode/getTables',
+    method: 'get',
+    params
+  })
 }
 
 // @Tags SysApi
@@ -54,64 +54,64 @@ export const getTable = (params) => {
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"创建成功"}"
 // @Router /autoCode/getColumn [get]
 export const getColumn = (params) => {
-	return service({
-		url: '/autoCode/getColumn',
-		method: 'get',
-		params
-	})
+  return service({
+    url: '/autoCode/getColumn',
+    method: 'get',
+    params
+  })
 }
 
 export const getSysHistory = (data) => {
-	return service({
-		url: '/autoCode/getSysHistory',
-		method: 'post',
-		data
-	})
+  return service({
+    url: '/autoCode/getSysHistory',
+    method: 'post',
+    data
+  })
 }
 
 export const rollback = (data) => {
-	return service({
-		url: '/autoCode/rollback',
-		method: 'post',
-		data
-	})
+  return service({
+    url: '/autoCode/rollback',
+    method: 'post',
+    data
+  })
 }
 
 export const getMeta = (data) => {
-	return service({
-		url: '/autoCode/getMeta',
-		method: 'post',
-		data
-	})
+  return service({
+    url: '/autoCode/getMeta',
+    method: 'post',
+    data
+  })
 }
 
 export const delSysHistory = (data) => {
-	return service({
-		url: '/autoCode/delSysHistory',
-		method: 'post',
-		data
-	})
+  return service({
+    url: '/autoCode/delSysHistory',
+    method: 'post',
+    data
+  })
 }
 
 export const createPackageApi = (data) => {
-	return service({
-		url: '/autoCode/createPackage',
-		method: 'post',
-		data
-	})
+  return service({
+    url: '/autoCode/createPackage',
+    method: 'post',
+    data
+  })
 }
 
 export const getPackageApi = () => {
-	return service({
-		url: '/autoCode/getPackage',
-		method: 'post'
-	})
+  return service({
+    url: '/autoCode/getPackage',
+    method: 'post'
+  })
 }
 
 export const deletePackageApi = (data) => {
-	return service({
-		url: '/autoCode/delPackage',
-		method: 'post',
-		data
-	})
+  return service({
+    url: '/autoCode/delPackage',
+    method: 'post',
+    data
+  })
 }

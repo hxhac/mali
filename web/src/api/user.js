@@ -4,11 +4,11 @@ import service from '@/utils/request'
 // @Param data body {username:"string",password:"string"}
 // @Router /base/login [post]
 export const login = (data) => {
-	return service({
-		url: '/base/login',
-		method: 'post',
-		data: data
-	})
+  return service({
+    url: '/base/login',
+    method: 'post',
+    data: data
+  })
 }
 
 // @Summary 获取验证码
@@ -16,11 +16,11 @@ export const login = (data) => {
 // @Param data body {username:"string",password:"string"}
 // @Router /base/captcha [post]
 export const captcha = (data) => {
-	return service({
-		url: '/base/captcha',
-		method: 'post',
-		data: data
-	})
+  return service({
+    url: '/base/captcha',
+    method: 'post',
+    data: data
+  })
 }
 
 // @Summary 用户注册
@@ -28,11 +28,11 @@ export const captcha = (data) => {
 // @Param data body {username:"string",password:"string"}
 // @Router /base/resige [post]
 export const register = (data) => {
-	return service({
-		url: '/user/admin_register',
-		method: 'post',
-		data: data
-	})
+  return service({
+    url: '/user/admin_register',
+    method: 'post',
+    data: data
+  })
 }
 
 // @Summary 修改密码
@@ -40,11 +40,11 @@ export const register = (data) => {
 // @Param data body {username:"string",password:"string",newPassword:"string"}
 // @Router /user/changePassword [post]
 export const changePassword = (data) => {
-	return service({
-		url: '/user/changePassword',
-		method: 'post',
-		data: data
-	})
+  return service({
+    url: '/user/changePassword',
+    method: 'post',
+    data: data
+  })
 }
 
 // @Tags User
@@ -56,11 +56,11 @@ export const changePassword = (data) => {
 // @Success 200 {string} json "{"success":true,"data":{},"msg":"获取成功"}"
 // @Router /user/getUserList [post]
 export const getUserList = (data) => {
-	return service({
-		url: '/user/getUserList',
-		method: 'post',
-		data: data
-	})
+  return service({
+    url: '/user/getUserList',
+    method: 'post',
+    data: data
+  })
 }
 
 // @Tags User
@@ -72,11 +72,11 @@ export const getUserList = (data) => {
 // @Success 200 {string} json "{"success":true,"data":{},"msg":"修改成功"}"
 // @Router /user/setUserAuthority [post]
 export const setUserAuthority = (data) => {
-	return service({
-		url: '/user/setUserAuthority',
-		method: 'post',
-		data: data
-	})
+  return service({
+    url: '/user/setUserAuthority',
+    method: 'post',
+    data: data
+  })
 }
 
 // @Tags SysUser
@@ -88,11 +88,11 @@ export const setUserAuthority = (data) => {
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"修改成功"}"
 // @Router /user/deleteUser [delete]
 export const deleteUser = (data) => {
-	return service({
-		url: '/user/deleteUser',
-		method: 'delete',
-		data: data
-	})
+  return service({
+    url: '/user/deleteUser',
+    method: 'delete',
+    data: data
+  })
 }
 
 // @Tags SysUser
@@ -104,11 +104,11 @@ export const deleteUser = (data) => {
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"修改成功"}"
 // @Router /user/setUserInfo [put]
 export const setUserInfo = (data) => {
-	return service({
-		url: '/user/setUserInfo',
-		method: 'put',
-		data: data
-	})
+  return service({
+    url: '/user/setUserInfo',
+    method: 'put',
+    data: data
+  })
 }
 
 // @Tags SysUser
@@ -120,11 +120,11 @@ export const setUserInfo = (data) => {
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"修改成功"}"
 // @Router /user/setSelfInfo [put]
 export const setSelfInfo = (data) => {
-	return service({
-		url: '/user/setSelfInfo',
-		method: 'put',
-		data: data
-	})
+  return service({
+    url: '/user/setSelfInfo',
+    method: 'put',
+    data: data
+  })
 }
 
 // @Tags User
@@ -136,11 +136,11 @@ export const setSelfInfo = (data) => {
 // @Success 200 {string} json "{"success":true,"data":{},"msg":"修改成功"}"
 // @Router /user/setUserAuthorities [post]
 export const setUserAuthorities = (data) => {
-	return service({
-		url: '/user/setUserAuthorities',
-		method: 'post',
-		data: data
-	})
+  return service({
+    url: '/user/setUserAuthorities',
+    method: 'post',
+    data: data
+  })
 }
 
 // @Tags User
@@ -151,16 +151,16 @@ export const setUserAuthorities = (data) => {
 // @Success 200 {string} json "{"success":true,"data":{},"msg":"获取成功"}"
 // @Router /user/getUserInfo [get]
 export const getUserInfo = () => {
-	return service({
-		url: '/user/getUserInfo',
-		method: 'get'
-	})
+  return service({
+    url: '/user/getUserInfo',
+    method: 'get'
+  })
 }
 
 export const resetPassword = (data) => {
-	return service({
-		url: '/user/resetPassword',
-		method: 'post',
-		data: data
-	})
+  return service({
+    url: '/user/resetPassword',
+    method: 'post',
+    data: data
+  })
 }
