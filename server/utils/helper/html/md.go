@@ -28,6 +28,16 @@ func Md2HTML(md string) string {
 			extension.Strikethrough,
 			extension.TaskList,
 			extension.Linkify,
+			extension.Table,
+			extension.DefinitionList,
+			extension.Footnote,
+			extension.Typographer,
+			extension.NewTypographer(
+				extension.WithTypographicSubstitutions(extension.TypographicSubstitutions{
+					extension.LeftSingleQuote:  []byte("&sbquo;"),
+					extension.RightSingleQuote: nil, // nil disables a substitution
+				}),
+			),
 		),
 		goldmark.WithRendererOptions(
 			html.WithHardWraps(),
