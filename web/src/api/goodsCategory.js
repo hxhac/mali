@@ -9,11 +9,11 @@ import service from '@/utils/request'
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"获取成功"}"
 // @Router /goodsCategory/createGoodsCategory [post]
 export const createGoodsCategory = (data) => {
-  return service({
-    url: '/goodsCategory/createGoodsCategory',
-    method: 'post',
-    data
-  })
+	return service({
+		url: '/goodsCategory/createGoodsCategory',
+		method: 'post',
+		data
+	})
 }
 
 // @Tags GoodsCategory
@@ -25,11 +25,11 @@ export const createGoodsCategory = (data) => {
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"删除成功"}"
 // @Router /goodsCategory/deleteGoodsCategory [delete]
 export const deleteGoodsCategory = (data) => {
-  return service({
-    url: '/goodsCategory/deleteGoodsCategory',
-    method: 'delete',
-    data
-  })
+	return service({
+		url: '/goodsCategory/deleteGoodsCategory',
+		method: 'delete',
+		data
+	})
 }
 
 // @Tags GoodsCategory
@@ -41,11 +41,11 @@ export const deleteGoodsCategory = (data) => {
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"删除成功"}"
 // @Router /goodsCategory/deleteGoodsCategory [delete]
 export const deleteGoodsCategoryByIds = (data) => {
-  return service({
-    url: '/goodsCategory/deleteGoodsCategoryByIds',
-    method: 'delete',
-    data
-  })
+	return service({
+		url: '/goodsCategory/deleteGoodsCategoryByIds',
+		method: 'delete',
+		data
+	})
 }
 
 // @Tags GoodsCategory
@@ -57,11 +57,11 @@ export const deleteGoodsCategoryByIds = (data) => {
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"更新成功"}"
 // @Router /goodsCategory/updateGoodsCategory [put]
 export const updateGoodsCategory = (data) => {
-  return service({
-    url: '/goodsCategory/updateGoodsCategory',
-    method: 'put',
-    data
-  })
+	return service({
+		url: '/goodsCategory/updateGoodsCategory',
+		method: 'put',
+		data
+	})
 }
 
 // @Tags GoodsCategory
@@ -73,11 +73,11 @@ export const updateGoodsCategory = (data) => {
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"查询成功"}"
 // @Router /goodsCategory/findGoodsCategory [get]
 export const findGoodsCategory = (params) => {
-  return service({
-    url: '/goodsCategory/findGoodsCategory',
-    method: 'get',
-    params
-  })
+	return service({
+		url: '/goodsCategory/findGoodsCategory',
+		method: 'get',
+		params
+	})
 }
 
 // @Tags GoodsCategory
@@ -89,9 +89,9 @@ export const findGoodsCategory = (params) => {
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"获取成功"}"
 // @Router /goodsCategory/getGoodsCategoryList [get]
 export const getGoodsCategoryList = (params) => {
-  return service({
-    url: '/goodsCategory/getGoodsCategoryList',
-    method: 'get',
-    params
-  })
+	return service({
+		url: '/goodsCategory/getGoodsCategoryList',
+		method: 'get',
+		params
+	})
 }

@@ -77,18 +77,19 @@
 				<el-form-item label="cateId字段:">
 					<!--          <el-input v-model.number="formData.goods_category.cate_name" clearable placeholder="请输入"/>-->
 					<!--          <el-input v-model="formData.goods_category.cate_name" clearable placeholder="请输入"/>-->
-					<el-select v-model="formData.goods_category.cate_name" placeholder="请选择下拉选择" clearable
+					<el-select v-model="formData.goods_category.cate_name" placeholder="请选择下拉选择"
+					           clearable
 					           :style="{width: '100%'}">
 						<el-option v-for="(item, index) in dataOptions" :key="index"
 						           :label="item.label"
 						           :value="item.value" :disabled="item.disabled"></el-option>
 					</el-select>
 				</el-form-item>
-<!--				<el-form-item label="rank字段:">-->
-<!--					<el-input-number v-model="formData.rank" style="width:100%" :precision="2"-->
-<!--					                 clearable/>-->
-<!--				</el-form-item>-->
-
+				<!--				<el-form-item label="rank字段:">-->
+				<!--					<el-input-number v-model="formData.rank" style="width:100%" :precision="2"-->
+				<!--					                 clearable/>-->
+				<!--				</el-form-item>-->
+				
 				<el-form-item label="remark字段:">
 					<el-input v-model="formData.remark" clearable placeholder="请输入"/>
 				</el-form-item>
@@ -115,8 +116,8 @@ export default {
 		}
 	},
 	methods: {
-		categoryInfo(){
-			this.dataOptions.push({value:'请选择', label: ''})
+		categoryInfo() {
+			this.dataOptions.push({value: '请选择', label: ''})
 			// this.categoryInfo({}).then(response => {
 			// 	response.data.forEach(item => {
 			//

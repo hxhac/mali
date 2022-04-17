@@ -140,3 +140,16 @@ func (lifeYearlyApi *LifeYearlyApi) GetLifeYearlyList(c *gin.Context) {
 		}, "获取成功", c)
 	}
 }
+
+func (lifeYearlyApi *LifeYearlyApi) GetLifeYearlyOptions(c *gin.Context) {
+	column := c.Query("column")
+	err, res := lifeYearlyService.GetLifeYearlyColumn(column)
+	if err != nil {
+		global.GVA_LOG.Error("获取失败!", zap.Error(err))
+		response.FailWithMessage("获取失败", c)
+	} else {
+		response.OkWithDetailed(response.PageResult{
+			List: res,
+		}, "获取成功", c)
+	}
+}

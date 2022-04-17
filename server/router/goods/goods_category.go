@@ -15,13 +15,13 @@ func (s *GoodsCategoryRouter) InitGoodsCategoryRouter(Router *gin.RouterGroup) {
 	goodsCategoryRouterWithoutRecord := Router.Group("goodsCategory")
 	var goodsCategoryApi = v1.ApiGroupApp.GoodsApiGroup.GoodsCategoryApi
 	{
-		goodsCategoryRouter.POST("createGoodsCategory", goodsCategoryApi.CreateGoodsCategory)   // 新建GoodsCategory
-		goodsCategoryRouter.DELETE("deleteGoodsCategory", goodsCategoryApi.DeleteGoodsCategory) // 删除GoodsCategory
+		goodsCategoryRouter.POST("createGoodsCategory", goodsCategoryApi.CreateGoodsCategory)             // 新建GoodsCategory
+		goodsCategoryRouter.DELETE("deleteGoodsCategory", goodsCategoryApi.DeleteGoodsCategory)           // 删除GoodsCategory
 		goodsCategoryRouter.DELETE("deleteGoodsCategoryByIds", goodsCategoryApi.DeleteGoodsCategoryByIds) // 批量删除GoodsCategory
-		goodsCategoryRouter.PUT("updateGoodsCategory", goodsCategoryApi.UpdateGoodsCategory)    // 更新GoodsCategory
+		goodsCategoryRouter.PUT("updateGoodsCategory", goodsCategoryApi.UpdateGoodsCategory)              // 更新GoodsCategory
 	}
 	{
-		goodsCategoryRouterWithoutRecord.GET("findGoodsCategory", goodsCategoryApi.FindGoodsCategory)        // 根据ID获取GoodsCategory
-		goodsCategoryRouterWithoutRecord.GET("getGoodsCategoryList", goodsCategoryApi.GetGoodsCategoryList)  // 获取GoodsCategory列表
+		goodsCategoryRouterWithoutRecord.GET("findGoodsCategory", goodsCategoryApi.FindGoodsCategory)       // 根据ID获取GoodsCategory
+		goodsCategoryRouterWithoutRecord.GET("getGoodsCategoryList", goodsCategoryApi.GetGoodsCategoryList) // 获取GoodsCategory列表
 	}
 }

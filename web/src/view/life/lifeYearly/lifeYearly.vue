@@ -2,6 +2,27 @@
 	<div>
 		<div class="gva-search-box">
 			<el-form :inline="true" :model="searchInfo" class="demo-form-inline">
+				<el-form-item label="prefix">
+					<el-select v-model="searchInfo.prefix">
+						<el-option
+							v-for="item in prefixOptions"
+							:key="item"
+							:value="item">
+						</el-option>
+					</el-select>
+				</el-form-item>
+				<el-form-item label="cron">
+					<el-select v-model="searchInfo.cron">
+						<el-option
+							v-for="item in cronOptions"
+							:key="item"
+							:value="item">
+						</el-option>
+					</el-select>
+				</el-form-item>
+				<el-form-item label="task">
+					<el-input v-model="searchInfo.task" placeholder="搜索条件"/>
+				</el-form-item>
 				<el-form-item>
 					<el-button size="small" type="primary" icon="search" @click="onSubmit">查询
 					</el-button>
@@ -37,9 +58,7 @@
 				@selection-change="handleSelectionChange"
 			>
 				<el-table-column type="selection" width="55"/>
-				<!--        <el-table-column align="left" label="日期" width="180">-->
-				<!--            <template #default="scope">{{ formatDate(scope.row.CreatedAt) }}</template>-->
-				<!--        </el-table-column>-->
+				
 				<el-table-column align="left" label="prefix字段" prop="prefix" min-width="10%"/>
 				<el-table-column align="left" label="cron字段" prop="cron" min-width="10%"/>
 				<el-table-column align="left" label="task字段" prop="task" min-width="30%"/>
@@ -75,7 +94,7 @@
 				<el-form-item label="prefix字段:" prop="prefix">
 					<el-select v-model="formData.prefix" placeholder="请选择">
 						<el-option
-							v-for="item in options"
+							v-for="item in prefixOptions"
 							:key="item"
 							:value="item">
 						</el-option>
@@ -108,8 +127,7 @@ export default {
 	name: 'LifeYearly',
 	data() {
 		return {
-			options: ['复购', '生活习惯', '食物采购', '更换', '清洁', '旅行'],
-			value: '请选择'
+			value: '请选择',
 		}
 	}
 }
@@ -122,13 +140,15 @@ import {
 	deleteLifeYearlyByIds,
 	updateLifeYearly,
 	findLifeYearly,
-	getLifeYearlyList
+	getLifeYearlyList,
+	getLifeYearlyOptions,
 } from '@/api/lifeYearly'
 
 // 全量引入格式化工具 请按需保留
 import {getDictFunc, formatDate, formatBoolean, filterDict} from '@/utils/format'
 import {ElMessage, ElMessageBox} from 'element-plus'
 import {ref} from 'vue'
+import {getPackageApi} from "@/api/autoCode";
 // 自动化生成的字典（可能为空）以及字段
 const formData = ref({
 	cron: '',
@@ -173,7 +193,8 @@ const handleCurrentChange = (val) => {
 const getTableData = async () => {
 	const table = await getLifeYearlyList({
 		page: page.value,
-		pageSize: pageSize.value, ...searchInfo.value
+		pageSize: pageSize.value,
+		...searchInfo.value
 	})
 	if (table.code === 0) {
 		tableData.value = table.data.list
@@ -188,12 +209,25 @@ getTableData()
 // ============== 表格控制部分结束 ===============
 
 // 获取需要的字典 可能为空 按需保留
-const setOptions = async () => {
+const prefixOptions = ref([])
+const cronOptions = ref([])
+const setOptions = async (column) => {
+	const res = await getLifeYearlyOptions({column: column})
+	if (res.code === 0) {
+		if (column == 'prefix') {
+			// Object.keys(res.data.list).forEach((item) => {
+			// 	console.log(item)
+			// 	prefixOptions.value.push(res.data.list[item])
+			// })
+			prefixOptions.value = res.data.list
+		}
+		if (column === 'cron') {
+			cronOptions.value = res.data.list
+		}
+	}
 }
-
-// 获取需要的字典 可能为空 按需保留
-setOptions()
-
+setOptions('prefix')
+setOptions('cron')
 
 // 多选数据
 const multipleSelection = ref([])
@@ -257,7 +291,6 @@ const updateLifeYearlyFunc = async (row) => {
 		dialogFormVisible.value = true
 	}
 }
-
 
 // 删除行
 const deleteLifeYearlyFunc = async (row) => {

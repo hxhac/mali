@@ -11,22 +11,22 @@ import (
 	"github.com/jordan-wright/email"
 )
 
-//@author: [maplepie](https://github.com/maplepie)
-//@function: Email
-//@description: Email发送方法
-//@param: subject string, body string
-//@return: error
+// @author: [maplepie](https://github.com/maplepie)
+// @function: Email
+// @description: Email发送方法
+// @param: subject string, body string
+// @return: error
 
 func Email(To, subject string, body string) error {
 	to := strings.Split(To, ",")
 	return send(to, subject, body)
 }
 
-//@author: [SliverHorn](https://github.com/SliverHorn)
-//@function: ErrorToEmail
-//@description: 给email中间件错误发送邮件到指定邮箱
-//@param: subject string, body string
-//@return: error
+// @author: [SliverHorn](https://github.com/SliverHorn)
+// @function: ErrorToEmail
+// @description: 给email中间件错误发送邮件到指定邮箱
+// @param: subject string, body string
+// @return: error
 
 func ErrorToEmail(subject string, body string) error {
 	to := strings.Split(global.GlobalConfig.To, ",")
@@ -36,22 +36,22 @@ func ErrorToEmail(subject string, body string) error {
 	return send(to, subject, body)
 }
 
-//@author: [maplepie](https://github.com/maplepie)
-//@function: EmailTest
-//@description: Email测试方法
-//@param: subject string, body string
-//@return: error
+// @author: [maplepie](https://github.com/maplepie)
+// @function: EmailTest
+// @description: Email测试方法
+// @param: subject string, body string
+// @return: error
 
 func EmailTest(subject string, body string) error {
 	to := []string{global.GlobalConfig.From}
 	return send(to, subject, body)
 }
 
-//@author: [maplepie](https://github.com/maplepie)
-//@function: send
-//@description: Email发送方法
-//@param: subject string, body string
-//@return: error
+// @author: [maplepie](https://github.com/maplepie)
+// @function: send
+// @description: Email发送方法
+// @param: subject string, body string
+// @return: error
 
 func send(to []string, subject string, body string) error {
 	from := global.GlobalConfig.From

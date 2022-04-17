@@ -12,11 +12,11 @@ import (
 	"gorm.io/gorm"
 )
 
-//@author: [piexlmax](https://github.com/piexlmax)
-//@function: Register
-//@description: 用户注册
-//@param: u model.SysUser
-//@return: err error, userInter model.SysUser
+// @author: [piexlmax](https://github.com/piexlmax)
+// @function: Register
+// @description: 用户注册
+// @param: u model.SysUser
+// @return: err error, userInter model.SysUser
 
 type UserService struct{}
 
@@ -32,11 +32,11 @@ func (userService *UserService) Register(u system.SysUser) (err error, userInter
 	return err, u
 }
 
-//@author: [piexlmax](https://github.com/piexlmax)
-//@function: Login
-//@description: 用户登录
-//@param: u *model.SysUser
-//@return: err error, userInter *model.SysUser
+// @author: [piexlmax](https://github.com/piexlmax)
+// @function: Login
+// @description: 用户登录
+// @param: u *model.SysUser
+// @return: err error, userInter *model.SysUser
 
 func (userService *UserService) Login(u *system.SysUser) (err error, userInter *system.SysUser) {
 	if nil == global.GVA_DB {
@@ -56,11 +56,11 @@ func (userService *UserService) Login(u *system.SysUser) (err error, userInter *
 	return err, &user
 }
 
-//@author: [piexlmax](https://github.com/piexlmax)
-//@function: ChangePassword
-//@description: 修改用户密码
-//@param: u *model.SysUser, newPassword string
-//@return: err error, userInter *model.SysUser
+// @author: [piexlmax](https://github.com/piexlmax)
+// @function: ChangePassword
+// @description: 修改用户密码
+// @param: u *model.SysUser, newPassword string
+// @return: err error, userInter *model.SysUser
 
 func (userService *UserService) ChangePassword(u *system.SysUser, newPassword string) (err error, userInter *system.SysUser) {
 	var user system.SysUser
@@ -69,11 +69,11 @@ func (userService *UserService) ChangePassword(u *system.SysUser, newPassword st
 	return err, u
 }
 
-//@author: [piexlmax](https://github.com/piexlmax)
-//@function: GetUserInfoList
-//@description: 分页获取数据
-//@param: info request.PageInfo
-//@return: err error, list interface{}, total int64
+// @author: [piexlmax](https://github.com/piexlmax)
+// @function: GetUserInfoList
+// @description: 分页获取数据
+// @param: info request.PageInfo
+// @return: err error, list interface{}, total int64
 
 func (userService *UserService) GetUserInfoList(info request.PageInfo) (err error, list interface{}, total int64) {
 	limit := info.PageSize
@@ -88,11 +88,11 @@ func (userService *UserService) GetUserInfoList(info request.PageInfo) (err erro
 	return err, userList, total
 }
 
-//@author: [piexlmax](https://github.com/piexlmax)
-//@function: SetUserAuthority
-//@description: 设置一个用户的权限
-//@param: uuid uuid.UUID, authorityId string
-//@return: err error
+// @author: [piexlmax](https://github.com/piexlmax)
+// @function: SetUserAuthority
+// @description: 设置一个用户的权限
+// @param: uuid uuid.UUID, authorityId string
+// @return: err error
 
 func (userService *UserService) SetUserAuthority(id uint, uuid uuid.UUID, authorityId string) (err error) {
 	assignErr := global.GVA_DB.Where("sys_user_id = ? AND sys_authority_authority_id = ?", id, authorityId).First(&system.SysUseAuthority{}).Error
@@ -103,11 +103,11 @@ func (userService *UserService) SetUserAuthority(id uint, uuid uuid.UUID, author
 	return err
 }
 
-//@author: [piexlmax](https://github.com/piexlmax)
-//@function: SetUserAuthorities
-//@description: 设置一个用户的权限
-//@param: id uint, authorityIds []string
-//@return: err error
+// @author: [piexlmax](https://github.com/piexlmax)
+// @function: SetUserAuthorities
+// @description: 设置一个用户的权限
+// @param: id uint, authorityIds []string
+// @return: err error
 
 func (userService *UserService) SetUserAuthorities(id uint, authorityIds []string) (err error) {
 	return global.GVA_DB.Transaction(func(tx *gorm.DB) error {
@@ -134,11 +134,11 @@ func (userService *UserService) SetUserAuthorities(id uint, authorityIds []strin
 	})
 }
 
-//@author: [piexlmax](https://github.com/piexlmax)
-//@function: DeleteUser
-//@description: 删除用户
-//@param: id float64
-//@return: err error
+// @author: [piexlmax](https://github.com/piexlmax)
+// @function: DeleteUser
+// @description: 删除用户
+// @param: id float64
+// @return: err error
 
 func (userService *UserService) DeleteUser(id int) (err error) {
 	var user system.SysUser
@@ -150,21 +150,21 @@ func (userService *UserService) DeleteUser(id int) (err error) {
 	return err
 }
 
-//@author: [piexlmax](https://github.com/piexlmax)
-//@function: SetUserInfo
-//@description: 设置用户信息
-//@param: reqUser model.SysUser
-//@return: err error, user model.SysUser
+// @author: [piexlmax](https://github.com/piexlmax)
+// @function: SetUserInfo
+// @description: 设置用户信息
+// @param: reqUser model.SysUser
+// @return: err error, user model.SysUser
 
 func (userService *UserService) SetUserInfo(req system.SysUser) error {
 	return global.GVA_DB.Updates(&req).Error
 }
 
-//@author: [piexlmax](https://github.com/piexlmax)
-//@function: GetUserInfo
-//@description: 获取用户信息
-//@param: uuid uuid.UUID
-//@return: err error, user system.SysUser
+// @author: [piexlmax](https://github.com/piexlmax)
+// @function: GetUserInfo
+// @description: 获取用户信息
+// @param: uuid uuid.UUID
+// @return: err error, user system.SysUser
 
 func (userService *UserService) GetUserInfo(uuid uuid.UUID) (err error, user system.SysUser) {
 	var reqUser system.SysUser
@@ -180,11 +180,11 @@ func (userService *UserService) GetUserInfo(uuid uuid.UUID) (err error, user sys
 	return err, reqUser
 }
 
-//@author: [SliverHorn](https://github.com/SliverHorn)
-//@function: FindUserById
-//@description: 通过id获取用户信息
-//@param: id int
-//@return: err error, user *model.SysUser
+// @author: [SliverHorn](https://github.com/SliverHorn)
+// @function: FindUserById
+// @description: 通过id获取用户信息
+// @param: id int
+// @return: err error, user *model.SysUser
 
 func (userService *UserService) FindUserById(id int) (err error, user *system.SysUser) {
 	var u system.SysUser
@@ -192,11 +192,11 @@ func (userService *UserService) FindUserById(id int) (err error, user *system.Sy
 	return err, &u
 }
 
-//@author: [SliverHorn](https://github.com/SliverHorn)
-//@function: FindUserByUuid
-//@description: 通过uuid获取用户信息
-//@param: uuid string
-//@return: err error, user *model.SysUser
+// @author: [SliverHorn](https://github.com/SliverHorn)
+// @function: FindUserByUuid
+// @description: 通过uuid获取用户信息
+// @param: uuid string
+// @return: err error, user *model.SysUser
 
 func (userService *UserService) FindUserByUuid(uuid string) (err error, user *system.SysUser) {
 	var u system.SysUser
@@ -206,11 +206,11 @@ func (userService *UserService) FindUserByUuid(uuid string) (err error, user *sy
 	return nil, &u
 }
 
-//@author: [piexlmax](https://github.com/piexlmax)
-//@function: resetPassword
-//@description: 修改用户密码
-//@param: ID uint
-//@return: err error
+// @author: [piexlmax](https://github.com/piexlmax)
+// @function: resetPassword
+// @description: 修改用户密码
+// @param: ID uint
+// @return: err error
 
 func (userService *UserService) ResetPassword(ID uint) (err error) {
 	err = global.GVA_DB.Model(&system.SysUser{}).Where("id = ?", ID).Update("password", utils.MD5V([]byte("123456"))).Error

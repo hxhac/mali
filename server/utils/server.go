@@ -50,10 +50,10 @@ type Disk struct {
 	UsedPercent int `json:"usedPercent"`
 }
 
-//@author: [SliverHorn](https://github.com/SliverHorn)
-//@function: InitCPU
-//@description: OS信息
-//@return: o Os, err error
+// @author: [SliverHorn](https://github.com/SliverHorn)
+// @function: InitCPU
+// @description: OS信息
+// @return: o Os, err error
 
 func InitOS() (o Os) {
 	o.GOOS = runtime.GOOS
@@ -64,10 +64,10 @@ func InitOS() (o Os) {
 	return o
 }
 
-//@author: [SliverHorn](https://github.com/SliverHorn)
-//@function: InitCPU
-//@description: CPU信息
-//@return: c Cpu, err error
+// @author: [SliverHorn](https://github.com/SliverHorn)
+// @function: InitCPU
+// @description: CPU信息
+// @return: c Cpu, err error
 
 func InitCPU() (c Cpu, err error) {
 	if cores, err := cpu.Counts(false); err != nil {
@@ -83,10 +83,10 @@ func InitCPU() (c Cpu, err error) {
 	return c, nil
 }
 
-//@author: [SliverHorn](https://github.com/SliverHorn)
-//@function: InitRAM
-//@description: ARM信息
-//@return: r Rrm, err error
+// @author: [SliverHorn](https://github.com/SliverHorn)
+// @function: InitRAM
+// @description: ARM信息
+// @return: r Rrm, err error
 
 func InitRAM() (r Rrm, err error) {
 	if u, err := mem.VirtualMemory(); err != nil {
@@ -99,10 +99,10 @@ func InitRAM() (r Rrm, err error) {
 	return r, nil
 }
 
-//@author: [SliverHorn](https://github.com/SliverHorn)
-//@function: InitDisk
-//@description: 硬盘信息
-//@return: d Disk, err error
+// @author: [SliverHorn](https://github.com/SliverHorn)
+// @function: InitDisk
+// @description: 硬盘信息
+// @return: d Disk, err error
 
 func InitDisk() (d Disk, err error) {
 	if u, err := disk.Usage("/"); err != nil {

@@ -54,6 +54,9 @@ func (lifeEverydayService *LifeEverydayService) GetLifeEverydayInfoList(info dai
 	db := global.GVA_DB.Model(&daily.LifeEveryday{})
 	var lifeEverydays []daily.LifeEveryday
 	// 如果有条件搜索 下方会自动创建搜索语句
+	if info.Prefix != "" {
+		db = db.Where("prefix = ?", info.Prefix)
+	}
 	err = db.Count(&total).Error
 	if err != nil {
 		return

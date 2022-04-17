@@ -7,11 +7,11 @@ import (
 	"strings"
 )
 
-//@author: [piexlmax](https://github.com/piexlmax)
-//@function: ZipFiles
-//@description: 压缩文件
-//@param: filename string, files []string, oldForm, newForm string
-//@return: error
+// @author: [piexlmax](https://github.com/piexlmax)
+// @function: ZipFiles
+// @description: 压缩文件
+// @param: filename string, files []string, oldForm, newForm string
+// @return: error
 
 func ZipFiles(filename string, files []string, oldForm, newForm string) error {
 	newZipFile, err := os.Create(filename)

@@ -11,11 +11,11 @@ import (
 	"gorm.io/gorm"
 )
 
-//@author: [piexlmax](https://github.com/piexlmax)
-//@function: CreateApi
-//@description: 新增基础api
-//@param: api model.SysApi
-//@return: err error
+// @author: [piexlmax](https://github.com/piexlmax)
+// @function: CreateApi
+// @description: 新增基础api
+// @param: api model.SysApi
+// @return: err error
 
 type ApiService struct{}
 
@@ -28,11 +28,11 @@ func (apiService *ApiService) CreateApi(api system.SysApi) (err error) {
 	return global.GVA_DB.Create(&api).Error
 }
 
-//@author: [piexlmax](https://github.com/piexlmax)
-//@function: DeleteApi
-//@description: 删除基础api
-//@param: api model.SysApi
-//@return: err error
+// @author: [piexlmax](https://github.com/piexlmax)
+// @function: DeleteApi
+// @description: 删除基础api
+// @param: api model.SysApi
+// @return: err error
 
 func (apiService *ApiService) DeleteApi(api system.SysApi) (err error) {
 	err = global.GVA_DB.Delete(&api).Error
@@ -40,11 +40,11 @@ func (apiService *ApiService) DeleteApi(api system.SysApi) (err error) {
 	return err
 }
 
-//@author: [piexlmax](https://github.com/piexlmax)
-//@function: GetAPIInfoList
-//@description: 分页获取数据,
-//@param: api model.SysApi, info request.PageInfo, order string, desc bool
-//@return: err error
+// @author: [piexlmax](https://github.com/piexlmax)
+// @function: GetAPIInfoList
+// @description: 分页获取数据,
+// @param: api model.SysApi, info request.PageInfo, order string, desc bool
+// @return: err error
 
 func (apiService *ApiService) GetAPIInfoList(api system.SysApi, info request.PageInfo, order string, desc bool) (err error, list interface{}, total int64) {
 	limit := info.PageSize
@@ -103,32 +103,32 @@ func (apiService *ApiService) GetAPIInfoList(api system.SysApi, info request.Pag
 	return err, apiList, total
 }
 
-//@author: [piexlmax](https://github.com/piexlmax)
-//@function: GetAllApis
-//@description: 获取所有的api
-//@return: err error, apis []model.SysApi
+// @author: [piexlmax](https://github.com/piexlmax)
+// @function: GetAllApis
+// @description: 获取所有的api
+// @return: err error, apis []model.SysApi
 
 func (apiService *ApiService) GetAllApis() (err error, apis []system.SysApi) {
 	err = global.GVA_DB.Find(&apis).Error
 	return
 }
 
-//@author: [piexlmax](https://github.com/piexlmax)
-//@function: GetApiById
-//@description: 根据id获取api
-//@param: id float64
-//@return: err error, api model.SysApi
+// @author: [piexlmax](https://github.com/piexlmax)
+// @function: GetApiById
+// @description: 根据id获取api
+// @param: id float64
+// @return: err error, api model.SysApi
 
 func (apiService *ApiService) GetApiById(id int) (err error, api system.SysApi) {
 	err = global.GVA_DB.Where("id = ?", id).First(&api).Error
 	return
 }
 
-//@author: [piexlmax](https://github.com/piexlmax)
-//@function: UpdateApi
-//@description: 根据id更新api
-//@param: api model.SysApi
-//@return: err error
+// @author: [piexlmax](https://github.com/piexlmax)
+// @function: UpdateApi
+// @description: 根据id更新api
+// @param: api model.SysApi
+// @return: err error
 
 func (apiService *ApiService) UpdateApi(api system.SysApi) (err error) {
 	var oldA system.SysApi
@@ -151,11 +151,11 @@ func (apiService *ApiService) UpdateApi(api system.SysApi) (err error) {
 	return err
 }
 
-//@author: [piexlmax](https://github.com/piexlmax)
-//@function: DeleteApis
-//@description: 删除选中API
-//@param: apis []model.SysApi
-//@return: err error
+// @author: [piexlmax](https://github.com/piexlmax)
+// @function: DeleteApis
+// @description: 删除选中API
+// @param: apis []model.SysApi
+// @return: err error
 
 func (apiService *ApiService) DeleteApisByIds(ids request.IdsReq) (err error) {
 	err = global.GVA_DB.Delete(&[]system.SysApi{}, "id in ?", ids.Ids).Error

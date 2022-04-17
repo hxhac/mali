@@ -9,11 +9,11 @@ import service from '@/utils/request'
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"获取成功"}"
 // @Router /lifeEveryday/createLifeEveryday [post]
 export const createLifeEveryday = (data) => {
-  return service({
-    url: '/lifeEveryday/createLifeEveryday',
-    method: 'post',
-    data
-  })
+	return service({
+		url: '/lifeEveryday/createLifeEveryday',
+		method: 'post',
+		data
+	})
 }
 
 // @Tags LifeEveryday
@@ -25,11 +25,11 @@ export const createLifeEveryday = (data) => {
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"删除成功"}"
 // @Router /lifeEveryday/deleteLifeEveryday [delete]
 export const deleteLifeEveryday = (data) => {
-  return service({
-    url: '/lifeEveryday/deleteLifeEveryday',
-    method: 'delete',
-    data
-  })
+	return service({
+		url: '/lifeEveryday/deleteLifeEveryday',
+		method: 'delete',
+		data
+	})
 }
 
 // @Tags LifeEveryday
@@ -41,11 +41,11 @@ export const deleteLifeEveryday = (data) => {
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"删除成功"}"
 // @Router /lifeEveryday/deleteLifeEveryday [delete]
 export const deleteLifeEverydayByIds = (data) => {
-  return service({
-    url: '/lifeEveryday/deleteLifeEverydayByIds',
-    method: 'delete',
-    data
-  })
+	return service({
+		url: '/lifeEveryday/deleteLifeEverydayByIds',
+		method: 'delete',
+		data
+	})
 }
 
 // @Tags LifeEveryday
@@ -57,11 +57,11 @@ export const deleteLifeEverydayByIds = (data) => {
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"更新成功"}"
 // @Router /lifeEveryday/updateLifeEveryday [put]
 export const updateLifeEveryday = (data) => {
-  return service({
-    url: '/lifeEveryday/updateLifeEveryday',
-    method: 'put',
-    data
-  })
+	return service({
+		url: '/lifeEveryday/updateLifeEveryday',
+		method: 'put',
+		data
+	})
 }
 
 // @Tags LifeEveryday
@@ -73,11 +73,11 @@ export const updateLifeEveryday = (data) => {
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"查询成功"}"
 // @Router /lifeEveryday/findLifeEveryday [get]
 export const findLifeEveryday = (params) => {
-  return service({
-    url: '/lifeEveryday/findLifeEveryday',
-    method: 'get',
-    params
-  })
+	return service({
+		url: '/lifeEveryday/findLifeEveryday',
+		method: 'get',
+		params
+	})
 }
 
 // @Tags LifeEveryday
@@ -89,9 +89,9 @@ export const findLifeEveryday = (params) => {
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"获取成功"}"
 // @Router /lifeEveryday/getLifeEverydayList [get]
 export const getLifeEverydayList = (params) => {
-  return service({
-    url: '/lifeEveryday/getLifeEverydayList',
-    method: 'get',
-    params
-  })
+	return service({
+		url: '/lifeEveryday/getLifeEverydayList',
+		method: 'get',
+		params
+	})
 }

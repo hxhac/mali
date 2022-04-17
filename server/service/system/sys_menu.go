@@ -10,11 +10,11 @@ import (
 	"gorm.io/gorm"
 )
 
-//@author: [piexlmax](https://github.com/piexlmax)
-//@function: getMenuTreeMap
-//@description: 获取路由总树map
-//@param: authorityId string
-//@return: err error, treeMap map[string][]model.SysMenu
+// @author: [piexlmax](https://github.com/piexlmax)
+// @function: getMenuTreeMap
+// @description: 获取路由总树map
+// @param: authorityId string
+// @return: err error, treeMap map[string][]model.SysMenu
 
 type MenuService struct{}
 
@@ -46,11 +46,11 @@ func (menuService *MenuService) getMenuTreeMap(authorityId string) (err error, t
 	return err, treeMap
 }
 
-//@author: [piexlmax](https://github.com/piexlmax)
-//@function: GetMenuTree
-//@description: 获取动态菜单树
-//@param: authorityId string
-//@return: err error, menus []model.SysMenu
+// @author: [piexlmax](https://github.com/piexlmax)
+// @function: GetMenuTree
+// @description: 获取动态菜单树
+// @param: authorityId string
+// @return: err error, menus []model.SysMenu
 
 func (menuService *MenuService) GetMenuTree(authorityId string) (err error, menus []system.SysMenu) {
 	err, menuTree := menuService.getMenuTreeMap(authorityId)
@@ -61,11 +61,11 @@ func (menuService *MenuService) GetMenuTree(authorityId string) (err error, menu
 	return err, menus
 }
 
-//@author: [piexlmax](https://github.com/piexlmax)
-//@function: getChildrenList
-//@description: 获取子菜单
-//@param: menu *model.SysMenu, treeMap map[string][]model.SysMenu
-//@return: err error
+// @author: [piexlmax](https://github.com/piexlmax)
+// @function: getChildrenList
+// @description: 获取子菜单
+// @param: menu *model.SysMenu, treeMap map[string][]model.SysMenu
+// @return: err error
 
 func (menuService *MenuService) getChildrenList(menu *system.SysMenu, treeMap map[string][]system.SysMenu) (err error) {
 	menu.Children = treeMap[menu.MenuId]
@@ -75,10 +75,10 @@ func (menuService *MenuService) getChildrenList(menu *system.SysMenu, treeMap ma
 	return err
 }
 
-//@author: [piexlmax](https://github.com/piexlmax)
-//@function: GetInfoList
-//@description: 获取路由分页
-//@return: err error, list interface{}, total int64
+// @author: [piexlmax](https://github.com/piexlmax)
+// @function: GetInfoList
+// @description: 获取路由分页
+// @return: err error, list interface{}, total int64
 
 func (menuService *MenuService) GetInfoList() (err error, list interface{}, total int64) {
 	var menuList []system.SysBaseMenu
@@ -90,11 +90,11 @@ func (menuService *MenuService) GetInfoList() (err error, list interface{}, tota
 	return err, menuList, total
 }
 
-//@author: [piexlmax](https://github.com/piexlmax)
-//@function: getBaseChildrenList
-//@description: 获取菜单的子菜单
-//@param: menu *model.SysBaseMenu, treeMap map[string][]model.SysBaseMenu
-//@return: err error
+// @author: [piexlmax](https://github.com/piexlmax)
+// @function: getBaseChildrenList
+// @description: 获取菜单的子菜单
+// @param: menu *model.SysBaseMenu, treeMap map[string][]model.SysBaseMenu
+// @return: err error
 
 func (menuService *MenuService) getBaseChildrenList(menu *system.SysBaseMenu, treeMap map[string][]system.SysBaseMenu) (err error) {
 	menu.Children = treeMap[strconv.Itoa(int(menu.ID))]
@@ -104,11 +104,11 @@ func (menuService *MenuService) getBaseChildrenList(menu *system.SysBaseMenu, tr
 	return err
 }
 
-//@author: [piexlmax](https://github.com/piexlmax)
-//@function: AddBaseMenu
-//@description: 添加基础路由
-//@param: menu model.SysBaseMenu
-//@return: error
+// @author: [piexlmax](https://github.com/piexlmax)
+// @function: AddBaseMenu
+// @description: 添加基础路由
+// @param: menu model.SysBaseMenu
+// @return: error
 
 func (menuService *MenuService) AddBaseMenu(menu system.SysBaseMenu) error {
 	if !errors.Is(global.GVA_DB.Where("name = ?", menu.Name).First(&system.SysBaseMenu{}).Error, gorm.ErrRecordNotFound) {
@@ -117,10 +117,10 @@ func (menuService *MenuService) AddBaseMenu(menu system.SysBaseMenu) error {
 	return global.GVA_DB.Create(&menu).Error
 }
 
-//@author: [piexlmax](https://github.com/piexlmax)
-//@function: getBaseMenuTreeMap
-//@description: 获取路由总树map
-//@return: err error, treeMap map[string][]model.SysBaseMenu
+// @author: [piexlmax](https://github.com/piexlmax)
+// @function: getBaseMenuTreeMap
+// @description: 获取路由总树map
+// @return: err error, treeMap map[string][]model.SysBaseMenu
 
 func (menuService *MenuService) getBaseMenuTreeMap() (err error, treeMap map[string][]system.SysBaseMenu) {
 	var allMenus []system.SysBaseMenu
@@ -132,10 +132,10 @@ func (menuService *MenuService) getBaseMenuTreeMap() (err error, treeMap map[str
 	return err, treeMap
 }
 
-//@author: [piexlmax](https://github.com/piexlmax)
-//@function: GetBaseMenuTree
-//@description: 获取基础路由树
-//@return: err error, menus []model.SysBaseMenu
+// @author: [piexlmax](https://github.com/piexlmax)
+// @function: GetBaseMenuTree
+// @description: 获取基础路由树
+// @return: err error, menus []model.SysBaseMenu
 
 func (menuService *MenuService) GetBaseMenuTree() (err error, menus []system.SysBaseMenu) {
 	err, treeMap := menuService.getBaseMenuTreeMap()
@@ -146,11 +146,11 @@ func (menuService *MenuService) GetBaseMenuTree() (err error, menus []system.Sys
 	return err, menus
 }
 
-//@author: [piexlmax](https://github.com/piexlmax)
-//@function: AddMenuAuthority
-//@description: 为角色增加menu树
-//@param: menus []model.SysBaseMenu, authorityId string
-//@return: err error
+// @author: [piexlmax](https://github.com/piexlmax)
+// @function: AddMenuAuthority
+// @description: 为角色增加menu树
+// @param: menus []model.SysBaseMenu, authorityId string
+// @return: err error
 
 func (menuService *MenuService) AddMenuAuthority(menus []system.SysBaseMenu, authorityId string) (err error) {
 	var auth system.SysAuthority
@@ -160,11 +160,11 @@ func (menuService *MenuService) AddMenuAuthority(menus []system.SysBaseMenu, aut
 	return err
 }
 
-//@author: [piexlmax](https://github.com/piexlmax)
-//@function: GetMenuAuthority
-//@description: 查看当前角色树
-//@param: info *request.GetAuthorityId
-//@return: err error, menus []model.SysMenu
+// @author: [piexlmax](https://github.com/piexlmax)
+// @function: GetMenuAuthority
+// @description: 查看当前角色树
+// @param: info *request.GetAuthorityId
+// @return: err error, menus []model.SysMenu
 
 func (menuService *MenuService) GetMenuAuthority(info *request.GetAuthorityId) (err error, menus []system.SysMenu) {
 	err = global.GVA_DB.Where("authority_id = ? ", info.AuthorityId).Order("sort").Find(&menus).Error

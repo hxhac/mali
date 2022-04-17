@@ -11,7 +11,7 @@ metadata:
     version: gva-vue3
 spec:
   type: NodePort
-#  type: ClusterIP
+  #  type: ClusterIP
   ports:
     - name: http
       port: 8080

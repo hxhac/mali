@@ -11,11 +11,11 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-//@author: [piexlmax](https://github.com/piexlmax)
-//@function: UpdateCasbin
-//@description: 更新casbin权限
-//@param: authorityId string, casbinInfos []request.CasbinInfo
-//@return: error
+// @author: [piexlmax](https://github.com/piexlmax)
+// @function: UpdateCasbin
+// @description: 更新casbin权限
+// @param: authorityId string, casbinInfos []request.CasbinInfo
+// @return: error
 
 type CasbinService struct{}
 
@@ -35,11 +35,11 @@ func (casbinService *CasbinService) UpdateCasbin(authorityId string, casbinInfos
 	return nil
 }
 
-//@author: [piexlmax](https://github.com/piexlmax)
-//@function: UpdateCasbinApi
-//@description: API更新随动
-//@param: oldPath string, newPath string, oldMethod string, newMethod string
-//@return: error
+// @author: [piexlmax](https://github.com/piexlmax)
+// @function: UpdateCasbinApi
+// @description: API更新随动
+// @param: oldPath string, newPath string, oldMethod string, newMethod string
+// @return: error
 
 func (casbinService *CasbinService) UpdateCasbinApi(oldPath string, newPath string, oldMethod string, newMethod string) error {
 	err := global.GVA_DB.Model(&gormadapter.CasbinRule{}).Where("v1 = ? AND v2 = ?", oldPath, oldMethod).Updates(map[string]interface{}{
@@ -49,11 +49,11 @@ func (casbinService *CasbinService) UpdateCasbinApi(oldPath string, newPath stri
 	return err
 }
 
-//@author: [piexlmax](https://github.com/piexlmax)
-//@function: GetPolicyPathByAuthorityId
-//@description: 获取权限列表
-//@param: authorityId string
-//@return: pathMaps []request.CasbinInfo
+// @author: [piexlmax](https://github.com/piexlmax)
+// @function: GetPolicyPathByAuthorityId
+// @description: 获取权限列表
+// @param: authorityId string
+// @return: pathMaps []request.CasbinInfo
 
 func (casbinService *CasbinService) GetPolicyPathByAuthorityId(authorityId string) (pathMaps []request.CasbinInfo) {
 	e := casbinService.Casbin()
@@ -67,11 +67,11 @@ func (casbinService *CasbinService) GetPolicyPathByAuthorityId(authorityId strin
 	return pathMaps
 }
 
-//@author: [piexlmax](https://github.com/piexlmax)
-//@function: ClearCasbin
-//@description: 清除匹配的权限
-//@param: v int, p ...string
-//@return: bool
+// @author: [piexlmax](https://github.com/piexlmax)
+// @function: ClearCasbin
+// @description: 清除匹配的权限
+// @param: v int, p ...string
+// @return: bool
 
 func (casbinService *CasbinService) ClearCasbin(v int, p ...string) bool {
 	e := casbinService.Casbin()
@@ -79,10 +79,10 @@ func (casbinService *CasbinService) ClearCasbin(v int, p ...string) bool {
 	return success
 }
 
-//@author: [piexlmax](https://github.com/piexlmax)
-//@function: Casbin
-//@description: 持久化到数据库  引入自定义规则
-//@return: *casbin.Enforcer
+// @author: [piexlmax](https://github.com/piexlmax)
+// @function: Casbin
+// @description: 持久化到数据库  引入自定义规则
+// @return: *casbin.Enforcer
 
 var (
 	syncedEnforcer *casbin.SyncedEnforcer
