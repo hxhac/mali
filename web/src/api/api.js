@@ -12,11 +12,11 @@ import service from '@/utils/request'
 //	pageSize int
 // }
 export const getApiList = (data) => {
-	return service({
-		url: '/api/getApiList',
-		method: 'post',
-		data
-	})
+  return service({
+    url: '/api/getApiList',
+    method: 'post',
+    data
+  })
 }
 
 // @Tags Api
@@ -28,11 +28,11 @@ export const getApiList = (data) => {
 // @Success 200 {string} json "{"success":true,"data":{},"msg":"获取成功"}"
 // @Router /api/createApi [post]
 export const createApi = (data) => {
-	return service({
-		url: '/api/createApi',
-		method: 'post',
-		data
-	})
+  return service({
+    url: '/api/createApi',
+    method: 'post',
+    data
+  })
 }
 
 // @Tags menu
@@ -44,11 +44,11 @@ export const createApi = (data) => {
 // @Success 200 {string} json "{"success":true,"data":{},"msg":"获取成功"}"
 // @Router /menu/getApiById [post]
 export const getApiById = (data) => {
-	return service({
-		url: '/api/getApiById',
-		method: 'post',
-		data
-	})
+  return service({
+    url: '/api/getApiById',
+    method: 'post',
+    data
+  })
 }
 
 // @Tags Api
@@ -60,11 +60,11 @@ export const getApiById = (data) => {
 // @Success 200 {string} json "{"success":true,"data":{},"msg":"更新成功"}"
 // @Router /api/updateApi [post]
 export const updateApi = (data) => {
-	return service({
-		url: '/api/updateApi',
-		method: 'post',
-		data
-	})
+  return service({
+    url: '/api/updateApi',
+    method: 'post',
+    data
+  })
 }
 
 // @Tags Api
@@ -76,11 +76,11 @@ export const updateApi = (data) => {
 // @Success 200 {string} json "{"success":true,"data":{},"msg":"更新成功"}"
 // @Router /api/setAuthApi [post]
 export const setAuthApi = (data) => {
-	return service({
-		url: '/api/setAuthApi',
-		method: 'post',
-		data
-	})
+  return service({
+    url: '/api/setAuthApi',
+    method: 'post',
+    data
+  })
 }
 
 // @Tags Api
@@ -91,11 +91,11 @@ export const setAuthApi = (data) => {
 // @Success 200 {string} json "{"success":true,"data":{},"msg":"获取成功"}"
 // @Router /api/getAllApis [post]
 export const getAllApis = (data) => {
-	return service({
-		url: '/api/getAllApis',
-		method: 'post',
-		data
-	})
+  return service({
+    url: '/api/getAllApis',
+    method: 'post',
+    data
+  })
 }
 
 // @Tags Api
@@ -107,11 +107,11 @@ export const getAllApis = (data) => {
 // @Success 200 {string} json "{"success":true,"data":{},"msg":"获取成功"}"
 // @Router /api/deleteApi [post]
 export const deleteApi = (data) => {
-	return service({
-		url: '/api/deleteApi',
-		method: 'post',
-		data
-	})
+  return service({
+    url: '/api/deleteApi',
+    method: 'post',
+    data
+  })
 }
 
 // @Tags SysApi
@@ -123,9 +123,9 @@ export const deleteApi = (data) => {
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"删除成功"}"
 // @Router /api/deleteApisByIds [delete]
 export const deleteApisByIds = (data) => {
-	return service({
-		url: '/api/deleteApisByIds',
-		method: 'delete',
-		data
-	})
+  return service({
+    url: '/api/deleteApisByIds',
+    method: 'delete',
+    data
+  })
 }

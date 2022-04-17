@@ -1,54 +1,54 @@
 <template>
-	<div @click="clickFull">
-		<div class="gvaIcon gvaIcon-fullscreen-expand" v-if="isShow"></div>
-		<div v-else class="gvaIcon gvaIcon-fullscreen-shrink"></div>
-	</div>
+  <div @click="clickFull">
+    <div v-if="isShow" class="gvaIcon gvaIcon-fullscreen-expand" />
+    <div v-else class="gvaIcon gvaIcon-fullscreen-shrink" />
+  </div>
 </template>
 
 <script>
 export default {
-	name: 'Screenfull',
+  name: 'Screenfull',
 }
 </script>
 
 <script setup>
 import screenfull from 'screenfull' // 引入screenfull
-import {onMounted, onUnmounted, ref} from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 
 defineProps({
-	width: {
-		type: Number,
-		default: 22
-	},
-	height: {
-		type: Number,
-		default: 22
-	},
-	fill: {
-		type: String,
-		default: '#48576a'
-	}
+  width: {
+    type: Number,
+    default: 22
+  },
+  height: {
+    type: Number,
+    default: 22
+  },
+  fill: {
+    type: String,
+    default: '#48576a'
+  }
 })
 
 onMounted(() => {
-	if (screenfull.isEnabled) {
-		screenfull.on('change', changeFullShow)
-	}
+  if (screenfull.isEnabled) {
+    screenfull.on('change', changeFullShow)
+  }
 })
 
 onUnmounted(() => {
-	screenfull.off('change')
+  screenfull.off('change')
 })
 
 const clickFull = () => {
-	if (screenfull.isEnabled) {
-		screenfull.toggle()
-	}
+  if (screenfull.isEnabled) {
+    screenfull.toggle()
+  }
 }
 
 const isShow = ref(true)
 const changeFullShow = () => {
-	isShow.value = !screenfull.isFullscreen
+  isShow.value = !screenfull.isFullscreen
 }
 
 </script>

@@ -9,11 +9,11 @@ import service from '@/utils/request'
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"获取成功"}"
 // @Router /lifeYearly/createLifeYearly [post]
 export const createLifeYearly = (data) => {
-	return service({
-		url: '/lifeYearly/createLifeYearly',
-		method: 'post',
-		data
-	})
+  return service({
+    url: '/lifeYearly/createLifeYearly',
+    method: 'post',
+    data
+  })
 }
 
 // @Tags LifeYearly
@@ -25,11 +25,11 @@ export const createLifeYearly = (data) => {
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"删除成功"}"
 // @Router /lifeYearly/deleteLifeYearly [delete]
 export const deleteLifeYearly = (data) => {
-	return service({
-		url: '/lifeYearly/deleteLifeYearly',
-		method: 'delete',
-		data
-	})
+  return service({
+    url: '/lifeYearly/deleteLifeYearly',
+    method: 'delete',
+    data
+  })
 }
 
 // @Tags LifeYearly
@@ -41,11 +41,11 @@ export const deleteLifeYearly = (data) => {
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"删除成功"}"
 // @Router /lifeYearly/deleteLifeYearly [delete]
 export const deleteLifeYearlyByIds = (data) => {
-	return service({
-		url: '/lifeYearly/deleteLifeYearlyByIds',
-		method: 'delete',
-		data
-	})
+  return service({
+    url: '/lifeYearly/deleteLifeYearlyByIds',
+    method: 'delete',
+    data
+  })
 }
 
 // @Tags LifeYearly
@@ -57,11 +57,11 @@ export const deleteLifeYearlyByIds = (data) => {
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"更新成功"}"
 // @Router /lifeYearly/updateLifeYearly [put]
 export const updateLifeYearly = (data) => {
-	return service({
-		url: '/lifeYearly/updateLifeYearly',
-		method: 'put',
-		data
-	})
+  return service({
+    url: '/lifeYearly/updateLifeYearly',
+    method: 'put',
+    data
+  })
 }
 
 // @Tags LifeYearly
@@ -73,11 +73,11 @@ export const updateLifeYearly = (data) => {
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"查询成功"}"
 // @Router /lifeYearly/findLifeYearly [get]
 export const findLifeYearly = (params) => {
-	return service({
-		url: '/lifeYearly/findLifeYearly',
-		method: 'get',
-		params
-	})
+  return service({
+    url: '/lifeYearly/findLifeYearly',
+    method: 'get',
+    params
+  })
 }
 
 // @Tags LifeYearly
@@ -89,17 +89,17 @@ export const findLifeYearly = (params) => {
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"获取成功"}"
 // @Router /lifeYearly/getLifeYearlyList [get]
 export const getLifeYearlyList = (params) => {
-	return service({
-		url: '/lifeYearly/getLifeYearlyList',
-		method: 'get',
-		params
-	})
+  return service({
+    url: '/lifeYearly/getLifeYearlyList',
+    method: 'get',
+    params
+  })
 }
 
 export const getLifeYearlyOptions = (params) => {
-	return service({
-		url: '/lifeYearly/getLifeYearlyOptions',
-		method: 'get',
-		params
-	})
+  return service({
+    url: '/lifeYearly/getLifeYearlyOptions',
+    method: 'get',
+    params
+  })
 }

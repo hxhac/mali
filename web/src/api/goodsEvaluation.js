@@ -9,11 +9,11 @@ import service from '@/utils/request'
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"获取成功"}"
 // @Router /goodsEvaluation/createGoodsEvaluation [post]
 export const createGoodsEvaluation = (data) => {
-	return service({
-		url: '/goodsEvaluation/createGoodsEvaluation',
-		method: 'post',
-		data
-	})
+  return service({
+    url: '/goodsEvaluation/createGoodsEvaluation',
+    method: 'post',
+    data
+  })
 }
 
 // @Tags GoodsEvaluation
@@ -25,11 +25,11 @@ export const createGoodsEvaluation = (data) => {
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"删除成功"}"
 // @Router /goodsEvaluation/deleteGoodsEvaluation [delete]
 export const deleteGoodsEvaluation = (data) => {
-	return service({
-		url: '/goodsEvaluation/deleteGoodsEvaluation',
-		method: 'delete',
-		data
-	})
+  return service({
+    url: '/goodsEvaluation/deleteGoodsEvaluation',
+    method: 'delete',
+    data
+  })
 }
 
 // @Tags GoodsEvaluation
@@ -41,11 +41,11 @@ export const deleteGoodsEvaluation = (data) => {
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"删除成功"}"
 // @Router /goodsEvaluation/deleteGoodsEvaluation [delete]
 export const deleteGoodsEvaluationByIds = (data) => {
-	return service({
-		url: '/goodsEvaluation/deleteGoodsEvaluationByIds',
-		method: 'delete',
-		data
-	})
+  return service({
+    url: '/goodsEvaluation/deleteGoodsEvaluationByIds',
+    method: 'delete',
+    data
+  })
 }
 
 // @Tags GoodsEvaluation
@@ -57,11 +57,11 @@ export const deleteGoodsEvaluationByIds = (data) => {
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"更新成功"}"
 // @Router /goodsEvaluation/updateGoodsEvaluation [put]
 export const updateGoodsEvaluation = (data) => {
-	return service({
-		url: '/goodsEvaluation/updateGoodsEvaluation',
-		method: 'put',
-		data
-	})
+  return service({
+    url: '/goodsEvaluation/updateGoodsEvaluation',
+    method: 'put',
+    data
+  })
 }
 
 // @Tags GoodsEvaluation
@@ -73,11 +73,11 @@ export const updateGoodsEvaluation = (data) => {
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"查询成功"}"
 // @Router /goodsEvaluation/findGoodsEvaluation [get]
 export const findGoodsEvaluation = (params) => {
-	return service({
-		url: '/goodsEvaluation/findGoodsEvaluation',
-		method: 'get',
-		params
-	})
+  return service({
+    url: '/goodsEvaluation/findGoodsEvaluation',
+    method: 'get',
+    params
+  })
 }
 
 // @Tags GoodsEvaluation
@@ -89,9 +89,9 @@ export const findGoodsEvaluation = (params) => {
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"获取成功"}"
 // @Router /goodsEvaluation/getGoodsEvaluationList [get]
 export const getGoodsEvaluationList = (params) => {
-	return service({
-		url: '/goodsEvaluation/getGoodsEvaluationList',
-		method: 'get',
-		params
-	})
+  return service({
+    url: '/goodsEvaluation/getGoodsEvaluationList',
+    method: 'get',
+    params
+  })
 }
