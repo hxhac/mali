@@ -38,32 +38,32 @@ casbin:
 cors:
   mode: whitelist
   whitelist:
-  - allow-origin: example1.com
-    allow-methods: GET, POST
-    allow-headers: content-type
-    expose-headers: Content-Length, Access-Control-Allow-Origin, Access-Control-Allow-Headers,
-      Content-Type
-    allow-credentials: true
-  - allow-origin: example2.com
-    allow-methods: GET, POST
-    allow-headers: content-type
-    expose-headers: Content-Length, Access-Control-Allow-Origin, Access-Control-Allow-Headers,
-      Content-Type
-    allow-credentials: true
+    - allow-origin: example1.com
+      allow-methods: GET, POST
+      allow-headers: content-type
+      expose-headers: Content-Length, Access-Control-Allow-Origin, Access-Control-Allow-Headers,
+        Content-Type
+      allow-credentials: true
+    - allow-origin: example2.com
+      allow-methods: GET, POST
+      allow-headers: content-type
+      expose-headers: Content-Length, Access-Control-Allow-Origin, Access-Control-Allow-Headers,
+        Content-Type
+      allow-credentials: true
 db-list:
-- disable: false
-  type: ""
-  alias-name: ""
-  path: ""
-  port: ""
-  config: ""
-  db-name: ""
-  username: ""
-  password: ""
-  max-idle-conns: 10
-  max-open-conns: 100
-  log-mode: ""
-  log-zap: false
+  - disable: false
+    type: ""
+    alias-name: ""
+    path: ""
+    port: ""
+    config: ""
+    db-name: ""
+    username: ""
+    password: ""
+    max-idle-conns: 10
+    max-open-conns: 100
+    log-mode: ""
+    log-zap: false
 email:
   to: xxx@qq.com
   port: 465
@@ -81,10 +81,10 @@ hua-wei-obs:
   access-key: you-access-key
   secret-key: you-secret-key
 jwt:
-  buffer-time: 86400
-  expires-time: 604800
-  issuer: qmPlus
   signing-key: 7a7332e7-70a6-4a17-af03-01a263068fb2
+  expires-time: 604800
+  buffer-time: 86400
+  issuer: qmPlus
 local:
   path: uploads/file
 mysql:
@@ -96,7 +96,7 @@ mysql:
   password: Aa@6447985
   max-idle-conns: 10
   max-open-conns: 100
-  log-mode: error
+  log-mode: ""
   log-zap: false
 pgsql:
   path: ""
@@ -141,12 +141,12 @@ timer:
   start: true
   spec: '@daily'
   detail:
-  - tableName: sys_operation_records
-    compareField: created_at
-    interval: 2160h
-  - tableName: jwt_blacklists
-    compareField: created_at
-    interval: 168h
+    - tableName: sys_operation_records
+      compareField: created_at
+      interval: 2160h
+    - tableName: jwt_blacklists
+      compareField: created_at
+      interval: 168h
 zap:
   level: info
   format: console

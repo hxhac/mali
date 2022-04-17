@@ -6,11 +6,11 @@ import (
 	"github.com/flipped-aurora/gin-vue-admin/server/model/system/request"
 )
 
-//@author: [piexlmax](https://github.com/piexlmax)
-//@function: CreateSysDictionaryDetail
-//@description: 创建字典详情数据
-//@param: sysDictionaryDetail model.SysDictionaryDetail
-//@return: err error
+// @author: [piexlmax](https://github.com/piexlmax)
+// @function: CreateSysDictionaryDetail
+// @description: 创建字典详情数据
+// @param: sysDictionaryDetail model.SysDictionaryDetail
+// @return: err error
 
 type DictionaryDetailService struct{}
 
@@ -19,44 +19,44 @@ func (dictionaryDetailService *DictionaryDetailService) CreateSysDictionaryDetai
 	return err
 }
 
-//@author: [piexlmax](https://github.com/piexlmax)
-//@function: DeleteSysDictionaryDetail
-//@description: 删除字典详情数据
-//@param: sysDictionaryDetail model.SysDictionaryDetail
-//@return: err error
+// @author: [piexlmax](https://github.com/piexlmax)
+// @function: DeleteSysDictionaryDetail
+// @description: 删除字典详情数据
+// @param: sysDictionaryDetail model.SysDictionaryDetail
+// @return: err error
 
 func (dictionaryDetailService *DictionaryDetailService) DeleteSysDictionaryDetail(sysDictionaryDetail system.SysDictionaryDetail) (err error) {
 	err = global.GVA_DB.Delete(&sysDictionaryDetail).Error
 	return err
 }
 
-//@author: [piexlmax](https://github.com/piexlmax)
-//@function: UpdateSysDictionaryDetail
-//@description: 更新字典详情数据
-//@param: sysDictionaryDetail *model.SysDictionaryDetail
-//@return: err error
+// @author: [piexlmax](https://github.com/piexlmax)
+// @function: UpdateSysDictionaryDetail
+// @description: 更新字典详情数据
+// @param: sysDictionaryDetail *model.SysDictionaryDetail
+// @return: err error
 
 func (dictionaryDetailService *DictionaryDetailService) UpdateSysDictionaryDetail(sysDictionaryDetail *system.SysDictionaryDetail) (err error) {
 	err = global.GVA_DB.Save(sysDictionaryDetail).Error
 	return err
 }
 
-//@author: [piexlmax](https://github.com/piexlmax)
-//@function: GetSysDictionaryDetail
-//@description: 根据id获取字典详情单条数据
-//@param: id uint
-//@return: err error, sysDictionaryDetail model.SysDictionaryDetail
+// @author: [piexlmax](https://github.com/piexlmax)
+// @function: GetSysDictionaryDetail
+// @description: 根据id获取字典详情单条数据
+// @param: id uint
+// @return: err error, sysDictionaryDetail model.SysDictionaryDetail
 
 func (dictionaryDetailService *DictionaryDetailService) GetSysDictionaryDetail(id uint) (err error, sysDictionaryDetail system.SysDictionaryDetail) {
 	err = global.GVA_DB.Where("id = ?", id).First(&sysDictionaryDetail).Error
 	return
 }
 
-//@author: [piexlmax](https://github.com/piexlmax)
-//@function: GetSysDictionaryDetailInfoList
-//@description: 分页获取字典详情列表
-//@param: info request.SysDictionaryDetailSearch
-//@return: err error, list interface{}, total int64
+// @author: [piexlmax](https://github.com/piexlmax)
+// @function: GetSysDictionaryDetailInfoList
+// @description: 分页获取字典详情列表
+// @param: info request.SysDictionaryDetailSearch
+// @return: err error, list interface{}, total int64
 
 func (dictionaryDetailService *DictionaryDetailService) GetSysDictionaryDetailInfoList(info request.SysDictionaryDetailSearch) (err error, list interface{}, total int64) {
 	limit := info.PageSize

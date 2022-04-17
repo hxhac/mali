@@ -21,7 +21,8 @@ func (s *LifeYearlyRouter) InitLifeYearlyRouter(Router *gin.RouterGroup) {
 		lifeYearlyRouter.PUT("updateLifeYearly", lifeYearlyApi.UpdateLifeYearly)              // 更新LifeYearly
 	}
 	{
-		lifeYearlyRouterWithoutRecord.GET("findLifeYearly", lifeYearlyApi.FindLifeYearly)       // 根据ID获取LifeYearly
-		lifeYearlyRouterWithoutRecord.GET("getLifeYearlyList", lifeYearlyApi.GetLifeYearlyList) // 获取LifeYearly列表
+		lifeYearlyRouterWithoutRecord.GET("findLifeYearly", lifeYearlyApi.FindLifeYearly)             // 根据ID获取LifeYearly
+		lifeYearlyRouterWithoutRecord.GET("getLifeYearlyList", lifeYearlyApi.GetLifeYearlyList)       // 获取LifeYearly列表
+		lifeYearlyRouterWithoutRecord.GET("getLifeYearlyOptions", lifeYearlyApi.GetLifeYearlyOptions) // 获取LifeYearly列表
 	}
 }

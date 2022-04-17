@@ -8,11 +8,11 @@ import service from '@/utils/request'
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"获取成功"}"
 // @Router /sysDictionary/createSysDictionary [post]
 export const createSysDictionary = (data) => {
-  return service({
-    url: '/sysDictionary/createSysDictionary',
-    method: 'post',
-    data
-  })
+	return service({
+		url: '/sysDictionary/createSysDictionary',
+		method: 'post',
+		data
+	})
 }
 
 // @Tags SysDictionary
@@ -24,11 +24,11 @@ export const createSysDictionary = (data) => {
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"删除成功"}"
 // @Router /sysDictionary/deleteSysDictionary [delete]
 export const deleteSysDictionary = (data) => {
-  return service({
-    url: '/sysDictionary/deleteSysDictionary',
-    method: 'delete',
-    data
-  })
+	return service({
+		url: '/sysDictionary/deleteSysDictionary',
+		method: 'delete',
+		data
+	})
 }
 
 // @Tags SysDictionary
@@ -40,11 +40,11 @@ export const deleteSysDictionary = (data) => {
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"更新成功"}"
 // @Router /sysDictionary/updateSysDictionary [put]
 export const updateSysDictionary = (data) => {
-  return service({
-    url: '/sysDictionary/updateSysDictionary',
-    method: 'put',
-    data
-  })
+	return service({
+		url: '/sysDictionary/updateSysDictionary',
+		method: 'put',
+		data
+	})
 }
 
 // @Tags SysDictionary
@@ -56,11 +56,11 @@ export const updateSysDictionary = (data) => {
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"查询成功"}"
 // @Router /sysDictionary/findSysDictionary [get]
 export const findSysDictionary = (params) => {
-  return service({
-    url: '/sysDictionary/findSysDictionary',
-    method: 'get',
-    params
-  })
+	return service({
+		url: '/sysDictionary/findSysDictionary',
+		method: 'get',
+		params
+	})
 }
 
 // @Tags SysDictionary
@@ -72,9 +72,9 @@ export const findSysDictionary = (params) => {
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"获取成功"}"
 // @Router /sysDictionary/getSysDictionaryList [get]
 export const getSysDictionaryList = (params) => {
-  return service({
-    url: '/sysDictionary/getSysDictionaryList',
-    method: 'get',
-    params
-  })
+	return service({
+		url: '/sysDictionary/getSysDictionaryList',
+		method: 'get',
+		params
+	})
 }

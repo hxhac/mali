@@ -10,11 +10,11 @@ import (
 
 type FileUploadAndDownloadService struct{}
 
-//@author: [piexlmax](https://github.com/piexlmax)
-//@function: FindOrCreateFile
-//@description: 上传文件时检测当前文件属性，如果没有文件则创建，有则返回文件的当前切片
-//@param: fileMd5 string, fileName string, chunkTotal int
-//@return: err error, file model.ExaFile
+// @author: [piexlmax](https://github.com/piexlmax)
+// @function: FindOrCreateFile
+// @description: 上传文件时检测当前文件属性，如果没有文件则创建，有则返回文件的当前切片
+// @param: fileMd5 string, fileName string, chunkTotal int
+// @return: err error, file model.ExaFile
 
 func (e *FileUploadAndDownloadService) FindOrCreateFile(fileMd5 string, fileName string, chunkTotal int) (err error, file example.ExaFile) {
 	var cfile example.ExaFile
@@ -32,11 +32,11 @@ func (e *FileUploadAndDownloadService) FindOrCreateFile(fileMd5 string, fileName
 	return err, cfile
 }
 
-//@author: [piexlmax](https://github.com/piexlmax)
-//@function: CreateFileChunk
-//@description: 创建文件切片记录
-//@param: id uint, fileChunkPath string, fileChunkNumber int
-//@return: error
+// @author: [piexlmax](https://github.com/piexlmax)
+// @function: CreateFileChunk
+// @description: 创建文件切片记录
+// @param: id uint, fileChunkPath string, fileChunkNumber int
+// @return: error
 
 func (e *FileUploadAndDownloadService) CreateFileChunk(id uint, fileChunkPath string, fileChunkNumber int) error {
 	var chunk example.ExaFileChunk
@@ -47,11 +47,11 @@ func (e *FileUploadAndDownloadService) CreateFileChunk(id uint, fileChunkPath st
 	return err
 }
 
-//@author: [piexlmax](https://github.com/piexlmax)
-//@function: DeleteFileChunk
-//@description: 删除文件切片记录
-//@param: fileMd5 string, fileName string, filePath string
-//@return: error
+// @author: [piexlmax](https://github.com/piexlmax)
+// @function: DeleteFileChunk
+// @description: 删除文件切片记录
+// @param: fileMd5 string, fileName string, filePath string
+// @return: error
 
 func (e *FileUploadAndDownloadService) DeleteFileChunk(fileMd5 string, fileName string, filePath string) error {
 	var chunks []example.ExaFileChunk

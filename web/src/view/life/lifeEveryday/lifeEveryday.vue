@@ -2,6 +2,15 @@
 	<div>
 		<div class="gva-search-box">
 			<el-form :inline="true" :model="searchInfo" class="demo-form-inline">
+				<el-form-item label="prefix">
+					<el-select v-model="searchInfo.prefix">
+						<el-option
+							v-for="item in prefixOptions"
+							:key="item"
+							:value="item">
+						</el-option>
+					</el-select>
+				</el-form-item>
 				<el-form-item>
 					<el-button size="small" type="primary" icon="search" @click="onSubmit">查询
 					</el-button>
@@ -113,7 +122,7 @@ export default {
 	name: 'LifeEveryday',
 	data() {
 		return {
-			options: ['早起', '早上', '中午', '晚上'],
+			prefixOptions: ['早起', '早上', '中午', '晚上'],
 			value: '请选择'
 		}
 	}

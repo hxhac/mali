@@ -7,8 +7,8 @@ import service from '@/utils/request'
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"拉黑成功"}"
 // @Router /jwt/jsonInBlacklist [post]
 export const jsonInBlacklist = () => {
-  return service({
-    url: '/jwt/jsonInBlacklist',
-    method: 'post'
-  })
+	return service({
+		url: '/jwt/jsonInBlacklist',
+		method: 'post'
+	})
 }

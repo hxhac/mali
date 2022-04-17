@@ -8,7 +8,7 @@ import (
 type AuthorityBtnRouter struct{}
 
 func (s *AuthorityBtnRouter) InitAuthorityBtnRouterRouter(Router *gin.RouterGroup) {
-	//authorityRouter := Router.Group("authorityBtn").Use(middleware.OperationRecord())
+	// authorityRouter := Router.Group("authorityBtn").Use(middleware.OperationRecord())
 	authorityRouterWithoutRecord := Router.Group("authorityBtn")
 	authorityBtnApi := v1.ApiGroupApp.SystemApiGroup.AuthorityBtnApi
 	{

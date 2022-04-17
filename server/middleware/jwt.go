@@ -45,11 +45,11 @@ func JWTAuth() gin.HandlerFunc {
 			return
 		}
 		// 用户被删除的逻辑 需要优化 此处比较消耗性能 如果需要 请自行打开
-		//if err, _ = userService.FindUserByUuid(claims.UUID.String()); err != nil {
+		// if err, _ = userService.FindUserByUuid(claims.UUID.String()); err != nil {
 		//	_ = jwtService.JsonInBlacklist(system.JwtBlacklist{Jwt: token})
 		//	response.FailWithDetailed(gin.H{"reload": true}, err.Error(), c)
 		//	c.Abort()
-		//}
+		// }
 		if claims.ExpiresAt-time.Now().Unix() < claims.BufferTime {
 			claims.ExpiresAt = time.Now().Unix() + global.GVA_CONFIG.JWT.ExpiresTime
 			newToken, _ := j.CreateTokenByOldToken(token, *claims)

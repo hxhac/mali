@@ -5,6 +5,7 @@
     font-style: normal;
     font-display: swap;
 }
+
 .gvaIcon {
     font-family: "gvaIcon" !important;
     font-size: 16px;
@@ -12,11 +13,11 @@
     font-weight: 800;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-  }
+}
 
 .gvaIcon-arrow-double-left:before {
     content: "\e665";
-  }
+}
 
 .gvaIcon-arrow-double-right:before {
     content: "\e666";
@@ -25,9 +26,10 @@
 .gvaIcon-fullscreen-shrink:before {
     content: "\e676";
 }
+
 .gvaIcon-customer-service:before {
     content: "\e66a";
-  }
+}
 
 .gvaIcon-fullscreen-expand:before {
     content: "\e675";

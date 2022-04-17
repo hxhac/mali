@@ -8,10 +8,10 @@ import (
 	"go.uber.org/zap/zapcore"
 )
 
-//@author: [SliverHorn](https://github.com/SliverHorn)
-//@function: GetWriteSyncer
-//@description: zap logger中加入file-rotatelogs
-//@return: zapcore.WriteSyncer, error
+// @author: [SliverHorn](https://github.com/SliverHorn)
+// @function: GetWriteSyncer
+// @description: zap logger中加入file-rotatelogs
+// @return: zapcore.WriteSyncer, error
 
 func GetWriteSyncer(file string) zapcore.WriteSyncer {
 	lumberJackLogger := &lumberjack.Logger{

@@ -99,7 +99,7 @@ func (autoCodeHistoryService *AutoCodeHistoryService) RollBack(info *systemReq.R
 		if err != nil {
 			fmt.Println(">>>>>>>>>>>>>>>>>>>", err)
 		}
-		//_ = utils.DeLFile(path)
+		// _ = utils.DeLFile(path)
 	}
 	// 清除注入
 	for _, v := range strings.Split(md.InjectionMeta, ";") {

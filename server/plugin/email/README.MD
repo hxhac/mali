@@ -1,9 +1,11 @@
 ## GVA 邮件发送功能插件
+
 #### 开发者：GIN-VUE-ADMIN 官方
 
 ### 使用步骤
 
 #### 1. 前往GVA主程序下的initialize/router.go 在Routers 方法最末尾按照你需要的及安全模式添加本插件
+
     例：
     本插件可以采用gva的配置文件 也可以直接写死内容作为配置 建议为gva添加配置文件结构 然后将配置传入
 	PluginInit(PrivateGroup, email.CreateEmailPlug(
@@ -31,6 +33,7 @@
 ### 2. 配置说明
 
 #### 2-1 全局配置结构体说明
+
     //其中 Form 和 Secret 通常来说就是用户名和密码
 
     type Email struct {
@@ -42,7 +45,9 @@
 	    Port     int     // 端口     请前往QQ或者你要发邮件的邮箱查看其smtp协议 大多为 465
 	    IsSSL    bool    // 是否SSL   是否开启SSL
     }
+
 #### 2-2 入参结构说明
+
     //其中 Form 和 Secret 通常来说就是用户名和密码
 
     type Email struct {
@@ -50,7 +55,6 @@
         Subject string `json:"subject"` // 邮件标题
         Body    string `json:"body"`    // 邮件内容
     }
-
 
 ### 3. 方法API
 

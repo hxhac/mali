@@ -54,6 +54,15 @@ func (lifeYearlyService *LifeYearlyService) GetLifeYearlyInfoList(info dailyReq.
 	db := global.GVA_DB.Model(&daily.LifeYearly{})
 	var lifeYearlys []daily.LifeYearly
 	// 如果有条件搜索 下方会自动创建搜索语句
+	if info.Prefix != "" {
+		db = db.Where("prefix = ?", info.Prefix)
+	}
+	if info.Cron != "" {
+		db = db.Where("cron = ?", info.Cron)
+	}
+	if info.Task != "" {
+		db = db.Where("task LIKE ?", "%"+info.Task+"%")
+	}
 	err = db.Count(&total).Error
 	if err != nil {
 		return
@@ -69,4 +78,10 @@ func (lifeYearlyService *LifeYearlyService) FindAll() ([]*daily.LifeYearly, erro
 		return nil, err
 	}
 	return yearly, nil
+}
+
+func (lifeYearlyService *LifeYearlyService) GetLifeYearlyColumn(column string) (err error, columns []string) {
+
+	err = global.GVA_DB.Model(&daily.LifeYearly{}).Distinct().Pluck(column, &columns).Error
+	return err, columns
 }
