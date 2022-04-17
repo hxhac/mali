@@ -13,40 +13,40 @@ volumes:
   redis:
 
 services:
-  web:
-#    build:
-#      context: ./web
-#      dockerfile: ./Dockerfile
-    image: registry.cn-hangzhou.aliyuncs.com/91go/lm-web:latest
-    container_name: gva-web
-    restart: always
-    ports:
-      - '8080:8080'
-    depends_on:
-      - server
-    command: [ 'nginx-debug', '-g', 'daemon off;' ]
-    networks:
-      network:
-        ipv4_address: 177.7.0.11
-
-  server:
-#    build:
-#      context: ./server
-#      dockerfile: ./Dockerfile
-    image: registry.cn-hangzhou.aliyuncs.com/91go/lm-server:latest
-    container_name: gva-server
-    restart: always
-    ports:
-      - '8888:8888'
-    depends_on:
-      - mysql
-      - redis
-    links:
-      - mysql
-      - redis
-    networks:
-      network:
-        ipv4_address: 177.7.0.12
+#  web:
+##    build:
+##      context: ./web
+##      dockerfile: ./Dockerfile
+#    image: registry.cn-hangzhou.aliyuncs.com/91go/lm-web:latest
+#    container_name: gva-web
+#    restart: always
+#    ports:
+#      - '8080:8080'
+#    depends_on:
+#      - server
+#    command: [ 'nginx-debug', '-g', 'daemon off;' ]
+#    networks:
+#      network:
+#        ipv4_address: 177.7.0.11
+#
+#  server:
+##    build:
+##      context: ./server
+##      dockerfile: ./Dockerfile
+#    image: registry.cn-hangzhou.aliyuncs.com/91go/lm-server:latest
+#    container_name: gva-server
+#    restart: always
+#    ports:
+#      - '8888:8888'
+#    depends_on:
+#      - mysql
+#      - redis
+#    links:
+#      - mysql
+#      - redis
+#    networks:
+#      network:
+#        ipv4_address: 177.7.0.12
 
   mysql:
     image: mysql:8.0.20
@@ -59,8 +59,8 @@ services:
       MYSQL_DATABASE: 'qmPlus' # 初始化启动时要创建的数据库的名称
       MYSQL_ROOT_PASSWORD: 'Aa@6447985' # root管理员用户密码
     volumes:
-#      - mysql:/var/lib/mysql
-      - ../../data/lm/mysql:/var/lib/mysql
+      - mysql:/var/lib/mysql
+#      - ../../data/lm/mysql:/var/lib/mysql
     networks:
       network:
         ipv4_address: 177.7.0.13
@@ -72,8 +72,8 @@ services:
     ports:
       - '16379:6379'
     volumes:
-#      - redis:/data
-      - ../../data/lm/redis:/data
+      - redis:/data
+#      - ../../data/lm/redis:/data
     networks:
       network:
         ipv4_address: 177.7.0.14

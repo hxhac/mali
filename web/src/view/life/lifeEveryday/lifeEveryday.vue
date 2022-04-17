@@ -87,9 +87,8 @@
 		      <el-input v-model="formData.remark" clearable placeholder="请输入"/>
 	      </el-form-item>
 	      <el-form-item label="more字段:">
-		      <editor api-key="nuhgvje7hy67lk5k0n2xnvu5p3oni5b2bwaklgsxj0li2tmu" v-model="formData.more" placeholder="请输入编辑器"
-		              :height="300" :init="editorInit"
-		      ></editor>
+		      <v-md-editor v-model="formData.more" height="400px"
+		      ></v-md-editor>
 	      </el-form-item>
       </el-form>
       <template #footer>
@@ -105,64 +104,6 @@
 <script>
 export default {
   name: 'LifeEveryday',
-	components: {
-		'editor': Editor
-	},
-	data() {
-		return {
-			// tinymce的初始化配置
-			editorInit: {
-				//tinumce容器
-				selector: '#tinymce',
-				menubar: 'file edit view',
-				plugins: 'lists link image table code help wordcount textpattern',
-				//配置语言
-				// language_url: '/tinymce/langs/zh_CN.js',
-				// language: 'zh_CN',
-				//配置皮肤
-				// skin_url: '/tinymce/skins/ui/oxide',
-				//配置编辑器高度
-				height: 500,
-				min_height: 300,
-				max_height: 650,
-				width: 1000,
-				min_width: 900,
-				max_width: 1200,
-				text_patterns: [
-					{start: '#', format: 'h1'},
-					{start: '##', format: 'h2'},
-					{start: '###', format: 'h3'},
-					{start: '####', format: 'h4'},
-					{start: '#####', format: 'h5'},
-					{start: '######', format: 'h6'},
-					{start: '* ', cmd: 'InsertUnorderedList'},
-					{start: '- ', cmd: 'InsertUnorderedList'},
-					{start: '1. ', cmd: 'InsertOrderedList', value: {'list-style-type': 'decimal'}},
-					{start: '1) ', cmd: 'InsertOrderedList', value: {'list-style-type': 'decimal'}},
-					{
-						start: 'a. ',
-						cmd: 'InsertOrderedList',
-						value: {'list-style-type': 'lower-alpha'}
-					},
-					{
-						start: 'a) ',
-						cmd: 'InsertOrderedList',
-						value: {'list-style-type': 'lower-alpha'}
-					},
-					{
-						start: 'i. ',
-						cmd: 'InsertOrderedList',
-						value: {'list-style-type': 'lower-roman'}
-					},
-					{
-						start: 'i) ',
-						cmd: 'InsertOrderedList',
-						value: {'list-style-type': 'lower-roman'}
-					}
-				]
-			}
-		}
-	}
 }
 </script>
 
@@ -180,7 +121,6 @@ import {
 import {getDictFunc, formatDate, formatBoolean, filterDict} from '@/utils/format'
 import {ElMessage, ElMessageBox} from 'element-plus'
 import {ref} from 'vue'
-import Editor from '@tinymce/tinymce-vue'
 
 // 自动化生成的字典（可能为空）以及字段
 const formData = ref({
