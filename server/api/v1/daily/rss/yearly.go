@@ -3,6 +3,7 @@ package habit
 import (
 	"fmt"
 	"github.com/flipped-aurora/gin-vue-admin/server/service"
+	"github.com/flipped-aurora/gin-vue-admin/server/utils/helper/html"
 	"net/http"
 	"regexp"
 	"strconv"
@@ -47,7 +48,7 @@ func yearly() []rss.Item {
 			title := fmt.Sprintf("[%s] - [%s] - %s", item.Prefix, gtime.Date(), item.Task)
 			ret = append(ret, rss.Item{
 				Title:       title,
-				Contents:    fmt.Sprintf("%s\n%s", item.Remark, item.More),
+				Contents:    fmt.Sprintf("%s\n%s", html.Md2HTML(item.Remark), html.Md2HTML(item.More)),
 				UpdatedTime: time.GetToday(),
 				ID:          rss.GenDateID("habit-notify", item.Task),
 			})
