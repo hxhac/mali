@@ -41,8 +41,8 @@ jobs:
           file: server/Dockerfile
           push: true
           tags: |
-            registry.cn-hangzhou.aliyuncs.com/91go/lm-server:latest
-            registry.cn-hangzhou.aliyuncs.com/91go/lm-server:latest
+            registry.cn-hangzhou.aliyuncs.com/91go/mali-server:latest
+            registry.cn-hangzhou.aliyuncs.com/91go/mali-server:latest
 
   web:
     name: push web image to ACR
@@ -75,12 +75,11 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          #          platforms: linux/amd64,linux/arm64
           file: web/Dockerfile
           push: true
           tags: |
-            registry.cn-hangzhou.aliyuncs.com/91go/lm-web:latest
-            registry.cn-hangzhou.aliyuncs.com/91go/lm-web:latest
+            registry.cn-hangzhou.aliyuncs.com/91go/mali-web:latest
+            registry.cn-hangzhou.aliyuncs.com/91go/mali-web:latest
 
   cd:
     name: cd
@@ -96,5 +95,5 @@ jobs:
           timeout: 10m
           script_stop: true
           script: |
-            cd ~/vps-deploy/www/lm && docker-compose pull && docker-compose up --build -d
+            cd ~/vps-deploy/www/mali && docker-compose pull && docker-compose up --build -d
     needs: [ server, web ]
