@@ -101,8 +101,7 @@
     </div>
     <el-dialog v-model="dialogFormVisible" :before-close="closeDialog" title="弹窗操作">
       <el-form :model="formData" label-position="right" label-width="80px">
-        <el-form-item label="cron字段:">
-          <!--          <el-input v-model="formData.cron" clearable placeholder="请输入" />-->
+        <el-form-item label="cron字段:" prop="cron">
           <el-option
             v-for="item in cronOptions"
             :key="item"
