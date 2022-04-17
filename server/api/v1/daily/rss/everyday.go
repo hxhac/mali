@@ -2,6 +2,7 @@ package habit
 
 import (
 	"fmt"
+	"github.com/flipped-aurora/gin-vue-admin/server/utils/helper/html"
 
 	"github.com/flipped-aurora/gin-vue-admin/server/utils/helper/time"
 
@@ -50,7 +51,7 @@ func everyday() []rss.Item {
 		if CheckDateTime(item.TimeStub).Before(gtime.Now()) {
 			ret = append(ret, rss.Item{
 				Title:       title,
-				Contents:    fmt.Sprintf("%s\n%s", item.Remark, item.More),
+				Contents:    fmt.Sprintf("%s\n%s", html.Md2HTML(item.Remark), html.Md2HTML(item.More)),
 				UpdatedTime: dateTime.Time,
 				ID:          rss.GenDateID("habit-routine", item.Task),
 			})

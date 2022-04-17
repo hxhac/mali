@@ -72,8 +72,14 @@
 				<el-form-item label="cron字段:">
 					<el-input v-model="formData.cron" clearable placeholder="请输入"/>
 				</el-form-item>
-				<el-form-item label="prefix字段:">
-					<el-input v-model="formData.prefix" clearable placeholder="请输入"/>
+				<el-form-item label="prefix字段:" prop="prefix">
+					<el-select v-model="formData.prefix" placeholder="请选择">
+						<el-option
+							v-for="item in options"
+							:key="item"
+							:value="item">
+						</el-option>
+					</el-select>
 				</el-form-item>
 				<el-form-item label="task字段:">
 					<el-input v-model="formData.task" clearable placeholder="请输入"/>
@@ -100,6 +106,12 @@
 <script>
 export default {
 	name: 'LifeYearly',
+	data() {
+		return {
+			options: ['复购', '生活习惯', '食物采购', '更换', '清洁', '旅行'],
+			value: '请选择'
+		}
+	}
 }
 </script>
 
