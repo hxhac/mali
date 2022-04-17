@@ -89,25 +89,10 @@ justify-content: center
 align-items: center
 
 ;
-width:
-
-20
-px
-
-;
-height:
-
-20
-px
-
-;
-border-radius:
-
-50
-%
-;
+width: 20px;
+height: 20px;
+border-radius: 50%;
 background: #F0F2F5
-
 ;
 text-align: center
 
