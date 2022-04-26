@@ -93,10 +93,9 @@
     <el-dialog v-model="dialogFormVisible" :before-close="closeDialog" title="弹窗操作">
       <el-form :model="formData" label-position="right" label-width="80px">
         <el-form-item label="前缀:" prop="prefix">
-          <!--          <el-input v-model="formData.prefix" clearable placeholder="请输入"/>-->
           <el-select v-model="formData.prefix" placeholder="请选择">
             <el-option
-              v-for="item in options"
+              v-for="item in prefixOptions"
               :key="item"
               :value="item"
             />

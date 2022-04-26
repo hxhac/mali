@@ -8,22 +8,17 @@ import (
 // GoodsEvaluation 结构体
 // 如果含有time.Time 请自行import time包
 type GoodsEvaluation struct {
-      global.GVA_MODEL
-      GoodsName  string `json:"goodsName" form:"goodsName" gorm:"column:goods_name;comment:商品名称;size:255;"`
-      Price  *int `json:"price" form:"price" gorm:"column:price;comment:商品价格;"`
-      Brand  string `json:"brand" form:"brand" gorm:"column:brand;comment:品牌;size:255;"`
-      Category  string `json:"category" form:"category" gorm:"column:category;comment:分类;size:255;"`
-      Score  *int `json:"score" form:"score" gorm:"column:score;comment:评分;size:10;"`
-      IsStarred  *bool `json:"isStarred" form:"isStarred" gorm:"column:is_starred;comment:是否加星;"`
-      Remark  string `json:"remark" form:"remark" gorm:"column:remark;comment:备注;size:191;"`
-      More  string `json:"more" form:"more" gorm:"column:more;comment:;"`
-      Name  string `json:"name" form:"name" gorm:"column:name;comment:;size:255;"`
-      CateId  *int `json:"cateId" form:"cateId" gorm:"column:cate_id;comment:;"`
+	global.GVA_MODEL
+	GoodsName string `json:"goodsName" form:"goodsName" gorm:"column:goods_name;comment:商品名称;size:255;not null;"`
+	Price     *int   `json:"price" form:"price" gorm:"column:price;comment:商品价格;not null;default:0;"`
+	Brand     string `json:"brand" form:"brand" gorm:"column:brand;comment:品牌;size:255;not null;default:其他;"`
+	Category  string `json:"category" form:"category" gorm:"column:category;comment:分类;size:255;not null;default:其他;"`
+	Score     *int   `json:"score" form:"score" gorm:"column:score;comment:评分;size:10;not null;default:0;"`
+	Remark    string `json:"remark" form:"remark" gorm:"column:remark;comment:备注;size:191;"`
+	More      string `json:"more" form:"more" gorm:"column:more;comment:;"`
 }
-
 
 // TableName GoodsEvaluation 表名
 func (GoodsEvaluation) TableName() string {
-  return "goods_evaluation"
+	return "goods_evaluation"
 }
-

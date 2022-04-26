@@ -95,3 +95,11 @@ export const getGoodsEvaluationList = (params) => {
     params
   })
 }
+
+export const getGoodsEvaluationOptions = (params) => {
+  return service({
+    url: '/goodsEvaluation/getGoodsEvaluationOptions',
+    method: 'get',
+    params
+  })
+}

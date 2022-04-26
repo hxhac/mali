@@ -17,20 +17,11 @@
         <el-form-item label="评分:">
           <el-input v-model.number="formData.score" clearable placeholder="请输入" />
         </el-form-item>
-        <el-form-item label="是否加星:">
-          <el-switch v-model="formData.isStarred" active-color="#13ce66" inactive-color="#ff4949" active-text="是" inactive-text="否" clearable ></el-switch>
-        </el-form-item>
         <el-form-item label="备注:">
           <el-input v-model="formData.remark" clearable placeholder="请输入" />
         </el-form-item>
         <el-form-item label="more字段:">
           <el-input v-model="formData.more" clearable placeholder="请输入" />
-        </el-form-item>
-        <el-form-item label="name字段:">
-          <el-input v-model="formData.name" clearable placeholder="请输入" />
-        </el-form-item>
-        <el-form-item label="cateId字段:">
-          <el-input v-model.number="formData.cateId" clearable placeholder="请输入" />
         </el-form-item>
         <el-form-item>
           <el-button size="mini" type="primary" @click="save">保存</el-button>
@@ -68,11 +59,8 @@ const formData = ref({
         brand: '',
         category: '',
         score: 0,
-        isStarred: false,
         remark: '',
         more: '',
-        name: '',
-        cateId: 0,
         })
 
 // 初始化方法

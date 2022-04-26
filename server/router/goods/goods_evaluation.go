@@ -15,13 +15,14 @@ func (s *GoodsEvaluationRouter) InitGoodsEvaluationRouter(Router *gin.RouterGrou
 	goodsEvaluationRouterWithoutRecord := Router.Group("goodsEvaluation")
 	var goodsEvaluationApi = v1.ApiGroupApp.GoodsApiGroup.GoodsEvaluationApi
 	{
-		goodsEvaluationRouter.POST("createGoodsEvaluation", goodsEvaluationApi.CreateGoodsEvaluation)   // 新建GoodsEvaluation
-		goodsEvaluationRouter.DELETE("deleteGoodsEvaluation", goodsEvaluationApi.DeleteGoodsEvaluation) // 删除GoodsEvaluation
+		goodsEvaluationRouter.POST("createGoodsEvaluation", goodsEvaluationApi.CreateGoodsEvaluation)             // 新建GoodsEvaluation
+		goodsEvaluationRouter.DELETE("deleteGoodsEvaluation", goodsEvaluationApi.DeleteGoodsEvaluation)           // 删除GoodsEvaluation
 		goodsEvaluationRouter.DELETE("deleteGoodsEvaluationByIds", goodsEvaluationApi.DeleteGoodsEvaluationByIds) // 批量删除GoodsEvaluation
-		goodsEvaluationRouter.PUT("updateGoodsEvaluation", goodsEvaluationApi.UpdateGoodsEvaluation)    // 更新GoodsEvaluation
+		goodsEvaluationRouter.PUT("updateGoodsEvaluation", goodsEvaluationApi.UpdateGoodsEvaluation)              // 更新GoodsEvaluation
 	}
 	{
-		goodsEvaluationRouterWithoutRecord.GET("findGoodsEvaluation", goodsEvaluationApi.FindGoodsEvaluation)        // 根据ID获取GoodsEvaluation
-		goodsEvaluationRouterWithoutRecord.GET("getGoodsEvaluationList", goodsEvaluationApi.GetGoodsEvaluationList)  // 获取GoodsEvaluation列表
+		goodsEvaluationRouterWithoutRecord.GET("findGoodsEvaluation", goodsEvaluationApi.FindGoodsEvaluation)       // 根据ID获取GoodsEvaluation
+		goodsEvaluationRouterWithoutRecord.GET("getGoodsEvaluationList", goodsEvaluationApi.GetGoodsEvaluationList) // 获取GoodsEvaluation列表
+		goodsEvaluationRouterWithoutRecord.GET("getGoodsEvaluationOptions", goodsEvaluationApi.GetGoodsEvaluationOptions)
 	}
 }
