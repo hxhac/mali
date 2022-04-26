@@ -3,7 +3,15 @@
 		<div class="gva-search-box">
 			<el-form :inline="true" :model="searchInfo" class="demo-form-inline">
 				<el-form-item label="prefix">
-					<el-select v-model="searchInfo.prefix">
+					<el-select
+						v-model="searchInfo.prefix"
+						placeholder="请选择"
+						clearable
+						filterable
+						@blur="selectBlur"
+						@clear="selectClear"
+						@change="selectChange"
+					>
 						<el-option
 							v-for="item in prefixOptions"
 							:key="item"
@@ -146,6 +154,23 @@ export default {
 			prefixOptions: ['早起', '早上', '中午', '晚上'],
 			value: '请选择'
 		}
+	},
+	methods: {
+		selectBlur(e) {
+			// 意见类型
+      if (e.target.value !== '') {
+				this.value = e.target.value + '(其他)'
+				this.$forceUpdate() // 强制更新
+			}
+		},
+		selectClear() {
+			this.value = ''
+			this.$forceUpdate()
+		},
+		selectChange(val) {
+			this.value = val
+			this.$forceUpdate()
+		},
 	}
 }
 </script>
