@@ -235,11 +235,7 @@ const cronOptions = ref([])
 const setOptions = async(column) => {
   const res = await getLifeYearlyOptions({ column: column })
   if (res.code === 0) {
-    if (column == 'prefix') {
-      // Object.keys(res.data.list).forEach((item) => {
-      // 	console.log(item)
-      // 	prefixOptions.value.push(res.data.list[item])
-      // })
+    if (column === 'prefix') {
       prefixOptions.value = res.data.list
     }
     if (column === 'cron') {

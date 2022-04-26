@@ -1,4 +1,4 @@
-package habit
+package rss
 
 import (
 	"fmt"
@@ -38,7 +38,7 @@ func everyday() []rss.Item {
 
 	for _, item := range items {
 		title := ""
-		dateTime := CheckDateTime(item.TimeStub)
+		dateTime := time.CheckDateTime(item.TimeStub)
 		formatTime := dateTime.Format("H:i")
 		prefix := item.Prefix
 
@@ -48,7 +48,7 @@ func everyday() []rss.Item {
 			title = fmt.Sprintf("(从%s%s开始)%s", prefix, formatTime, item.Task)
 		}
 
-		if CheckDateTime(item.TimeStub).Before(gtime.Now()) {
+		if time.CheckDateTime(item.TimeStub).Before(gtime.Now()) {
 			ret = append(ret, rss.Item{
 				Title:       title,
 				Contents:    fmt.Sprintf("%s\n%s", html.Md2HTML(item.Remark), html.Md2HTML(item.More)),
@@ -58,15 +58,4 @@ func everyday() []rss.Item {
 		}
 	}
 	return ret
-}
-
-// 与当前时间对比
-func CheckDateTime(nn string) *gtime.Time {
-	str, err := gtime.NewFromTime(time.GetToday()).AddStr(nn)
-	if err != nil {
-		fmt.Println(err)
-		return nil
-	}
-
-	return str
 }

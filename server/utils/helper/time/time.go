@@ -1,6 +1,7 @@
 package time
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/gogf/gf/os/gtime"
@@ -33,4 +34,15 @@ func TransTime(str string) time.Time {
 		return time.Time{}
 	}
 	return format.Time
+}
+
+// 与当前时间对比
+func CheckDateTime(nn string) *gtime.Time {
+	str, err := gtime.NewFromTime(GetToday()).AddStr(nn)
+	if err != nil {
+		fmt.Println(err)
+		return nil
+	}
+
+	return str
 }
