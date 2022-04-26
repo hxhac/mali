@@ -126,10 +126,7 @@
           <el-input v-model="formData.remark" clearable placeholder="请输入" />
         </el-form-item>
         <el-form-item label="more字段:">
-          <v-md-editor
-            v-model="formData.more"
-            height="400px"
-          />
+          <mavon-editor v-model="formData.more" style="min-height: 400px" />
         </el-form-item>
 
       </el-form>
