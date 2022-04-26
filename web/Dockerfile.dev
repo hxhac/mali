@@ -1,0 +1,15 @@
+FROM node:16 as builder
+
+WORKDIR /gva_web
+COPY yarn.lock .
+COPY . .
+
+RUN yarn install && yarn build
+
+FROM nginx:alpine
+
+COPY --from=builder /gva_web/.docker-compose/nginx/conf.d/my.conf /etc/nginx/conf.d/my.conf
+COPY --from=builder /gva_web/dist /usr/share/nginx/html
+#RUN cat /etc/nginx/nginx.conf
+#RUN cat /etc/nginx/conf.d/my.conf
+#RUN ls -al /usr/share/nginx/html
