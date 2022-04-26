@@ -14,6 +14,7 @@ type GoodsEvaluation struct {
 	Brand     string `json:"brand" form:"brand" gorm:"column:brand;comment:品牌;size:255;not null;default:其他;"`
 	Category  string `json:"category" form:"category" gorm:"column:category;comment:分类;size:255;not null;default:其他;"`
 	Score     *int   `json:"score" form:"score" gorm:"column:score;comment:评分;size:10;not null;default:0;"`
+	IsStarred *bool  `json:"isStarred" form:"isStarred" gorm:"column:is_starred;comment:是否加星;"`
 	Remark    string `json:"remark" form:"remark" gorm:"column:remark;comment:备注;size:191;"`
 	More      string `json:"more" form:"more" gorm:"column:more;comment:;"`
 }
