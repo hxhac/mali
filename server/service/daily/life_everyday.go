@@ -61,7 +61,7 @@ func (lifeEverydayService *LifeEverydayService) GetLifeEverydayInfoList(info dai
 	if err != nil {
 		return
 	}
-	err = db.Limit(limit).Offset(offset).Find(&lifeEverydays).Error
+	err = db.Order("time_stub_timestamp ASC").Limit(limit).Offset(offset).Find(&lifeEverydays).Error
 	return err, lifeEverydays, total
 }
 

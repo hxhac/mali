@@ -1,4 +1,4 @@
-package habit
+package rss
 
 import (
 	"fmt"
