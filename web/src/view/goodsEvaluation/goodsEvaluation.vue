@@ -61,7 +61,26 @@
         <el-table-column align="left" label="评分" prop="score" min-width="10%">
 	        <template #default="scope"><el-rate v-model="scope.row.score"></el-rate></template>
 	      </el-table-column>
-
+	      <el-table-column align="left" label="是否加星" prop="isStarred" min-width="10%">
+		      <template #default="scope">
+			      <el-tag
+				      v-if="scope.row.isStarred"
+				      size="small"
+				      type="success"
+				      effect="dark"
+			      >
+				      是
+			      </el-tag>
+			      <el-tag
+				      v-else
+				      type="danger"
+				      size="small"
+				      effect="dark"
+			      >
+				      否
+			      </el-tag>
+		      </template>
+	      </el-table-column>
         <el-table-column align="left" label="备注" prop="remark" min-width="30%" />
         <el-table-column align="left" label="按钮组" min-width="10%">
           <template #default="scope">
@@ -109,13 +128,16 @@
           </el-select>
         </el-form-item>
         <el-form-item label="评分:">
-	        <el-rate v-model.number="formData.score" :show-score="true"></el-rate>
+	        <el-rate v-model.number="formData.score"></el-rate>
         </el-form-item>
+	      <el-form-item label="是否加星:">
+		      <el-switch v-model="formData.isStarred" active-color="#13ce66" inactive-color="#ff4949" active-text="是" inactive-text="否" clearable />
+	      </el-form-item>
         <el-form-item label="备注:">
           <el-input v-model="formData.remark" clearable placeholder="请输入" />
         </el-form-item>
         <el-form-item label="more字段:">
-          <el-input v-model="formData.more" clearable placeholder="请输入" />
+          <mavon-editor v-model="formData.more" style="min-height: 400px"></mavon-editor>
         </el-form-item>
       </el-form>
       <template #footer>
@@ -163,6 +185,7 @@ const formData = ref({
   brand: '',
   category: '',
   score: 0,
+	isStarred: false,
   remark: '',
   more: '',
 })
@@ -183,6 +206,9 @@ const onReset = () => {
 const onSubmit = () => {
   page.value = 1
   pageSize.value = 10
+	if (searchInfo.value.isStarred === '') {
+		searchInfo.value.isStarred = null
+	}
   getTableData()
 }
 
@@ -325,6 +351,7 @@ const closeDialog = () => {
     brand: '',
     category: '',
     score: 0,
+	  isStarred: false,
     remark: '',
     more: '',
   }
