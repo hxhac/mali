@@ -20,6 +20,19 @@
 			      />
 		      </el-select>
 	      </el-form-item>
+	      <el-form-item label="goods">
+		      <el-input v-model="searchInfo.goodsName" placeholder="商品名称" />
+	      </el-form-item>
+	      <el-form-item label="starred">
+		      <el-select v-model="searchInfo.isStarred">
+			      <el-option
+				      v-for="item in isStarredOptions"
+				      :key="item.value"
+				      :label="item.label"
+				      :value="item.value"
+			      />
+		      </el-select>
+	      </el-form-item>
         <el-form-item>
           <el-button size="small" type="primary" icon="search" @click="onSubmit">查询</el-button>
           <el-button size="small" icon="refresh" @click="onReset">重置</el-button>
@@ -55,7 +68,9 @@
             {{ scope.row.brand }} {{ scope.row.goodsName }}
           </template>
         </el-table-column>
-        <el-table-column align="left" label="商品价格" prop="price" min-width="10%" />
+        <el-table-column align="left" label="商品价格" prop="price" min-width="10%">
+	        <template #default="scope">¥{{ scope.row.price }}</template>
+	      </el-table-column>
         <!--        <el-table-column align="left" label="品牌" prop="brand" width="120" />-->
         <el-table-column align="left" label="分类" prop="category" min-width="10%" />
         <el-table-column align="left" label="评分" prop="score" min-width="10%">
@@ -156,6 +171,13 @@ export default {
   data() {
     return {
       value: '请选择',
+	    isStarredOptions: [{
+				value: true,
+		    label: '是'
+	    }, {
+				value: false,
+		    label: '否'
+	    }]
     }
   }
 }

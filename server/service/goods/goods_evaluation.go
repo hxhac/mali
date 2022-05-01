@@ -60,6 +60,13 @@ func (goodsEvaluationService *GoodsEvaluationService) GetGoodsEvaluationInfoList
 	if info.Category != "" {
 		db = db.Where("category = ?", info.Category)
 	}
+	if info.IsStarred != nil {
+		db = db.Where("is_starred = ?", info.IsStarred)
+	}
+	if info.GoodsName != "" {
+		db = db.Where("goods_name LIKE ?", "%"+info.GoodsName+"%")
+	}
+
 	err = db.Count(&total).Error
 	if err != nil {
 		return
