@@ -15,8 +15,9 @@
 		      <el-select v-model="searchInfo.brand">
 			      <el-option
 				      v-for="item in brandOptions"
-				      :key="item"
-				      :value="item"
+				      :key="item.ID"
+				      :label="item.brandName"
+				      :value="item.ID"
 			      />
 		      </el-select>
 	      </el-form-item>
@@ -65,7 +66,7 @@
 
         <el-table-column align="left" label="商品名称" prop="goodsName,brand" min-width="20%">
           <template #default="scope">
-            {{ scope.row.brand }} {{ scope.row.goodsName }}
+            {{ scope.row.goods_brand.brandName }} {{ scope.row.goodsName }}
           </template>
         </el-table-column>
         <el-table-column align="left" label="商品价格" prop="price" min-width="10%">
@@ -128,8 +129,9 @@
           <el-select v-model="formData.brand" placeholder="请选择">
             <el-option
               v-for="item in brandOptions"
-              :key="item"
-              :value="item"
+              :key="item.ID"
+              :label="item.brandName"
+              :value="item.ID"
             />
           </el-select>
         </el-form-item>
@@ -191,14 +193,14 @@ import {
   updateGoodsEvaluation,
   findGoodsEvaluation,
   getGoodsEvaluationList,
-  getGoodsEvaluationOptions,
+  getGoodsBrandOptions,
+  getGoodsCategoryOptions,
 } from '@/api/goodsEvaluation'
 
 // 全量引入格式化工具 请按需保留
 import { getDictFunc, formatDate, formatBoolean, filterDict } from '@/utils/format'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { ref } from 'vue'
-import { getLifeYearlyOptions } from '@/api/lifeYearly'
 
 // 自动化生成的字典（可能为空）以及字段
 const formData = ref({
@@ -264,19 +266,21 @@ getTableData()
 // 获取需要的字典 可能为空 按需保留
 const brandOptions = ref([])
 const categoryOptions = ref([])
-const setOptions = async(column) => {
-  const res = await getGoodsEvaluationOptions({ column: column })
-  if (res.code === 0) {
-    if (column === 'brand') {
-      brandOptions.value = res.data.list
-    }
-    if (column === 'category') {
-      categoryOptions.value = res.data.list
-    }
+const setOptions = async() => {
+  // 产品品牌
+  const brand = await getGoodsBrandOptions()
+  if (brand.code === 0) {
+	  brandOptions.value = brand.data.list
   }
+
+  // 产品分类数据
+  const category = await getGoodsCategoryOptions()
+	if (category.code === 0) {
+		categoryOptions.value = category.data.list
+	}
 }
-setOptions('brand')
-setOptions('category')
+
+setOptions()
 
 // 多选数据
 const multipleSelection = ref([])

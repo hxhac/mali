@@ -28,15 +28,13 @@
         tooltip-effect="dark"
         :data="tableData"
         row-key="ID"
+        :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
         @selection-change="handleSelectionChange"
         >
         <el-table-column type="selection" width="55" />
-        <el-table-column align="left" label="日期" width="180">
-            <template #default="scope">{{ formatDate(scope.row.CreatedAt) }}</template>
-        </el-table-column>
+
         <el-table-column align="left" label="pid字段" prop="pid" width="120" />
         <el-table-column align="left" label="分类名称" prop="cateName" width="120" />
-        <el-table-column align="left" label="备注" prop="more" width="120" />
         <el-table-column align="left" label="按钮组">
             <template #default="scope">
             <el-button type="text" icon="edit" size="small" class="table-button" @click="updateGoodsCategoryFunc(scope.row)">变更</el-button>
