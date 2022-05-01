@@ -26,12 +26,12 @@ func (LifeEveryday) TableName() string {
 }
 
 func (le LifeEveryday) AfterCreate(tx *gorm.DB) (err error) {
-	tx.Model(le).UpdateColumn("time_stub_timestamp", time.CheckDateTime(le.TimeStub).Timestamp())
+	tx.Model(le).UpdateColumn("time_stub_timestamp", time.DiffDateTime(le.TimeStub))
 	return
 }
 
 // 在同一个事务中更新数据
 func (le LifeEveryday) AfterUpdate(tx *gorm.DB) (err error) {
-	tx.Model(le).UpdateColumn("time_stub_timestamp", time.CheckDateTime(le.TimeStub).Timestamp())
+	tx.Model(le).UpdateColumn("time_stub_timestamp", time.DiffDateTime(le.TimeStub))
 	return
 }

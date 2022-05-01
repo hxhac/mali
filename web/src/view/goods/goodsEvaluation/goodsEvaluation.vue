@@ -198,7 +198,6 @@ import {
 } from '@/api/goodsEvaluation'
 
 // 全量引入格式化工具 请按需保留
-import { getDictFunc, formatDate, formatBoolean, filterDict } from '@/utils/format'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { ref } from 'vue'
 
@@ -209,7 +208,7 @@ const formData = ref({
   brand: '',
   category: '',
   score: 0,
-	isStarred: false,
+  isStarred: false,
   remark: '',
   more: '',
 })

@@ -46,3 +46,9 @@ func CheckDateTime(nn string) *gtime.Time {
 
 	return str
 }
+
+func DiffDateTime(nn string) int64 {
+	str, _ := gtime.NewFromTime(GetToday()).AddStr(nn)
+	seconds := str.Sub(gtime.NewFromTime(GetToday())).Milliseconds()
+	return seconds
+}
