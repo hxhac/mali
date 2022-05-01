@@ -54,7 +54,7 @@ func (goodsEvaluationService *GoodsEvaluationService) GetGoodsEvaluationInfoList
 	db := global.GVA_DB.Model(&goods.GoodsEvaluation{})
 	var goodsEvaluations []goods.GoodsEvaluation
 	// 如果有条件搜索 下方会自动创建搜索语句
-	if info.Brand != "" {
+	if info.Brand != nil {
 		db = db.Where("brand = ?", info.Brand)
 	}
 	if info.Category != "" {
@@ -71,7 +71,7 @@ func (goodsEvaluationService *GoodsEvaluationService) GetGoodsEvaluationInfoList
 	if err != nil {
 		return
 	}
-	err = db.Order("score DESC").Limit(limit).Offset(offset).Find(&goodsEvaluations).Error
+	err = db.Preload("GoodsBrand").Order("score DESC").Limit(limit).Offset(offset).Find(&goodsEvaluations).Error
 	return err, goodsEvaluations, total
 }
 
