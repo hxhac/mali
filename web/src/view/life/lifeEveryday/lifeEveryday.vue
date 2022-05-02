@@ -64,7 +64,6 @@
         <el-table-column align="left" label="前缀" prop="prefix" min-width="10%" />
         <el-table-column align="left" label="task字段" prop="task" min-width="30%" />
         <el-table-column align="left" label="任务备注" prop="remark" min-width="30%" />
-        <el-table-column align="left" label="duration" prop="duration" min-width="10%" />
         <el-table-column align="left" label="timeStub" prop="timeStub" min-width="10%" />
         <el-table-column align="left" label="按钮组" min-width="10%">
           <template #default="scope">
@@ -112,10 +111,6 @@
         <el-form-item label="task字段:">
           <el-input v-model="formData.task" clearable placeholder="请输入" />
         </el-form-item>
-
-        <el-form-item label="duration字段:">
-          <el-input v-model="formData.duration" clearable placeholder="请输入" />
-        </el-form-item>
         <el-form-item label="开始时间:">
           <el-select v-model="formData.timeStub" placeholder="请选择">
             <el-option
@@ -148,7 +143,7 @@ export default {
   name: 'LifeEveryday',
   data() {
     return {
-      prefixOptions: ['早起', '早上', '中午', '晚上'],
+      prefixOptions: ['早起', '中午', '晚上'],
       value: '请选择',
     }
   },
@@ -192,7 +187,6 @@ const formData = ref({
   prefix: '',
   task: '',
   remark: '',
-  duration: '',
   timeStub: '',
   more: '',
 })
@@ -346,7 +340,6 @@ const closeDialog = () => {
     prefix: '',
     task: '',
     remark: '',
-    duration: '',
     timeStub: '',
   }
 }

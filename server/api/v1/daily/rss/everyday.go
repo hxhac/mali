@@ -37,20 +37,13 @@ func everyday() []rss.Item {
 	items, _ := lifeEverydayService.FindAll()
 
 	for _, item := range items {
-		title := ""
 		dateTime := time.CheckDateTime(item.TimeStub)
 		formatTime := dateTime.Format("H:i")
 		prefix := item.Prefix
 
-		if item.Duration != "" {
-			title = fmt.Sprintf("(从%s%s开始，预计%s)%s", prefix, formatTime, item.Duration, item.Task)
-		} else {
-			title = fmt.Sprintf("(从%s%s开始)%s", prefix, formatTime, item.Task)
-		}
-
 		if time.CheckDateTime(item.TimeStub).Before(gtime.Now()) {
 			ret = append(ret, rss.Item{
-				Title:       title,
+				Title:       fmt.Sprintf("(从%s%s开始)%s", prefix, formatTime, item.Task),
 				Contents:    fmt.Sprintf("%s\n%s", html.Md2HTML(item.Remark), html.Md2HTML(item.More)),
 				UpdatedTime: dateTime.Time,
 				ID:          rss.GenDateID("habit-routine", item.Task),

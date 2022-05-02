@@ -141,6 +141,7 @@ func (goodsEvaluationApi *GoodsEvaluationApi) GetGoodsEvaluationList(c *gin.Cont
 	}
 }
 
+// 获取options数据
 func (GoodsEvaluationApi) GetGoodsEvaluationOptions(c *gin.Context) {
 	column := c.Query("column")
 	err, res := goodsEvaluationService.GetGoodsEvaluationColumn(column)

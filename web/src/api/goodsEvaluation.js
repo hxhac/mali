@@ -95,19 +95,3 @@ export const getGoodsEvaluationList = (params) => {
     params
   })
 }
-
-export const getGoodsBrandOptions = (params) => {
-  return service({
-    url: '/goodsBrand/getGoodsBrandList',
-    method: 'get',
-    params
-  })
-}
-
-export const getGoodsCategoryOptions = (params) => {
-  return service({
-    url: '/goodsCategory/getGoodsCategoryList',
-    method: 'get',
-    params
-  })
-}

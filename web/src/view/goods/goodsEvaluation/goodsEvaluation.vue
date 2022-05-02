@@ -2,38 +2,49 @@
   <div>
     <div class="gva-search-box">
       <el-form :inline="true" :model="searchInfo" class="demo-form-inline">
-	      <el-form-item label="category">
-		      <el-select v-model="searchInfo.category">
-			      <el-option
-				      v-for="item in categoryOptions"
-				      :key="item"
-				      :value="item"
-			      />
-		      </el-select>
-	      </el-form-item>
-	      <el-form-item label="brand">
-		      <el-select v-model="searchInfo.brand">
-			      <el-option
-				      v-for="item in brandOptions"
-				      :key="item.ID"
-				      :label="item.brandName"
-				      :value="item.ID"
-			      />
-		      </el-select>
-	      </el-form-item>
-	      <el-form-item label="goods">
-		      <el-input v-model="searchInfo.goodsName" placeholder="商品名称" />
-	      </el-form-item>
-	      <el-form-item label="starred">
-		      <el-select v-model="searchInfo.isStarred">
-			      <el-option
-				      v-for="item in isStarredOptions"
-				      :key="item.value"
-				      :label="item.label"
-				      :value="item.value"
-			      />
-		      </el-select>
-	      </el-form-item>
+        <el-form-item label="category">
+          <!--		      <el-select v-model="searchInfo.category">-->
+          <!--			      <el-option-->
+          <!--				      v-for="item in categoryOptions"-->
+          <!--				      :key="item"-->
+          <!--				      :value="item"-->
+          <!--			      />-->
+          <!--		      </el-select>-->
+          <el-cascader
+            v-model="searchInfo.category"
+            :options="categoryOptions"
+            :props="{
+              value: 'ID',
+              label: 'cateName',
+              children: 'children',
+              expandTrigger: 'hover',
+            }"
+            @change="handleChange"
+          />
+        </el-form-item>
+        <el-form-item label="brand">
+          <el-select v-model="searchInfo.brand">
+            <el-option
+              v-for="item in brandOptions"
+              :key="item.ID"
+              :label="item.brandName"
+              :value="item.ID"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="goods">
+          <el-input v-model="searchInfo.goodsName" placeholder="商品名称" />
+        </el-form-item>
+        <el-form-item label="starred">
+          <el-select v-model="searchInfo.isStarred">
+            <el-option
+              v-for="item in isStarredOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </el-form-item>
         <el-form-item>
           <el-button size="small" type="primary" icon="search" @click="onSubmit">查询</el-button>
           <el-button size="small" icon="refresh" @click="onReset">重置</el-button>
@@ -70,33 +81,33 @@
           </template>
         </el-table-column>
         <el-table-column align="left" label="商品价格" prop="price" min-width="10%">
-	        <template #default="scope">¥{{ scope.row.price }}</template>
-	      </el-table-column>
+          <template #default="scope">¥{{ scope.row.price }}</template>
+        </el-table-column>
         <!--        <el-table-column align="left" label="品牌" prop="brand" width="120" />-->
         <el-table-column align="left" label="分类" prop="category" min-width="10%" />
         <el-table-column align="left" label="评分" prop="score" min-width="10%">
-	        <template #default="scope"><el-rate v-model="scope.row.score"></el-rate></template>
-	      </el-table-column>
-	      <el-table-column align="left" label="是否加星" prop="isStarred" min-width="10%">
-		      <template #default="scope">
-			      <el-tag
-				      v-if="scope.row.isStarred"
-				      size="small"
-				      type="success"
-				      effect="dark"
-			      >
-				      是
-			      </el-tag>
-			      <el-tag
-				      v-else
-				      type="danger"
-				      size="small"
-				      effect="dark"
-			      >
-				      否
-			      </el-tag>
-		      </template>
-	      </el-table-column>
+          <template #default="scope"><el-rate v-model="scope.row.score" /></template>
+        </el-table-column>
+        <el-table-column align="left" label="是否加星" prop="isStarred" min-width="10%">
+          <template #default="scope">
+            <el-tag
+              v-if="scope.row.isStarred"
+              size="small"
+              type="success"
+              effect="dark"
+            >
+              是
+            </el-tag>
+            <el-tag
+              v-else
+              type="danger"
+              size="small"
+              effect="dark"
+            >
+              否
+            </el-tag>
+          </template>
+        </el-table-column>
         <el-table-column align="left" label="备注" prop="remark" min-width="30%" />
         <el-table-column align="left" label="按钮组" min-width="10%">
           <template #default="scope">
@@ -136,25 +147,36 @@
           </el-select>
         </el-form-item>
         <el-form-item label="分类:" prop="category">
-          <el-select v-model="formData.category" placeholder="请选择">
-            <el-option
-              v-for="item in categoryOptions"
-              :key="item"
-              :value="item"
-            />
-          </el-select>
+          <!--          <el-select v-model="formData.category" placeholder="请选择">-->
+          <!--            <el-option-->
+          <!--              v-for="item in categoryOptions"-->
+          <!--              :key="item"-->
+          <!--              :value="item"-->
+          <!--            />-->
+          <!--          </el-select>-->
+          <el-cascader
+	          v-model="formData.category"
+	          :options="categoryOptions"
+	          :props="{
+              value: 'ID',
+              label: 'cateName',
+              children: 'children',
+              expandTrigger: 'hover',
+            }"
+	          @change="handleChange"
+          />
         </el-form-item>
         <el-form-item label="评分:">
-	        <el-rate v-model.number="formData.score"></el-rate>
+          <el-rate v-model.number="formData.score" />
         </el-form-item>
-	      <el-form-item label="是否加星:">
-		      <el-switch v-model="formData.isStarred" active-color="#13ce66" inactive-color="#ff4949" active-text="是" inactive-text="否" clearable />
-	      </el-form-item>
+        <el-form-item label="是否加星:">
+          <el-switch v-model="formData.isStarred" active-color="#13ce66" inactive-color="#ff4949" active-text="是" inactive-text="否" clearable />
+        </el-form-item>
         <el-form-item label="备注:">
           <el-input v-model="formData.remark" clearable placeholder="请输入" />
         </el-form-item>
         <el-form-item label="more字段:">
-          <mavon-editor v-model="formData.more" style="min-height: 400px"></mavon-editor>
+          <mavon-editor v-model="formData.more" style="min-height: 400px" />
         </el-form-item>
       </el-form>
       <template #footer>
@@ -174,10 +196,10 @@ export default {
     return {
       value: '请选择',
 	    isStarredOptions: [{
-				value: true,
+        value: true,
 		    label: '是'
 	    }, {
-				value: false,
+        value: false,
 		    label: '否'
 	    }]
     }
@@ -193,9 +215,9 @@ import {
   updateGoodsEvaluation,
   findGoodsEvaluation,
   getGoodsEvaluationList,
-  getGoodsBrandOptions,
-  getGoodsCategoryOptions,
 } from '@/api/goodsEvaluation'
+import { getGoodsBrandList } from '@/api/goodsBrand'
+import { getGoodsCategoryList } from '@/api/goodsCategory'
 
 // 全量引入格式化工具 请按需保留
 import { ElMessage, ElMessageBox } from 'element-plus'
@@ -206,7 +228,7 @@ const formData = ref({
   goodsName: '',
   price: 0,
   brand: '',
-  category: '',
+  category: JSON.stringify({}),
   score: 0,
   isStarred: false,
   remark: '',
@@ -229,9 +251,9 @@ const onReset = () => {
 const onSubmit = () => {
   page.value = 1
   pageSize.value = 10
-	if (searchInfo.value.isStarred === '') {
-		searchInfo.value.isStarred = null
-	}
+  if (searchInfo.value.isStarred === '') {
+    searchInfo.value.isStarred = null
+  }
   getTableData()
 }
 
@@ -267,16 +289,16 @@ const brandOptions = ref([])
 const categoryOptions = ref([])
 const setOptions = async() => {
   // 产品品牌
-  const brand = await getGoodsBrandOptions()
+  const brand = await getGoodsBrandList({ pageSize: 999 })
   if (brand.code === 0) {
 	  brandOptions.value = brand.data.list
   }
 
   // 产品分类数据
-  const category = await getGoodsCategoryOptions()
-	if (category.code === 0) {
-		categoryOptions.value = category.data.list
-	}
+  const category = await getGoodsCategoryList({ pageSize: 999 })
+  if (category.code === 0) {
+    categoryOptions.value = category.data.list
+  }
 }
 
 setOptions()
