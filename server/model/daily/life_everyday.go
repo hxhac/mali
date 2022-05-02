@@ -15,7 +15,6 @@ type LifeEveryday struct {
 	Task              string `json:"task" form:"task" gorm:"column:task;comment:;size:255;"`
 	Remark            string `json:"remark" form:"remark" gorm:"column:remark;comment:任务备注;size:255;"`
 	More              string `json:"more" form:"more" gorm:"column:more;"`
-	Duration          string `json:"duration" form:"duration" gorm:"column:duration;comment:;size:255;"`
 	TimeStub          string `json:"timeStub" form:"timeStub" gorm:"column:time_stub;comment:;size:255;"`
 	TimeStubTimestamp int64  `json:"timeStubTimestamp" form:"timeStubTimestamp" gorm:"column:time_stub_timestamp;comment:;"`
 }
