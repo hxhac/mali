@@ -1,10 +1,13 @@
 package goods
 
 import (
+	"fmt"
 	"github.com/flipped-aurora/gin-vue-admin/server/global"
 	"github.com/flipped-aurora/gin-vue-admin/server/model/common/request"
 	"github.com/flipped-aurora/gin-vue-admin/server/model/goods"
 	goodsReq "github.com/flipped-aurora/gin-vue-admin/server/model/goods/request"
+	"strconv"
+	"strings"
 )
 
 type GoodsEvaluationService struct {
@@ -57,8 +60,18 @@ func (goodsEvaluationService *GoodsEvaluationService) GetGoodsEvaluationInfoList
 	if info.Brand != nil {
 		db = db.Where("brand = ?", info.Brand)
 	}
-	if info.Category != "" {
-		db = db.Where("category = ?", info.Category)
+	if info.Category != nil {
+		res := []string{}
+		for _, v := range info.Category {
+			res = append(res, strconv.Itoa(int(v)))
+		}
+		// bytes, err := json.Marshal(res)
+		// if err != nil {
+		// 	return err, nil, 0
+		// }
+		// kk := string(bytes)
+		k := fmt.Sprintf("{%s}", strings.Join(res, ","))
+		db = db.Where("category = ?", k)
 	}
 	if info.IsStarred != nil {
 		db = db.Where("is_starred = ?", info.IsStarred)
