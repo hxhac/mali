@@ -3,13 +3,6 @@
     <div class="gva-search-box">
       <el-form :inline="true" :model="searchInfo" class="demo-form-inline">
         <el-form-item label="category">
-          <!--		      <el-select v-model="searchInfo.category">-->
-          <!--			      <el-option-->
-          <!--				      v-for="item in categoryOptions"-->
-          <!--				      :key="item"-->
-          <!--				      :value="item"-->
-          <!--			      />-->
-          <!--		      </el-select>-->
           <el-cascader
             v-model="searchInfo.category"
             :options="categoryOptions"
@@ -83,8 +76,7 @@
         <el-table-column align="left" label="商品价格" prop="price" min-width="10%">
           <template #default="scope">¥{{ scope.row.price }}</template>
         </el-table-column>
-        <!--        <el-table-column align="left" label="品牌" prop="brand" width="120" />-->
-        <el-table-column align="left" label="分类" prop="category" min-width="10%" />
+        <el-table-column align="left" label="分类" prop="categoryName" min-width="10%" />
         <el-table-column align="left" label="评分" prop="score" min-width="10%">
           <template #default="scope"><el-rate v-model="scope.row.score" /></template>
         </el-table-column>
@@ -147,23 +139,16 @@
           </el-select>
         </el-form-item>
         <el-form-item label="分类:" prop="category">
-          <!--          <el-select v-model="formData.category" placeholder="请选择">-->
-          <!--            <el-option-->
-          <!--              v-for="item in categoryOptions"-->
-          <!--              :key="item"-->
-          <!--              :value="item"-->
-          <!--            />-->
-          <!--          </el-select>-->
           <el-cascader
-	          v-model="formData.category"
-	          :options="categoryOptions"
-	          :props="{
+            v-model="formData.category"
+            :options="categoryOptions"
+            :props="{
               value: 'ID',
               label: 'cateName',
               children: 'children',
               expandTrigger: 'hover',
             }"
-	          @change="handleChange"
+            @change="handleChange"
           />
         </el-form-item>
         <el-form-item label="评分:">
@@ -217,7 +202,9 @@ import {
   getGoodsEvaluationList,
 } from '@/api/goodsEvaluation'
 import { getGoodsBrandList } from '@/api/goodsBrand'
-import { getGoodsCategoryList } from '@/api/goodsCategory'
+import {
+  getGoodsCategoryList,
+} from '@/api/goodsCategory'
 
 // 全量引入格式化工具 请按需保留
 import { ElMessage, ElMessageBox } from 'element-plus'
@@ -228,7 +215,8 @@ const formData = ref({
   goodsName: '',
   price: 0,
   brand: '',
-  category: JSON.stringify({}),
+  category: [],
+  category_name: '',
   score: 0,
   isStarred: false,
   remark: '',
