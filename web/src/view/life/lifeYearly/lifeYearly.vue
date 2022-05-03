@@ -67,6 +67,26 @@
         <el-table-column align="left" label="cron字段" prop="cron" min-width="10%" />
         <el-table-column align="left" label="task字段" prop="task" min-width="30%" />
         <el-table-column align="left" label="remark字段" prop="remark" min-width="30%" />
+        <el-table-column align="left" label="是否暂停" prop="isPause" min-width="10%">
+	        <template #default="scope">
+		        <el-tag
+			        v-if="scope.row.isPause"
+			        type="danger"
+			        size="small"
+			        effect="dark"
+		        >
+			        是
+		        </el-tag>
+		        <el-tag
+			        v-else
+			        size="small"
+			        type="success"
+			        effect="dark"
+		        >
+			        否
+		        </el-tag>
+	        </template>
+	      </el-table-column>
         <el-table-column align="left" label="按钮组" min-width="10%">
           <template #default="scope">
             <el-button
@@ -125,10 +145,12 @@
         <el-form-item label="remark字段:">
           <el-input v-model="formData.remark" clearable placeholder="请输入" />
         </el-form-item>
+	      <el-form-item label="是否暂停:">
+		      <el-switch v-model="formData.isPause" active-color="#13ce66" inactive-color="#ff4949" active-text="是" inactive-text="否" clearable />
+	      </el-form-item>
         <el-form-item label="more字段:">
           <mavon-editor v-model="formData.more" style="min-height: 400px" />
         </el-form-item>
-
       </el-form>
       <template #footer>
         <div class="dialog-footer">
@@ -174,6 +196,7 @@ const formData = ref({
   remark: '',
   task: '',
   more: '',
+  isPause: false,
 })
 
 // =========== 表格控制部分 ===========

@@ -289,11 +289,11 @@ func (autoCodeService *AutoCodeService) CreateTemp(autoCode system.AutoCodeStruc
 			}
 		}
 
-		var gormPath = filepath.Join(global.GVA_CONFIG.AutoCode.Root,
+		gormPath := filepath.Join(global.GVA_CONFIG.AutoCode.Root,
 			global.GVA_CONFIG.AutoCode.Server, global.GVA_CONFIG.AutoCode.SInitialize, "gorm.go")
-		var routePath = filepath.Join(global.GVA_CONFIG.AutoCode.Root,
+		routePath := filepath.Join(global.GVA_CONFIG.AutoCode.Root,
 			global.GVA_CONFIG.AutoCode.Server, global.GVA_CONFIG.AutoCode.SInitialize, "router.go")
-		var imporStr = fmt.Sprintf("github.com/flipped-aurora/gin-vue-admin/server/model/%s", autoCode.Package)
+		imporStr := fmt.Sprintf("github.com/flipped-aurora/gin-vue-admin/server/model/%s", autoCode.Package)
 		_ = ImportReference(routePath, "", "", autoCode.Package, "")
 		_ = ImportReference(gormPath, imporStr, "", "", "")
 
@@ -591,7 +591,7 @@ func (autoCodeService *AutoCodeService) CreatePackageTemp(packageName string) er
 	}
 	// 选择模板
 	for _, s := range pendingTemp {
-		err := os.MkdirAll(filepath.Dir(s.path), 0755)
+		err := os.MkdirAll(filepath.Dir(s.path), 0o755)
 		if err != nil {
 			return err
 		}
@@ -664,7 +664,7 @@ func (vi *Visitor) addStruct(genDecl *ast.GenDecl) ast.Visitor {
 				case *ast.StructType:
 					f := &ast.Field{
 						Names: []*ast.Ident{
-							&ast.Ident{
+							{
 								Name: vi.StructName,
 								Obj: &ast.Object{
 									Kind: ast.Var,

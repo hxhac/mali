@@ -7,8 +7,7 @@ import (
 	dailyReq "github.com/flipped-aurora/gin-vue-admin/server/model/daily/request"
 )
 
-type LifeYearlyService struct {
-}
+type LifeYearlyService struct{}
 
 // CreateLifeYearly 创建LifeYearly记录
 // Author [piexlmax](https://github.com/piexlmax)
@@ -81,7 +80,6 @@ func (lifeYearlyService *LifeYearlyService) FindAll() ([]*daily.LifeYearly, erro
 }
 
 func (lifeYearlyService *LifeYearlyService) GetLifeYearlyColumn(column string) (err error, columns []string) {
-
 	err = global.GVA_DB.Model(&daily.LifeYearly{}).Distinct().Pluck(column, &columns).Error
 	return err, columns
 }
