@@ -2,16 +2,16 @@ package goods
 
 import (
 	"fmt"
+	"strconv"
+	"strings"
+
 	"github.com/flipped-aurora/gin-vue-admin/server/global"
 	"github.com/flipped-aurora/gin-vue-admin/server/model/common/request"
 	"github.com/flipped-aurora/gin-vue-admin/server/model/goods"
 	goodsReq "github.com/flipped-aurora/gin-vue-admin/server/model/goods/request"
-	"strconv"
-	"strings"
 )
 
-type GoodsEvaluationService struct {
-}
+type GoodsEvaluationService struct{}
 
 // CreateGoodsEvaluation 创建GoodsEvaluation记录
 // Author [piexlmax](https://github.com/piexlmax)
@@ -65,13 +65,11 @@ func (goodsEvaluationService *GoodsEvaluationService) GetGoodsEvaluationInfoList
 		for _, v := range info.Category {
 			res = append(res, strconv.Itoa(int(v)))
 		}
-		// bytes, err := json.Marshal(res)
-		// if err != nil {
-		// 	return err, nil, 0
-		// }
-		// kk := string(bytes)
 		k := fmt.Sprintf("{%s}", strings.Join(res, ","))
 		db = db.Where("category = ?", k)
+	}
+	if info.CategoryName != "" {
+		db = db.Where("category_name LIKE ?", "%"+info.CategoryName+"%")
 	}
 	if info.IsStarred != nil {
 		db = db.Where("is_starred = ?", info.IsStarred)
@@ -84,12 +82,11 @@ func (goodsEvaluationService *GoodsEvaluationService) GetGoodsEvaluationInfoList
 	if err != nil {
 		return
 	}
-	err = db.Preload("GoodsBrand").Order("score DESC").Limit(limit).Offset(offset).Find(&goodsEvaluations).Error
+	err = db.Preload("GoodsBrand").Order("is_starred DESC").Order("score DESC").Limit(limit).Offset(offset).Find(&goodsEvaluations).Error
 	return err, goodsEvaluations, total
 }
 
 func (goodsEvaluationService *GoodsEvaluationService) GetGoodsEvaluationColumn(column string) (err error, columns []string) {
-
 	err = global.GVA_DB.Model(&goods.GoodsEvaluation{}).Distinct().Pluck(column, &columns).Error
 	return err, columns
 }

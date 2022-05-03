@@ -32,7 +32,7 @@ func (menuService *MenuService) getMenuTreeMap(authorityId string) (err error, t
 	if err != nil {
 		return
 	}
-	var btnMap = make(map[uint]map[string]string)
+	btnMap := make(map[uint]map[string]string)
 	for _, v := range btns {
 		if btnMap[v.SysMenuID] == nil {
 			btnMap[v.SysMenuID] = make(map[string]string)

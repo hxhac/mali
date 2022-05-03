@@ -6,14 +6,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type GoodsEvaluationRouter struct {
-}
+type GoodsEvaluationRouter struct{}
 
 // InitGoodsEvaluationRouter 初始化 GoodsEvaluation 路由信息
 func (s *GoodsEvaluationRouter) InitGoodsEvaluationRouter(Router *gin.RouterGroup) {
 	goodsEvaluationRouter := Router.Group("goodsEvaluation").Use(middleware.OperationRecord())
 	goodsEvaluationRouterWithoutRecord := Router.Group("goodsEvaluation")
-	var goodsEvaluationApi = v1.ApiGroupApp.GoodsApiGroup.GoodsEvaluationApi
+	goodsEvaluationApi := v1.ApiGroupApp.GoodsApiGroup.GoodsEvaluationApi
 	{
 		goodsEvaluationRouter.POST("createGoodsEvaluation", goodsEvaluationApi.CreateGoodsEvaluation)             // 新建GoodsEvaluation
 		goodsEvaluationRouter.DELETE("deleteGoodsEvaluation", goodsEvaluationApi.DeleteGoodsEvaluation)           // 删除GoodsEvaluation

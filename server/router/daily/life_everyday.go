@@ -6,14 +6,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type LifeEverydayRouter struct {
-}
+type LifeEverydayRouter struct{}
 
 // InitLifeEverydayRouter 初始化 LifeEveryday 路由信息
 func (s *LifeEverydayRouter) InitLifeEverydayRouter(Router *gin.RouterGroup) {
 	lifeEverydayRouter := Router.Group("lifeEveryday").Use(middleware.OperationRecord())
 	lifeEverydayRouterWithoutRecord := Router.Group("lifeEveryday")
-	var lifeEverydayApi = v1.ApiGroupApp.DailyApiGroup.LifeEverydayApi
+	lifeEverydayApi := v1.ApiGroupApp.DailyApiGroup.LifeEverydayApi
 	{
 		lifeEverydayRouter.POST("createLifeEveryday", lifeEverydayApi.CreateLifeEveryday)             // 新建LifeEveryday
 		lifeEverydayRouter.DELETE("deleteLifeEveryday", lifeEverydayApi.DeleteLifeEveryday)           // 删除LifeEveryday

@@ -11,8 +11,7 @@ import (
 	"go.uber.org/zap"
 )
 
-type GoodsEvaluationApi struct {
-}
+type GoodsEvaluationApi struct{}
 
 var goodsEvaluationService = service.ServiceGroupApp.GoodsServiceGroup.GoodsEvaluationService
 

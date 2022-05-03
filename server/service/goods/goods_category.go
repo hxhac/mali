@@ -7,8 +7,7 @@ import (
 	goodsReq "github.com/flipped-aurora/gin-vue-admin/server/model/goods/request"
 )
 
-type GoodsCategoryService struct {
-}
+type GoodsCategoryService struct{}
 
 // CreateGoodsCategory 创建GoodsCategory记录
 // Author [piexlmax](https://github.com/piexlmax)

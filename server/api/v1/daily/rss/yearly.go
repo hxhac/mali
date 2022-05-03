@@ -2,11 +2,12 @@ package rss
 
 import (
 	"fmt"
-	"github.com/flipped-aurora/gin-vue-admin/server/service"
-	"github.com/flipped-aurora/gin-vue-admin/server/utils/helper/html"
 	"net/http"
 	"regexp"
 	"strconv"
+
+	"github.com/flipped-aurora/gin-vue-admin/server/service"
+	"github.com/flipped-aurora/gin-vue-admin/server/utils/helper/html"
 
 	"github.com/flipped-aurora/gin-vue-admin/server/utils/helper/iter"
 	"github.com/gogf/gf/container/garray"
@@ -44,7 +45,7 @@ func yearly() []rss.Item {
 	items, _ := lifeYearlyService.FindAll()
 
 	for _, item := range items {
-		if CheckCron(item.Cron, carbon.Now()) {
+		if !item.IsPause && CheckCron(item.Cron, carbon.Now()) {
 			title := fmt.Sprintf("[%s] - [%s] - %s", item.Prefix, gtime.Date(), item.Task)
 			ret = append(ret, rss.Item{
 				Title:       title,

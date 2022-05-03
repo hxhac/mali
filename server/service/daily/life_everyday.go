@@ -7,8 +7,7 @@ import (
 	dailyReq "github.com/flipped-aurora/gin-vue-admin/server/model/daily/request"
 )
 
-type LifeEverydayService struct {
-}
+type LifeEverydayService struct{}
 
 // CreateLifeEveryday 创建LifeEveryday记录
 // Author [piexlmax](https://github.com/piexlmax)

@@ -6,14 +6,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type GoodsCategoryRouter struct {
-}
+type GoodsCategoryRouter struct{}
 
 // InitGoodsCategoryRouter 初始化 GoodsCategory 路由信息
 func (s *GoodsCategoryRouter) InitGoodsCategoryRouter(Router *gin.RouterGroup) {
 	goodsCategoryRouter := Router.Group("goodsCategory").Use(middleware.OperationRecord())
 	goodsCategoryRouterWithoutRecord := Router.Group("goodsCategory")
-	var goodsCategoryApi = v1.ApiGroupApp.GoodsApiGroup.GoodsCategoryApi
+	goodsCategoryApi := v1.ApiGroupApp.GoodsApiGroup.GoodsCategoryApi
 	{
 		goodsCategoryRouter.POST("createGoodsCategory", goodsCategoryApi.CreateGoodsCategory)             // 新建GoodsCategory
 		goodsCategoryRouter.DELETE("deleteGoodsCategory", goodsCategoryApi.DeleteGoodsCategory)           // 删除GoodsCategory

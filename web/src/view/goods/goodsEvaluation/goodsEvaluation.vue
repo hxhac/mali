@@ -15,6 +15,9 @@
             @change="handleChange"
           />
         </el-form-item>
+	      <el-form-item label="categoryName">
+		      <el-input v-model="searchInfo.categoryName" placeholder="分类名称" />
+	      </el-form-item>
         <el-form-item label="brand">
           <el-select v-model="searchInfo.brand">
             <el-option
@@ -38,6 +41,7 @@
             />
           </el-select>
         </el-form-item>
+
         <el-form-item>
           <el-button size="small" type="primary" icon="search" @click="onSubmit">查询</el-button>
           <el-button size="small" icon="refresh" @click="onReset">重置</el-button>
@@ -216,7 +220,7 @@ const formData = ref({
   price: 0,
   brand: '',
   category: [],
-  category_name: '',
+  categoryName: '',
   score: 0,
   isStarred: false,
   remark: '',

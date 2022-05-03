@@ -2,10 +2,11 @@
 package goods
 
 import (
+	"strings"
+
 	"github.com/flipped-aurora/gin-vue-admin/server/global"
 	"github.com/lib/pq"
 	"gorm.io/gorm"
-	"strings"
 )
 
 // GoodsEvaluation 结构体
@@ -44,7 +45,6 @@ func (ge GoodsEvaluation) AfterCreate(tx *gorm.DB) (err error) {
 }
 
 func (ge GoodsEvaluation) AfterUpdate(tx *gorm.DB) (err error) {
-
 	res := []string{}
 	var goodsCategory GoodsCategory
 	for _, v := range ge.Category {

@@ -2,6 +2,7 @@ package rss
 
 import (
 	"fmt"
+
 	"github.com/flipped-aurora/gin-vue-admin/server/utils/helper/html"
 
 	"github.com/flipped-aurora/gin-vue-admin/server/utils/helper/time"
@@ -13,8 +14,7 @@ import (
 	"github.com/gogf/gf/os/gtime"
 )
 
-type RssApi struct {
-}
+type RssApi struct{}
 
 var lifeEverydayService = service.ServiceGroupApp.DailyServiceGroup.LifeEverydayService
 

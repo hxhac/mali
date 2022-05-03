@@ -11,8 +11,7 @@ import (
 	"go.uber.org/zap"
 )
 
-type LifeYearlyApi struct {
-}
+type LifeYearlyApi struct{}
 
 var lifeYearlyService = service.ServiceGroupApp.DailyServiceGroup.LifeYearlyService
 
