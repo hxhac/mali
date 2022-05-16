@@ -72,7 +72,7 @@
       >
         <el-table-column type="selection" width="55" />
 
-        <el-table-column align="left" label="商品名称" prop="goodsName,brand" min-width="20%">
+        <el-table-column align="left" label="商品名称" prop="goodsName,brand" min-width="25%">
           <template #default="scope">
             {{ scope.row.goods_brand.brandName }} {{ scope.row.goodsName }}
           </template>
@@ -84,7 +84,7 @@
         <el-table-column align="left" label="评分" prop="score" min-width="10%">
           <template #default="scope"><el-rate v-model="scope.row.score" /></template>
         </el-table-column>
-        <el-table-column align="left" label="是否加星" prop="isStarred" min-width="10%">
+        <el-table-column align="left" label="是否加星" prop="isStarred" min-width="5%">
           <template #default="scope">
             <el-tag
               v-if="scope.row.isStarred"
