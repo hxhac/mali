@@ -162,7 +162,7 @@
           <el-switch v-model="formData.isStarred" active-color="#13ce66" inactive-color="#ff4949" active-text="是" inactive-text="否" clearable />
         </el-form-item>
         <el-form-item label="备注:">
-          <el-input v-model="formData.remark" clearable placeholder="请输入" />
+          <el-input type="textarea" v-model="formData.remark" clearable placeholder="请输入" autosize/>
         </el-form-item>
         <el-form-item label="more字段:">
           <mavon-editor v-model="formData.more" style="min-height: 400px" />
@@ -420,5 +420,5 @@ const enterDialog = async() => {
 }
 </script>
 
-<style>
+<style scoped>
 </style>
