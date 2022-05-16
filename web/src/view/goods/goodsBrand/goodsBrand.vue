@@ -31,11 +31,11 @@
         @selection-change="handleSelectionChange"
         >
         <el-table-column type="selection" width="55" />
-        <el-table-column align="left" label="日期" width="180">
+        <el-table-column align="left" label="日期" min-width="30%">
             <template #default="scope">{{ formatDate(scope.row.CreatedAt) }}</template>
         </el-table-column>
-        <el-table-column align="left" label="brandName字段" prop="brandName" width="120" />
-        <el-table-column align="left" label="按钮组">
+        <el-table-column align="left" label="brandName字段" prop="brandName" min-width="40%" />
+        <el-table-column align="left" label="按钮组" min-width="30%">
             <template #default="scope">
             <el-button type="text" icon="edit" size="small" class="table-button" @click="updateGoodsBrandFunc(scope.row)">变更</el-button>
             <el-button type="text" icon="delete" size="small" @click="deleteRow(scope.row)">删除</el-button>
