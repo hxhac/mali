@@ -68,9 +68,6 @@ func (goodsEvaluationService *GoodsEvaluationService) GetGoodsEvaluationInfoList
 		k := fmt.Sprintf("{%s}", strings.Join(res, ","))
 		db = db.Where("category = ?", k)
 	}
-	if info.CategoryName != "" {
-		db = db.Where("category_name LIKE ?", "%"+info.CategoryName+"%")
-	}
 	if info.IsStarred != nil {
 		db = db.Where("is_starred = ?", info.IsStarred)
 	}

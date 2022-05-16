@@ -15,9 +15,6 @@
             @change="handleChange"
           />
         </el-form-item>
-	      <el-form-item label="categoryName">
-		      <el-input v-model="searchInfo.categoryName" placeholder="分类名称" />
-	      </el-form-item>
         <el-form-item label="brand">
           <el-select v-model="searchInfo.brand">
             <el-option
@@ -80,7 +77,6 @@
         <el-table-column align="left" label="商品价格" prop="price" min-width="10%">
           <template #default="scope">¥{{ scope.row.price }}</template>
         </el-table-column>
-        <el-table-column align="left" label="分类" prop="categoryName" min-width="10%" />
         <el-table-column align="left" label="评分" prop="score" min-width="10%">
           <template #default="scope"><el-rate v-model="scope.row.score" /></template>
         </el-table-column>
@@ -220,7 +216,6 @@ const formData = ref({
   price: 0,
   brand: '',
   category: [],
-  categoryName: '',
   score: 0,
   isStarred: false,
   remark: '',
