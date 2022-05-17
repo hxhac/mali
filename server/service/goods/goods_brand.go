@@ -57,6 +57,12 @@ func (goodsBrandService *GoodsBrandService) GetGoodsBrandInfoList(info goodsReq.
 	if err != nil {
 		return
 	}
-	err = db.Limit(limit).Offset(offset).Find(&goodsBrands).Error
+	err = db.Table("goods_evaluation as ge").
+		Select("gb.*, count(ge.brand) as num").
+		Joins("left join goods_brand as gb on gb.id = ge.brand").
+		Group("ge.brand").
+		Order("count(ge.brand) DESC").
+		Limit(limit).Offset(offset).Find(&goodsBrands).Error
+
 	return err, goodsBrands, total
 }
