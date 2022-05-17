@@ -10,7 +10,7 @@ import (
 type GoodsBrand struct {
 	global.GVA_MODEL
 	BrandName string `json:"brandName" form:"brandName" gorm:"column:brand_name;comment:;size:255;"`
-	Num       *int   `json:"num" form:"num" gorm:"column:num;comment:该品牌商品数"`
+	Num       *int   `json:"num" form:"num" gorm:"column:num;default:0;comment:该品牌商品数"`
 }
 
 // TableName GoodsBrand 表名
