@@ -22,11 +22,22 @@
           </template>
         </el-popover>
       </div>
-      <el-table :data="tableData" row-key="ID">
+      <el-table :data="tableData" row-key="ID" default-expand-all>
         <el-table-column type="selection" width="55" />
-        <el-table-column align="left" label="pid字段" prop="pid" width="120" />
-        <el-table-column align="left" label="分类名称" prop="cateName" width="120" />
-        <el-table-column align="left" label="按钮组">
+        <el-table-column align="left" label="pid字段" prop="pid" min-width="10%" />
+        <el-table-column align="left" label="分类名称" prop="cateName" min-width="15%" />
+        <el-table-column align="left" label="more" prop="more" min-width="10%">
+	        <template #default="scope">
+		        <el-tag
+			        v-if="scope.row.more"
+		        >
+			        <el-icon>
+				        <Document></Document>
+			        </el-icon>
+		        </el-tag>
+	        </template>
+        </el-table-column>
+        <el-table-column align="left" label="按钮组" min-width="30%">
           <template #default="scope">
             <el-button
               size="small"
@@ -46,7 +57,7 @@
           layout="total, sizes, prev, pager, next, jumper"
           :current-page="page"
           :page-size="pageSize"
-          :page-sizes="[10, 30, 50, 100]"
+          :page-sizes="[10, 20, 30, 50, 100]"
           :total="total"
           @current-change="handleCurrentChange"
           @size-change="handleSizeChange"
@@ -92,6 +103,7 @@ import {
 // 全量引入格式化工具 请按需保留
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { ref } from 'vue'
+import { Document } from '@element-plus/icons-vue'
 
 // 自动化生成的字典（可能为空）以及字段
 const formData = ref({
@@ -103,7 +115,7 @@ const formData = ref({
 // =========== 表格控制部分 ===========
 const page = ref(1)
 const total = ref(0)
-const pageSize = ref(10)
+const pageSize = ref(20)
 const tableData = ref([])
 const searchInfo = ref({})
 

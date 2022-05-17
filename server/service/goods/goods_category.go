@@ -53,7 +53,7 @@ func (goodsCategoryService *GoodsCategoryService) GetGoodsCategoryInfoList(info 
 	db := global.GVA_DB.Model(&goods.GoodsCategory{})
 	var goodsCategorys []goods.GoodsCategory
 	// 如果有条件搜索 下方会自动创建搜索语句
-	err = db.Count(&total).Error
+	err = db.Where("pid = ?", "0").Count(&total).Error
 	if err != nil {
 		return
 	}
