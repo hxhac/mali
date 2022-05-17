@@ -1,14 +1,12 @@
 package goods
 
 import (
-	"fmt"
-	"strconv"
-	"strings"
-
 	"github.com/flipped-aurora/gin-vue-admin/server/global"
 	"github.com/flipped-aurora/gin-vue-admin/server/model/common/request"
 	"github.com/flipped-aurora/gin-vue-admin/server/model/goods"
 	goodsReq "github.com/flipped-aurora/gin-vue-admin/server/model/goods/request"
+	"strconv"
+	"strings"
 )
 
 type GoodsEvaluationService struct{}
@@ -65,8 +63,8 @@ func (goodsEvaluationService *GoodsEvaluationService) GetGoodsEvaluationInfoList
 		for _, v := range info.Category {
 			res = append(res, strconv.Itoa(int(v)))
 		}
-		k := fmt.Sprintf("{%s}", strings.Join(res, ","))
-		db = db.Where("category = ?", k)
+		// k := fmt.Sprintf("{%s}", strings.Join(res, ","))
+		db = db.Where("category LIKE ?", "%"+strings.Join(res, ",")+"%")
 	}
 	if info.IsStarred != nil {
 		db = db.Where("is_starred = ?", info.IsStarred)

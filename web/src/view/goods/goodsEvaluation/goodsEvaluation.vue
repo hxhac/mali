@@ -4,6 +4,7 @@
       <el-form :inline="true" :model="searchInfo" class="demo-form-inline">
         <el-form-item label="category">
           <el-cascader
+	          ref="cascader"
             v-model="searchInfo.category"
             :options="categoryOptions"
             :props="{
@@ -11,6 +12,7 @@
               label: 'cateName',
               children: 'children',
               expandTrigger: 'hover',
+              checkStrictly: true
             }"
             @change="handleChange"
           />
@@ -158,7 +160,7 @@
           <el-switch v-model="formData.isStarred" active-color="#13ce66" inactive-color="#ff4949" active-text="是" inactive-text="否" clearable />
         </el-form-item>
         <el-form-item label="备注:">
-          <el-input type="textarea" v-model="formData.remark" clearable placeholder="请输入" autosize/>
+          <el-input v-model="formData.remark" type="textarea" clearable placeholder="请输入" autosize />
         </el-form-item>
         <el-form-item label="more字段:">
           <mavon-editor v-model="formData.more" style="min-height: 400px" />
