@@ -168,6 +168,7 @@ export default {
   data() {
     return {
       value: '请选择',
+      cronOptions: ['@2daily', '@weekly', '@2weekly', '@4weekly', '@8weekly', '@6monthly', '@yearly'],
     }
   }
 }
@@ -251,20 +252,15 @@ getTableData()
 
 // 获取需要的字典 可能为空 按需保留
 const prefixOptions = ref([])
-const cronOptions = ref([])
 const setOptions = async(column) => {
   const res = await getLifeYearlyOptions({ column: column })
   if (res.code === 0) {
     if (column === 'prefix') {
       prefixOptions.value = res.data.list
     }
-    if (column === 'cron') {
-      cronOptions.value = res.data.list
-    }
   }
 }
 setOptions('prefix')
-setOptions('cron')
 
 // 多选数据
 const multipleSelection = ref([])
