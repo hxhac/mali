@@ -4,9 +4,10 @@
 			<el-form :inline="true" :model="searchInfo" class="demo-form-inline">
 				<el-form-item label="category">
 					<el-cascader
-						ref="cascader"
+						ref="elcascader"
 						v-model="searchInfo.category"
 						:options="categoryOptions"
+						:show-all-levels="false"
 						:props="{
               value: 'ID',
               label: 'cateName',
@@ -15,6 +16,8 @@
               checkStrictly: true
             }"
 						@change="handleChange"
+						clearable
+						filterable
 					/>
 				</el-form-item>
 				<el-form-item label="brand">
@@ -157,6 +160,7 @@
 				</el-form-item>
 				<el-form-item label="分类:" prop="category">
 					<el-cascader
+						ref="elcascader"
 						v-model="formData.category"
 						:options="categoryOptions"
 						:props="{
@@ -220,7 +224,14 @@ export default {
 		readBuyMD() {
 			const file = loadFile('./src/doc/buy.md')
 			return marked(unicodeToUtf8(file))
-		}
+		},
+	},
+	watch: {
+		// handleChange() {
+		// 	this.$refs.elcascader.dropDownVisible = false
+		// }
+	},
+	methods: {
 	}
 }
 </script>
@@ -470,7 +481,8 @@ const openDialogDoc = () => {
 const closeDialogDoc = () => {
 	dialogDocVisible.value = false
 }
+
 </script>
 
-<style scoped>
+<style lang="scss">
 </style>
