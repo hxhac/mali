@@ -253,10 +253,10 @@ import marked from 'marked'
 // 自动化生成的字典（可能为空）以及字段
 const formData = ref({
 	goodsName: '',
-	price: 0,
-	brand: '',
-	category: [],
-	score: 0,
+	price: null,
+	brand: null,
+	category: null,
+	score: null,
 	isStarred: false,
 	remark: '',
 	more: '',
@@ -424,10 +424,10 @@ const closeDialog = () => {
 	dialogFormVisible.value = false
 	formData.value = {
 		goodsName: '',
-		price: 0,
-		brand: '',
-		category: '',
-		score: 0,
+		price: null,
+		brand: null,
+		category: null,
+		score: null,
 		isStarred: false,
 		remark: '',
 		more: '',
