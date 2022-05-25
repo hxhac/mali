@@ -1,7 +1,7 @@
 package system
 
 import (
-	habit "github.com/flipped-aurora/gin-vue-admin/server/api/v1/daily/rss"
+	habit "github.com/flipped-aurora/gin-vue-admin/server/api/v1/life/rss"
 	"github.com/flipped-aurora/gin-vue-admin/server/service"
 )
 

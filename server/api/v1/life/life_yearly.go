@@ -1,11 +1,11 @@
-package daily
+package life
 
 import (
 	"github.com/flipped-aurora/gin-vue-admin/server/global"
 	"github.com/flipped-aurora/gin-vue-admin/server/model/common/request"
 	"github.com/flipped-aurora/gin-vue-admin/server/model/common/response"
-	"github.com/flipped-aurora/gin-vue-admin/server/model/daily"
-	dailyReq "github.com/flipped-aurora/gin-vue-admin/server/model/daily/request"
+	"github.com/flipped-aurora/gin-vue-admin/server/model/life"
+	dailyReq "github.com/flipped-aurora/gin-vue-admin/server/model/life/request"
 	"github.com/flipped-aurora/gin-vue-admin/server/service"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
@@ -21,11 +21,11 @@ var lifeYearlyService = service.ServiceGroupApp.DailyServiceGroup.LifeYearlyServ
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data body daily.LifeYearly true "创建LifeYearly"
+// @Param data body life.LifeYearly true "创建LifeYearly"
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"获取成功"}"
 // @Router /lifeYearly/createLifeYearly [post]
 func (lifeYearlyApi *LifeYearlyApi) CreateLifeYearly(c *gin.Context) {
-	var lifeYearly daily.LifeYearly
+	var lifeYearly life.LifeYearly
 	_ = c.ShouldBindJSON(&lifeYearly)
 	if err := lifeYearlyService.CreateLifeYearly(lifeYearly); err != nil {
 		global.GVA_LOG.Error("创建失败!", zap.Error(err))
@@ -41,11 +41,11 @@ func (lifeYearlyApi *LifeYearlyApi) CreateLifeYearly(c *gin.Context) {
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data body daily.LifeYearly true "删除LifeYearly"
+// @Param data body life.LifeYearly true "删除LifeYearly"
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"删除成功"}"
 // @Router /lifeYearly/deleteLifeYearly [delete]
 func (lifeYearlyApi *LifeYearlyApi) DeleteLifeYearly(c *gin.Context) {
-	var lifeYearly daily.LifeYearly
+	var lifeYearly life.LifeYearly
 	_ = c.ShouldBindJSON(&lifeYearly)
 	if err := lifeYearlyService.DeleteLifeYearly(lifeYearly); err != nil {
 		global.GVA_LOG.Error("删除失败!", zap.Error(err))
@@ -81,11 +81,11 @@ func (lifeYearlyApi *LifeYearlyApi) DeleteLifeYearlyByIds(c *gin.Context) {
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data body daily.LifeYearly true "更新LifeYearly"
+// @Param data body life.LifeYearly true "更新LifeYearly"
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"更新成功"}"
 // @Router /lifeYearly/updateLifeYearly [put]
 func (lifeYearlyApi *LifeYearlyApi) UpdateLifeYearly(c *gin.Context) {
-	var lifeYearly daily.LifeYearly
+	var lifeYearly life.LifeYearly
 	_ = c.ShouldBindJSON(&lifeYearly)
 	if err := lifeYearlyService.UpdateLifeYearly(lifeYearly); err != nil {
 		global.GVA_LOG.Error("更新失败!", zap.Error(err))
@@ -101,11 +101,11 @@ func (lifeYearlyApi *LifeYearlyApi) UpdateLifeYearly(c *gin.Context) {
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data query daily.LifeYearly true "用id查询LifeYearly"
+// @Param data query life.LifeYearly true "用id查询LifeYearly"
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"查询成功"}"
 // @Router /lifeYearly/findLifeYearly [get]
 func (lifeYearlyApi *LifeYearlyApi) FindLifeYearly(c *gin.Context) {
-	var lifeYearly daily.LifeYearly
+	var lifeYearly life.LifeYearly
 	_ = c.ShouldBindQuery(&lifeYearly)
 	if err, relifeYearly := lifeYearlyService.GetLifeYearly(lifeYearly.ID); err != nil {
 		global.GVA_LOG.Error("查询失败!", zap.Error(err))
