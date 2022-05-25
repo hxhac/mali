@@ -1,5 +1,5 @@
 // 自动生成模板LifeEveryday
-package daily
+package life
 
 import (
 	"github.com/flipped-aurora/gin-vue-admin/server/global"

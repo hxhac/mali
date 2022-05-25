@@ -1,4 +1,4 @@
-package daily
+package life
 
 import (
 	"github.com/flipped-aurora/gin-vue-admin/server/api/v1"
