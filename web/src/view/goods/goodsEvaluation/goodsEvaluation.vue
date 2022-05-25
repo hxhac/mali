@@ -69,8 +69,8 @@
 						</el-button>
 					</template>
 				</el-popover>
-				<el-button size="small" type="primary" icon="document" @click="openDialogDoc">文档
-				</el-button>
+<!--				<el-button size="small" type="primary" icon="document" @click="openDialogDoc">文档-->
+<!--				</el-button>-->
 			</div>
 			<el-table
 				ref="multipleTable"
@@ -196,9 +196,9 @@
 			</template>
 		</el-dialog>
 		<!--	  文档弹窗-->
-		<el-dialog v-model="dialogDocVisible" :before-close="closeDialogDoc" title="弹窗操作">
-			<div v-html="readBuyMD"></div>
-		</el-dialog>
+<!--		<el-dialog v-model="dialogDocVisible" :before-close="closeDialogDoc" title="弹窗操作">-->
+<!--			<div v-html="readBuyMD"></div>-->
+<!--		</el-dialog>-->
 	</div>
 </template>
 
@@ -217,15 +217,15 @@ export default {
 				value: false,
 				label: '否'
 			}],
-			docVisible: false,
+			// docVisible: false,
 		}
 	},
-	computed: {
-		readBuyMD() {
-			const file = loadFile('./src/doc/buy.md')
-			return marked(unicodeToUtf8(file))
-		},
-	},
+	// computed: {
+	// 	readBuyMD() {
+	// 		const file = loadFile('./src/doc/buy.md')
+	// 		return marked(unicodeToUtf8(file))
+	// 	},
+	// },
 	watch: {
 		// handleChange() {
 		// 	this.$refs.elcascader.dropDownVisible = false
@@ -469,18 +469,18 @@ const enterDialog = async () => {
 }
 
 // 弹窗控制标记
-const dialogDocVisible = ref(false)
-
-// 打开弹窗
-const openDialogDoc = () => {
-	type.value = 'create'
-	dialogDocVisible.value = true
-}
-
-// 关闭弹窗
-const closeDialogDoc = () => {
-	dialogDocVisible.value = false
-}
+// const dialogDocVisible = ref(false)
+//
+// // 打开弹窗
+// const openDialogDoc = () => {
+// 	type.value = 'create'
+// 	dialogDocVisible.value = true
+// }
+//
+// // 关闭弹窗
+// const closeDialogDoc = () => {
+// 	dialogDocVisible.value = false
+// }
 
 </script>
 
