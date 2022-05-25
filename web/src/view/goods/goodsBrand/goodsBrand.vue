@@ -36,6 +36,17 @@
         </el-table-column>
         <el-table-column align="left" label="brandName字段" prop="brandName" min-width="20%" />
         <el-table-column align="left" label="商品数" prop="num" min-width="10%" />
+	      <el-table-column align="left" label="more" prop="more" min-width="10%">
+		      <template #default="scope">
+			      <el-tag
+				      v-if="scope.row.more"
+			      >
+				      <el-icon>
+					      <Document></Document>
+				      </el-icon>
+			      </el-tag>
+		      </template>
+	      </el-table-column>
         <el-table-column align="left" label="按钮组" min-width="30%">
           <template #default="scope">
             <el-button type="text" icon="edit" size="small" class="table-button" @click="updateGoodsBrandFunc(scope.row)">变更</el-button>
@@ -60,6 +71,9 @@
         <el-form-item label="brandName字段:">
           <el-input v-model="formData.brandName" clearable placeholder="请输入" />
         </el-form-item>
+	      <el-form-item label="more字段:">
+		      <mavon-editor v-model="formData.more" style="min-height: 400px"/>
+	      </el-form-item>
       </el-form>
       <template #footer>
         <div class="dialog-footer">
@@ -91,11 +105,13 @@ import {
 import { getDictFunc, formatDate, formatBoolean, filterDict } from '@/utils/format'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { ref } from 'vue'
+import { Document } from '@element-plus/icons-vue'
 
 // 自动化生成的字典（可能为空）以及字段
 const formData = ref({
   brandName: '',
   num: 0,
+  more: '',
 })
 
 // =========== 表格控制部分 ===========
