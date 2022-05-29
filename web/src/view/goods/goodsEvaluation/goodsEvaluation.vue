@@ -21,7 +21,7 @@
 					/>
 				</el-form-item>
 				<el-form-item label="brand">
-					<el-select v-model="searchInfo.brand">
+					<el-select v-model="searchInfo.brand" clearable filterable>
 						<el-option
 							v-for="item in brandOptions"
 							:key="item.ID"
@@ -31,10 +31,10 @@
 					</el-select>
 				</el-form-item>
 				<el-form-item label="goods">
-					<el-input v-model="searchInfo.goodsName" placeholder="商品名称"/>
+					<el-input v-model="searchInfo.goodsName" placeholder="商品名称" clearable />
 				</el-form-item>
 				<el-form-item label="starred">
-					<el-select v-model="searchInfo.isStarred">
+					<el-select v-model="searchInfo.isStarred" clearable filterable>
 						<el-option
 							v-for="item in isStarredOptions"
 							:key="item.value"
@@ -82,15 +82,28 @@
 			>
 				<el-table-column type="selection" width="55"/>
 				
-				<el-table-column align="left" label="商品名称" prop="goodsName,brand" min-width="25%">
+				<el-table-column align="left" label="商品名称" prop="goodsName,brand" min-width="20%">
 					<template #default="scope">
 						{{ scope.row.goods_brand.brandName }} {{ scope.row.goodsName }}
+						<el-tag v-if="scope.row.more" size="small" effect="dark">
+							<el-icon>
+								<Document></Document>
+							</el-icon>
+						</el-tag>
+						<el-tag v-if="scope.row.isStarred" type="warning" size="small" effect="dark">
+							<el-icon>
+								<StarFilled></StarFilled>
+							</el-icon>
+						</el-tag>
 					</template>
+				</el-table-column>
+				<el-table-column align="left" label="商品分类" prop="price" min-width="15%">
+					<template #default="scope">¥{{ scope.row.price }}</template>
 				</el-table-column>
 				<el-table-column align="left" label="商品价格" prop="price" min-width="10%">
 					<template #default="scope">¥{{ scope.row.price }}</template>
 				</el-table-column>
-				<el-table-column align="left" label="复购次数" prop="buyTimes" min-width="10%">
+				<el-table-column align="left" label="复购次数" prop="buyTimes" min-width="5%">
 					<template #default="scope">{{ scope.row.buyTimes }}次</template>
 				</el-table-column>
 				<el-table-column align="left" label="评分" prop="score" min-width="10%">
@@ -98,36 +111,7 @@
 						<el-rate v-model="scope.row.score"/>
 					</template>
 				</el-table-column>
-				<el-table-column align="left" label="是否加星" prop="isStarred" min-width="5%">
-					<template #default="scope">
-						<el-tag
-							v-if="scope.row.isStarred"
-							size="small"
-							type="success"
-							effect="dark"
-						>
-							是
-						</el-tag>
-						<el-tag
-							v-else
-							type="danger"
-							size="small"
-							effect="dark"
-						>
-							否
-						</el-tag>
-					</template>
-				</el-table-column>
 				<el-table-column align="left" label="备注" prop="remark" min-width="30%"/>
-				<el-table-column align="left" label="more" prop="more" min-width="5%">
-					<template #default="scope">
-						<el-tag v-if="scope.row.more">
-							<el-icon>
-								<Document></Document>
-							</el-icon>
-						</el-tag>
-					</template>
-				</el-table-column>
 				<el-table-column align="left" label="按钮组" min-width="10%">
 					<template #default="scope">
 						<el-button type="text" icon="edit" size="small" class="table-button"
@@ -161,7 +145,7 @@
 					<el-input v-model.number="formData.price" clearable placeholder="请输入"/>
 				</el-form-item>
 				<el-form-item label="品牌:" prop="brand">
-					<el-select v-model="formData.brand" placeholder="请选择">
+					<el-select v-model="formData.brand" placeholder="请选择"  clearable filterable>
 						<el-option
 							v-for="item in brandOptions"
 							:key="item.ID"
@@ -182,6 +166,7 @@
               expandTrigger: 'hover',
             }"
 						@change="handleChange"
+						clearable filterable
 					/>
 				</el-form-item>
 				<el-form-item label="复购次数:">
@@ -275,7 +260,7 @@ import {
 import {ElMessage, ElMessageBox} from 'element-plus'
 import {ref} from 'vue'
 import marked from 'marked'
-import { Document } from '@element-plus/icons-vue'
+import { Document, Star, StarFilled } from '@element-plus/icons-vue'
 
 // 自动化生成的字典（可能为空）以及字段
 const formData = ref({
@@ -505,5 +490,9 @@ const enterDialog = async () => {
 <style lang="scss">
 .el-table .cell {
 	white-space: pre-line; // 单元格内空格展示为换行
+}
+// [elment ui 使用标签时两个标签会连在一起 - SegmentFault 思否](https://segmentfault.com/q/1010000011729618)
+.el-tag+.el-tag {
+	margin-left: 10px;
 }
 </style>
