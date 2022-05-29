@@ -20,6 +20,7 @@ type GoodsEvaluation struct {
 	IsStarred  *bool         `json:"isStarred" form:"isStarred" gorm:"column:is_starred;comment:是否加星;"`
 	Remark     string        `json:"remark" form:"remark" gorm:"column:remark;comment:备注;size:191;"`
 	More       string        `json:"more" form:"more" gorm:"column:more;comment:;"`
+	BuyTimes   *int          `json:"buyTimes" form:"buyTimes" gorm:"column:buy_times;comment:复购次数;not null;default:1"`
 	Category   pq.Int64Array `json:"category" form:"category[]" gorm:"type:varchar(255)[];column:category;comment:分类;size:255;not null;"`
 	GoodsBrand GoodsBrand    `json:"goods_brand" gorm:"foreignKey:Brand"`
 }

@@ -90,6 +90,9 @@
 				<el-table-column align="left" label="商品价格" prop="price" min-width="10%">
 					<template #default="scope">¥{{ scope.row.price }}</template>
 				</el-table-column>
+				<el-table-column align="left" label="复购次数" prop="buyTimes" min-width="10%">
+					<template #default="scope">{{ scope.row.buyTimes }}次</template>
+				</el-table-column>
 				<el-table-column align="left" label="评分" prop="score" min-width="10%">
 					<template #default="scope">
 						<el-rate v-model="scope.row.score"/>
@@ -171,6 +174,9 @@
             }"
 						@change="handleChange"
 					/>
+				</el-form-item>
+				<el-form-item label="复购次数:">
+					<el-input-number v-model.number="formData.buyTimes"/>
 				</el-form-item>
 				<el-form-item label="评分:">
 					<el-rate v-model.number="formData.score"/>
@@ -269,6 +275,7 @@ const formData = ref({
 	category: null,
 	score: null,
 	isStarred: false,
+	buyTimes: 1,
 	remark: '',
 	more: '',
 })
@@ -440,6 +447,7 @@ const closeDialog = () => {
 		category: null,
 		score: null,
 		isStarred: false,
+		buyTimes: 1,
 		remark: '',
 		more: '',
 	}
