@@ -503,4 +503,7 @@ const enterDialog = async () => {
 </script>
 
 <style lang="scss">
+.el-table .cell {
+	white-space: pre-line; // 单元格内空格展示为换行
+}
 </style>
