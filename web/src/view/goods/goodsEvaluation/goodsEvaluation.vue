@@ -83,7 +83,7 @@
 				
 				<el-table-column align="left" label="商品名称" prop="goodsName,brand" min-width="25%">
 					<template #default="scope">
-						{{ scope.row.brandName }} {{ scope.row.goodsName }}
+						{{ scope.row.goods_brand.brandName }} {{ scope.row.goodsName }}
 						<el-tag v-if="scope.row.isStarred" type="warning" size="small" effect="dark">
 							<el-icon>
 								<StarFilled/>
