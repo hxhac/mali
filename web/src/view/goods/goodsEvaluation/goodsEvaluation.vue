@@ -13,7 +13,7 @@
               label: 'cateName',
               children: 'children',
               expandTrigger: 'hover',
-              checkStrictly: true
+              checkStrictly: true,
             }"
 						@change="handleChange"
 						clearable
@@ -43,7 +43,6 @@
 						/>
 					</el-select>
 				</el-form-item>
-				
 				<el-form-item>
 					<el-button size="small" type="primary" icon="search" @click="onSubmit">查询
 					</el-button>
@@ -82,29 +81,31 @@
 			>
 				<el-table-column type="selection" width="55"/>
 				
-				<el-table-column align="left" label="商品名称" prop="goodsName,brand" min-width="20%">
+				<el-table-column align="left" label="商品名称" prop="goodsName,brand" min-width="25%">
 					<template #default="scope">
-						{{ scope.row.goods_brand.brandName }} {{ scope.row.goodsName }}
-						<el-tag v-if="scope.row.more" size="small" effect="dark">
-							<el-icon>
-								<Document></Document>
-							</el-icon>
-						</el-tag>
+						{{ scope.row.brandName }} {{ scope.row.goodsName }}
 						<el-tag v-if="scope.row.isStarred" type="warning" size="small" effect="dark">
 							<el-icon>
-								<StarFilled></StarFilled>
+								<StarFilled/>
+							</el-icon>
+						</el-tag>
+						<el-tag v-if="scope.row.buyTimes" type="info" size="small" effect="dark">
+							<el-icon>
+								{{scope.row.buyTimes}}
+							</el-icon>
+						</el-tag>
+						<el-tag v-if="scope.row.more" size="small" effect="dark">
+							<el-icon>
+								<Document/>
 							</el-icon>
 						</el-tag>
 					</template>
 				</el-table-column>
 				<el-table-column align="left" label="商品分类" prop="price" min-width="15%">
-					<template #default="scope">¥{{ scope.row.price }}</template>
+					<template #default="scope">{{ scope.row.categoryName }}</template>
 				</el-table-column>
 				<el-table-column align="left" label="商品价格" prop="price" min-width="10%">
 					<template #default="scope">¥{{ scope.row.price }}</template>
-				</el-table-column>
-				<el-table-column align="left" label="复购次数" prop="buyTimes" min-width="5%">
-					<template #default="scope">{{ scope.row.buyTimes }}次</template>
 				</el-table-column>
 				<el-table-column align="left" label="评分" prop="score" min-width="10%">
 					<template #default="scope">
