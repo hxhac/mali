@@ -119,6 +119,15 @@
 					</template>
 				</el-table-column>
 				<el-table-column align="left" label="备注" prop="remark" min-width="30%"/>
+				<el-table-column align="left" label="more" prop="more" min-width="5%">
+					<template #default="scope">
+						<el-tag v-if="scope.row.more">
+							<el-icon>
+								<Document></Document>
+							</el-icon>
+						</el-tag>
+					</template>
+				</el-table-column>
 				<el-table-column align="left" label="按钮组" min-width="10%">
 					<template #default="scope">
 						<el-button type="text" icon="edit" size="small" class="table-button"
@@ -266,6 +275,7 @@ import {
 import {ElMessage, ElMessageBox} from 'element-plus'
 import {ref} from 'vue'
 import marked from 'marked'
+import { Document } from '@element-plus/icons-vue'
 
 // 自动化生成的字典（可能为空）以及字段
 const formData = ref({
