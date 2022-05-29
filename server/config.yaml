@@ -30,7 +30,7 @@ aws-s3:
   base-url: https://gin.vue.admin
   path-prefix: github.com/flipped-aurora/gin-vue-admin/server
 captcha:
-  key-long: 6
+  key-long: 4
   img-width: 240
   img-height: 80
 casbin:
