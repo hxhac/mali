@@ -78,7 +78,7 @@ func (goodsEvaluationService *GoodsEvaluationService) GetGoodsEvaluationInfoList
 		return
 	}
 	err = db.Preload("GoodsBrand").
-		Order("is_starred DESC").Order("score DESC").Order("buy_times DESC").
+		Order("is_starred DESC").Order("score DESC").Order("use_times DESC").
 		Limit(limit).Offset(offset).
 		Find(&goodsEvaluations).Error
 
@@ -88,7 +88,7 @@ func (goodsEvaluationService *GoodsEvaluationService) GetGoodsEvaluationInfoList
 	//          left join goods_brand as gb on ge.brand = gb.id
 	// %s
 	// group by ge.id, ge.is_starred, ge.score
-	// order by ge.is_starred desc, ge.score desc, ge.buy_times desc
+	// order by ge.is_starred desc, ge.score desc, ge.use_times desc
 	// limit ? offset ?;`, wh)
 
 	return err, goodsEvaluations, total
