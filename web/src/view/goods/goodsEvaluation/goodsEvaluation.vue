@@ -115,7 +115,7 @@
           </template>
         </el-table-column>
         <el-table-column
-          prop="picture"
+          prop="goodsPic"
           header-align="center"
           align="center"
           min-width="10%"
@@ -123,17 +123,18 @@
         >
           <template #default="scope">
             <el-popover
+              ref="popover"
               placement="right"
-              title=""
-              trigger="hover"
+              trigger="click"
             >
-              <img :src="scope.row.goodsPic" alt="scope.row.goodsPic">
-              <img
-                slot="reference"
-                :src="scope.row.goodsPic"
-                :alt="scope.row.goodsPic"
-                style="max-height: 50px;max-width: 130px"
-              >
+              <div style="width:200px;height:200px;"><img :src="scope.row.goodsPic" alt="scope.row.goodsPic"></div>
+              <div slot="reference" style="width:80px;height:80px;">
+                <img
+                  :src="scope.row.goodsPic"
+                  :alt="scope.row.goodsPic"
+                  style="max-height: 50px;max-width: 130px"
+                >
+              </div>
             </el-popover>
           </template>
         </el-table-column>
@@ -222,24 +223,30 @@
           />
         </el-form-item>
         <el-form-item label="商品图片:">
-          <el-upload
+          <!--          <el-upload-->
+          <!--            v-model="formData.goodsPic"-->
+          <!--            list-type="picture"-->
+          <!--            action="#"-->
+          <!--            accept=".jpg, .jpeg, .png"-->
+          <!--            :limit="1"-->
+          <!--            :auto-upload="false"-->
+          <!--            :file-list="fileList"-->
+          <!--            :on-change="getFile"-->
+          <!--            :on-preview="handlePictureCardPreview"-->
+          <!--            :on-remove="handleUploadRemove"-->
+          <!--          >-->
+          <!--            <el-button size="small" type="primary">选择图片上传</el-button>-->
+          <!--            <div slot="tip" class="el-upload__tip">只能上传一张jpg/png文件</div>-->
+          <!--          </el-upload>-->
+          <!--          <el-dialog :visible.sync="dialogVisible" append-to-body>-->
+          <!--            <img width="100%" :src="dialogImageUrl" alt>-->
+          <!--          </el-dialog>-->
+          <el-input
             v-model="formData.goodsPic"
-            list-type="picture"
-            action="#"
-            accept=".jpg, .jpeg, .png"
-            :limit="1"
-            :auto-upload="false"
-            :file-list="fileList"
-            :on-change="getFile"
-            :on-preview="handlePictureCardPreview"
-            :on-remove="handleUploadRemove"
-          >
-            <el-button size="small" type="primary">选择图片上传</el-button>
-            <div slot="tip" class="el-upload__tip">只能上传一张jpg/png文件</div>
-          </el-upload>
-          <el-dialog :visible.sync="dialogVisible" append-to-body>
-            <img width="100%" :src="dialogImageUrl" alt>
-          </el-dialog>
+            clearable
+            placeholder="请输入"
+            autosize
+          />
         </el-form-item>
         <el-form-item label="备注:">
           <el-input
@@ -289,22 +296,22 @@ export default {
   },
   methods: {
     // 上传图片
-    getFile(file, fileList) {
-      getBase64(file.raw).then(res => {
-        const params = res.split(',')
-        console.log(params, 'params')
-        if (params.length > 0) {
-          this.proofImage = params[1]
-        }
-      })
-    },
-    handleUploadRemove(file, fileList) {
-      this.proofImage = ''
-    },
-    handlePictureCardPreview(file) {
-      this.dialogImageUrl = file.url
-      this.dialogVisible = true
-    },
+    // getFile(file, fileList) {
+    //   getBase64(file.raw).then(res => {
+    //     const params = res.split(',')
+    //     console.log(params, 'params')
+    //     if (params.length > 0) {
+    //       this.proofImage = params[1]
+    //     }
+    //   })
+    // },
+    // handleUploadRemove(file, fileList) {
+    //   this.proofImage = ''
+    // },
+    // handlePictureCardPreview(file) {
+    //   this.dialogImageUrl = file.url
+    //   this.dialogVisible = true
+    // },
   }
 }
 </script>
@@ -565,5 +572,9 @@ const enterDialog = async() => {
 // [elment ui 使用标签时两个标签会连在一起 - SegmentFault 思否](https://segmentfault.com/q/1010000011729618)
 .el-tag + .el-tag {
   margin-left: 10px;
+}
+
+.el-table__fixed-body-wrapper {
+	z-index: auto !important;
 }
 </style>
