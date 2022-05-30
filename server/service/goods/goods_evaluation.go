@@ -5,8 +5,6 @@ import (
 	"github.com/flipped-aurora/gin-vue-admin/server/model/common/request"
 	"github.com/flipped-aurora/gin-vue-admin/server/model/goods"
 	goodsReq "github.com/flipped-aurora/gin-vue-admin/server/model/goods/request"
-	"strconv"
-	"strings"
 )
 
 type GoodsEvaluationService struct{}
@@ -59,12 +57,11 @@ func (goodsEvaluationService *GoodsEvaluationService) GetGoodsEvaluationInfoList
 		db = db.Where("brand = ?", info.Brand)
 	}
 	if info.Category != nil {
-		res := []string{}
+		res := 0
 		for _, v := range info.Category {
-			res = append(res, strconv.Itoa(int(v)))
+			res = int(v)
 		}
-		// k := fmt.Sprintf("{%s}", strings.Join(res, ","))
-		db = db.Where("category LIKE ?", "%"+strings.Join(res, ",")+"%")
+		db = db.Where("find_in_set(?, replace(replace(category, '{', ''), '}', ''))", res)
 	}
 	if info.IsStarred != nil {
 		db = db.Where("is_starred = ?", info.IsStarred)
@@ -72,12 +69,28 @@ func (goodsEvaluationService *GoodsEvaluationService) GetGoodsEvaluationInfoList
 	if info.GoodsName != "" {
 		db = db.Where("goods_name LIKE ?", "%"+info.GoodsName+"%")
 	}
+	if info.Remark != "" {
+		db = db.Where("remark LIKE ?", "%"+info.Remark+"%")
+	}
 
 	err = db.Count(&total).Error
 	if err != nil {
 		return
 	}
-	err = db.Preload("GoodsBrand").Order("is_starred DESC").Order("score DESC").Limit(limit).Offset(offset).Find(&goodsEvaluations).Error
+	err = db.Preload("GoodsBrand").
+		Order("is_starred DESC").Order("score DESC").Order("buy_times DESC").
+		Limit(limit).Offset(offset).
+		Find(&goodsEvaluations).Error
+
+	// 	scw := fmt.Sprintf(`select ge.*, group_concat(gc.cate_name SEPARATOR '/') as category_name, gb.brand_name
+	// from goods_evaluation as ge
+	//          join goods_category as gc on FIND_IN_SET(gc.id, replace(replace(ge.category, '{', ''), '}', ''))
+	//          left join goods_brand as gb on ge.brand = gb.id
+	// %s
+	// group by ge.id, ge.is_starred, ge.score
+	// order by ge.is_starred desc, ge.score desc, ge.buy_times desc
+	// limit ? offset ?;`, wh)
+
 	return err, goodsEvaluations, total
 }
 
