@@ -10,7 +10,7 @@ import (
 type GoodsCategory struct {
 	global.GVA_MODEL
 	Pid      *int            `json:"pid" form:"pid" gorm:"column:pid;comment:;size:10;"`
-	CateName string          `json:"cateName" form:"cateName" gorm:"column:cate_name;comment:分类名称;size:255;"`
+	CateName string          `json:"cateName" form:"cateName" gorm:"column:cate_name;comment:分类名称;size:255;unique;"`
 	More     string          `json:"more" form:"more" gorm:"column:more;comment:备注;"`
 	Children []GoodsCategory `json:"children" gorm:"-"`
 }
