@@ -1,10 +1,10 @@
 aliyun-oss:
-  endpoint: yourEndpoint
-  access-key-id: yourAccessKeyId
-  access-key-secret: yourAccessKeySecret
-  bucket-name: yourBucketName
-  bucket-url: yourBucketUrl
-  base-path: yourBasePath
+  endpoint: oss-cn-beijing.aliyuncs.com
+  access-key-id: LTAIWFipvgiNMSuH
+  access-key-secret: 3wCvdrBkatDIZYIZYAjktXQIkKpocS
+  bucket-name: jeffcott
+  bucket-url: https://jeffcott.oss-cn-beijing.aliyuncs.com
+  base-path: mali
 autocode:
   transfer-restart: true
   root: /Users/lhgtqb7bll/Downloads/mali
@@ -38,32 +38,32 @@ casbin:
 cors:
   mode: whitelist
   whitelist:
-    - allow-origin: example1.com
-      allow-methods: GET, POST
-      allow-headers: content-type
-      expose-headers: Content-Length, Access-Control-Allow-Origin, Access-Control-Allow-Headers,
-        Content-Type
-      allow-credentials: true
-    - allow-origin: example2.com
-      allow-methods: GET, POST
-      allow-headers: content-type
-      expose-headers: Content-Length, Access-Control-Allow-Origin, Access-Control-Allow-Headers,
-        Content-Type
-      allow-credentials: true
+  - allow-origin: example1.com
+    allow-methods: GET, POST
+    allow-headers: content-type
+    expose-headers: Content-Length, Access-Control-Allow-Origin, Access-Control-Allow-Headers,
+      Content-Type
+    allow-credentials: true
+  - allow-origin: example2.com
+    allow-methods: GET, POST
+    allow-headers: content-type
+    expose-headers: Content-Length, Access-Control-Allow-Origin, Access-Control-Allow-Headers,
+      Content-Type
+    allow-credentials: true
 db-list:
-  - disable: false
-    type: ""
-    alias-name: ""
-    path: ""
-    port: ""
-    config: ""
-    db-name: ""
-    username: ""
-    password: ""
-    max-idle-conns: 10
-    max-open-conns: 100
-    log-mode: ""
-    log-zap: false
+- disable: false
+  type: ""
+  alias-name: ""
+  path: ""
+  port: ""
+  config: ""
+  db-name: ""
+  username: ""
+  password: ""
+  max-idle-conns: 10
+  max-open-conns: 100
+  log-mode: ""
+  log-zap: false
 email:
   to: xxx@qq.com
   port: 465
@@ -125,7 +125,7 @@ system:
   env: public
   addr: 8888
   db-type: mysql
-  oss-type: local
+  oss-type: aliyun-oss
   use-multipoint: false
   use-redis: false
   iplimit-count: 15000
@@ -141,12 +141,12 @@ timer:
   start: true
   spec: '@daily'
   detail:
-    - tableName: sys_operation_records
-      compareField: created_at
-      interval: 2160h
-    - tableName: jwt_blacklists
-      compareField: created_at
-      interval: 168h
+  - tableName: sys_operation_records
+    compareField: created_at
+    interval: 2160h
+  - tableName: jwt_blacklists
+    compareField: created_at
+    interval: 168h
 zap:
   level: info
   format: console

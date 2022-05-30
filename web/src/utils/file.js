@@ -13,3 +13,21 @@ export const unicodeToUtf8 = (data) => {
   data = data.replace(/\\/g, '%')
   return unescape(data)
 }
+
+// 获取图片转base64
+export const getBase64 = (file) => {
+  return new Promise(function(resolve, reject) {
+    const reader = new FileReader()
+    let imgResult = ''
+    reader.readAsDataURL(file)
+    reader.onload = function() {
+      imgResult = reader.result
+    }
+    reader.onerror = function(error) {
+      reject(error)
+    }
+    reader.onloadend = function() {
+      resolve(imgResult)
+    }
+  })
+}
