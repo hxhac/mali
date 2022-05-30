@@ -43,6 +43,9 @@
 						/>
 					</el-select>
 				</el-form-item>
+				<el-form-item label="remark">
+					<el-input v-model="searchInfo.remark" placeholder="商品备注" clearable />
+				</el-form-item>
 				<el-form-item>
 					<el-button size="small" type="primary" icon="search" @click="onSubmit">查询
 					</el-button>
@@ -81,7 +84,7 @@
 			>
 				<el-table-column type="selection" width="55"/>
 				
-				<el-table-column align="left" label="商品名称" prop="goodsName,brand" min-width="25%">
+				<el-table-column align="left" label="商品名称" prop="goodsName,brand" min-width="35%">
 					<template #default="scope">
 						{{ scope.row.goods_brand.brandName }} {{ scope.row.goodsName }}
 						<el-tag v-if="scope.row.isStarred" type="warning" size="small" effect="dark">
@@ -101,9 +104,6 @@
 						</el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column align="left" label="商品分类" prop="price" min-width="15%">
-					<template #default="scope">{{ scope.row.categoryName }}</template>
-				</el-table-column>
 				<el-table-column align="left" label="商品价格" prop="price" min-width="10%">
 					<template #default="scope">¥{{ scope.row.price }}</template>
 				</el-table-column>
@@ -112,7 +112,7 @@
 						<el-rate v-model="scope.row.score"/>
 					</template>
 				</el-table-column>
-				<el-table-column align="left" label="备注" prop="remark" min-width="30%"/>
+				<el-table-column align="left" label="备注" prop="remark" min-width="35%"/>
 				<el-table-column align="left" label="按钮组" min-width="10%">
 					<template #default="scope">
 						<el-button type="text" icon="edit" size="small" class="table-button"
