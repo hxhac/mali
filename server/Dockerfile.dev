@@ -29,7 +29,7 @@ FROM alpine AS releaser
 WORKDIR ./
 COPY --from=builder /build/server ./server
 COPY --from=builder /build/resource ./resource
-COPY --from=builder /build/config.docker.yaml ./config.docker.yaml
+COPY --from=builder /build/config.yaml ./config.yaml
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 
 RUN apk add --no-cache tzdata
@@ -37,4 +37,4 @@ RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 RUN echo "Asia/shanghai" > /etc/timezone;
 
 EXPOSE 8888
-ENTRYPOINT ./server -c config.docker.yaml
+ENTRYPOINT ./server -c config.yaml

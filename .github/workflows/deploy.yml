@@ -118,5 +118,5 @@ jobs:
           timeout: 10m
           script_stop: true
           script: |
-            cd ~/vps/mali && docker compose pull && docker compose up --build -d
+            cd ~/vps/mali && docker compose pull && docker compose down && docker compose up --build -d
     needs: [ server, web ]
