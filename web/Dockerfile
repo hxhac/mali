@@ -1,10 +1,13 @@
 FROM node:16 as builder
 
 WORKDIR /gva_web
-#COPY /web/yarn.lock .
-#COPY /web .
-COPY yarn.lock .
-COPY . .
+
+## github-action使用这个
+COPY /web/yarn.lock .
+COPY /web .
+## 本地启动docker服务使用这个
+#COPY yarn.lock .
+#COPY . .
 
 RUN yarn install && yarn build
 
