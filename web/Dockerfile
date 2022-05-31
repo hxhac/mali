@@ -1,8 +1,10 @@
 FROM node:16 as builder
 
 WORKDIR /gva_web
-COPY /web/yarn.lock .
-COPY /web .
+#COPY /web/yarn.lock .
+#COPY /web .
+COPY yarn.lock .
+COPY . .
 
 RUN yarn install && yarn build
 

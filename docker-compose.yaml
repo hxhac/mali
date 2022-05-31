@@ -16,7 +16,7 @@ services:
   web:
     build:
       context: ./web
-      dockerfile: ./Dockerfile.dev
+      dockerfile: ./Dockerfile
     #      image: registry.cn-hangzhou.aliyuncs.com/91go/lm-web:latest
     container_name: gva-web
     restart: always
@@ -31,7 +31,7 @@ services:
   server:
     build:
       context: ./server
-      dockerfile: ./Dockerfile.dev
+      dockerfile: ./Dockerfile
     #      image: registry.cn-hangzhou.aliyuncs.com/91go/lm-server:latest
     container_name: gva-server
     restart: always
