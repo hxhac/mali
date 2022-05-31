@@ -16,14 +16,15 @@ RUN apk add --no-cache build-base=0.5-r2
 RUN update-ca-certificates
 
 # 编译项目
-#COPY /server/go.mod .
-#COPY /server/go.sum .
-COPY go.mod .
-COPY go.sum .
+## github-action使用这个
+COPY /server/go.mod .
+COPY /server/go.sum .
+COPY /server .
+## 本地启动docker服务使用这个
+#COPY go.mod .
+#COPY go.sum .
+#COPY . .
 RUN go mod download
-
-#COPY /server .
-COPY . .
 RUN go build -o server .
 
 # 二阶段编译
