@@ -111,7 +111,7 @@
         </el-table-column>
         <el-table-column align="left" label="评分" prop="score" min-width="10%">
           <template #default="scope">
-            <el-rate v-model="scope.row.score" />
+            <el-rate v-model="scope.row.score" disabled />
           </template>
         </el-table-column>
         <el-table-column
@@ -122,20 +122,14 @@
           label="图片"
         >
           <template #default="scope">
-            <el-popover
-              ref="popover"
-              placement="right"
-              trigger="click"
-            >
-              <div style="width:200px;height:200px;"><img :src="scope.row.goodsPic" alt="scope.row.goodsPic"></div>
-              <div slot="reference" style="width:80px;height:80px;">
-                <img
-                  :src="scope.row.goodsPic"
-                  :alt="scope.row.goodsPic"
-                  style="max-height: 50px;max-width: 130px"
-                >
-              </div>
-            </el-popover>
+            <div>
+              <el-popover ref="popover" trigger="click">
+                <div class="popover-box"><img :src="scope.row.goodsPic" alt="scope.row.goodsPic"></div>
+                <template #reference>
+                  <img :src="scope.row.goodsPic" :alt="scope.row.goodsPic" style="max-height: 50px;max-width: 130px">
+                </template>
+              </el-popover>
+            </div>
           </template>
         </el-table-column>
         <el-table-column align="left" label="备注" prop="remark" min-width="35%" />
@@ -574,7 +568,35 @@ const enterDialog = async() => {
   margin-left: 10px;
 }
 
-.el-table__fixed-body-wrapper {
-	z-index: auto !important;
+//.el-table__fixed-body-wrapper {
+//	z-index: auto !important;
+//}
+
+//.table-expand {
+//	padding-left: 60px;
+//	font-size: 0;
+//
+//	label {
+//		width: 90px;
+//		color: #99a9bf;
+//
+//		.el-form-item {
+//			margin-right: 0;
+//			margin-bottom: 0;
+//			width: 50%;
+//		}
+//
+//	}
+//}
+.popover-box {
+	width: auto;
+	height: auto;
+	max-width: 70%;
+	max-height: 70%;
+	//overflow: auto;
 }
+
+//.popover-box::-webkit-scrollbar {
+//	display: none; /* Chrome Safari */
+//}
 </style>
