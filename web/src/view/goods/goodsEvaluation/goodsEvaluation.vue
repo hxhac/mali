@@ -114,24 +114,6 @@
             <el-rate v-model="scope.row.score" disabled />
           </template>
         </el-table-column>
-        <el-table-column
-          prop="goodsPic"
-          header-align="center"
-          align="center"
-          min-width="10%"
-          label="图片"
-        >
-          <template #default="scope">
-            <div>
-              <el-popover ref="popover" trigger="click">
-                <div class="popover-box"><img :src="scope.row.goodsPic" alt="scope.row.goodsPic"></div>
-                <template #reference>
-                  <img :src="scope.row.goodsPic" :alt="scope.row.goodsPic" style="max-height: 50px;max-width: 130px">
-                </template>
-              </el-popover>
-            </div>
-          </template>
-        </el-table-column>
         <el-table-column align="left" label="备注" prop="remark" min-width="35%" />
         <el-table-column align="left" label="按钮组" min-width="10%">
           <template #default="scope">
@@ -172,7 +154,7 @@
           <el-input v-model="formData.goodsName" clearable placeholder="请输入" />
         </el-form-item>
         <el-form-item label="商品价格:">
-          <el-input v-model.number="formData.price" clearable placeholder="请输入" />
+          <el-input-number v-model.number="formData.price" placeholder="请输入" />
         </el-form-item>
         <el-form-item label="品牌:" prop="brand">
           <el-select v-model="formData.brand" placeholder="请选择" clearable filterable>
@@ -200,7 +182,7 @@
             @change="handleChange"
           />
         </el-form-item>
-        <el-form-item label="复购次数:">
+        <el-form-item label="use_times:">
           <el-input-number v-model.number="formData.useTimes" />
         </el-form-item>
         <el-form-item label="评分:">
@@ -214,32 +196,6 @@
             active-text="是"
             inactive-text="否"
             clearable
-          />
-        </el-form-item>
-        <el-form-item label="商品图片:">
-          <!--          <el-upload-->
-          <!--            v-model="formData.goodsPic"-->
-          <!--            list-type="picture"-->
-          <!--            action="#"-->
-          <!--            accept=".jpg, .jpeg, .png"-->
-          <!--            :limit="1"-->
-          <!--            :auto-upload="false"-->
-          <!--            :file-list="fileList"-->
-          <!--            :on-change="getFile"-->
-          <!--            :on-preview="handlePictureCardPreview"-->
-          <!--            :on-remove="handleUploadRemove"-->
-          <!--          >-->
-          <!--            <el-button size="small" type="primary">选择图片上传</el-button>-->
-          <!--            <div slot="tip" class="el-upload__tip">只能上传一张jpg/png文件</div>-->
-          <!--          </el-upload>-->
-          <!--          <el-dialog :visible.sync="dialogVisible" append-to-body>-->
-          <!--            <img width="100%" :src="dialogImageUrl" alt>-->
-          <!--          </el-dialog>-->
-          <el-input
-            v-model="formData.goodsPic"
-            clearable
-            placeholder="请输入"
-            autosize
           />
         </el-form-item>
         <el-form-item label="备注:">
@@ -289,23 +245,6 @@ export default {
     }
   },
   methods: {
-    // 上传图片
-    // getFile(file, fileList) {
-    //   getBase64(file.raw).then(res => {
-    //     const params = res.split(',')
-    //     console.log(params, 'params')
-    //     if (params.length > 0) {
-    //       this.proofImage = params[1]
-    //     }
-    //   })
-    // },
-    // handleUploadRemove(file, fileList) {
-    //   this.proofImage = ''
-    // },
-    // handlePictureCardPreview(file) {
-    //   this.dialogImageUrl = file.url
-    //   this.dialogVisible = true
-    // },
   }
 }
 </script>
@@ -330,12 +269,11 @@ import {
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { ref } from 'vue'
 import { Document, StarFilled } from '@element-plus/icons-vue'
-import { getBase64 } from '@/utils/file'
 
 // 自动化生成的字典（可能为空）以及字段
 const formData = ref({
   goodsName: '',
-  price: null,
+  price: 1,
   brand: null,
   category: null,
   score: null,
@@ -343,7 +281,6 @@ const formData = ref({
   useTimes: 1,
   remark: '',
   more: '',
-  goodsPic: null
 })
 
 // =========== 表格控制部分 ===========
@@ -508,7 +445,7 @@ const closeDialog = () => {
   dialogFormVisible.value = false
   formData.value = {
     goodsName: '',
-    price: null,
+    price: 1,
     brand: null,
     category: null,
     score: null,
