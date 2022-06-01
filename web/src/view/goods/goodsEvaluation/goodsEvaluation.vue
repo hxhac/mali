@@ -43,8 +43,8 @@
             />
           </el-select>
         </el-form-item>
-        <el-form-item label="remark">
-          <el-input v-model="searchInfo.remark" placeholder="商品备注" clearable />
+        <el-form-item label="more">
+          <el-input v-model="searchInfo.more" placeholder="商品备注" clearable />
         </el-form-item>
         <el-form-item>
           <el-button size="small" type="primary" icon="search" @click="onSubmit">查询
@@ -114,7 +114,6 @@
             <el-rate v-model="scope.row.score" disabled />
           </template>
         </el-table-column>
-        <el-table-column align="left" label="备注" prop="remark" min-width="35%" />
         <el-table-column align="left" label="按钮组" min-width="10%">
           <template #default="scope">
             <el-button
@@ -198,15 +197,6 @@
             clearable
           />
         </el-form-item>
-        <el-form-item label="备注:">
-          <el-input
-            v-model="formData.remark"
-            type="textarea"
-            clearable
-            placeholder="请输入"
-            autosize
-          />
-        </el-form-item>
         <el-form-item label="more字段:">
           <mavon-editor v-model="formData.more" style="min-height: 400px" />
         </el-form-item>
@@ -279,7 +269,6 @@ const formData = ref({
   score: null,
   isStarred: false,
   useTimes: 1,
-  remark: '',
   more: '',
 })
 
@@ -451,7 +440,6 @@ const closeDialog = () => {
     score: null,
     isStarred: false,
     useTimes: 1,
-    remark: '',
     more: '',
   }
 }
