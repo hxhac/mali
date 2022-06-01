@@ -69,8 +69,8 @@ func (goodsEvaluationService *GoodsEvaluationService) GetGoodsEvaluationInfoList
 	if info.GoodsName != "" {
 		db = db.Where("goods_name LIKE ?", "%"+info.GoodsName+"%")
 	}
-	if info.Remark != "" {
-		db = db.Where("remark LIKE ?", "%"+info.Remark+"%")
+	if info.More != "" {
+		db = db.Where("more LIKE ?", "%"+info.More+"%")
 	}
 
 	err = db.Count(&total).Error
