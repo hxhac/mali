@@ -86,7 +86,7 @@
       >
         <el-table-column type="selection" width="55" />
 
-        <el-table-column align="left" label="商品名称" prop="goodsName,brand" min-width="35%">
+        <el-table-column align="left" label="商品名称" prop="goodsName,brand" min-width="40%">
           <template #default="scope">
             {{ scope.row.goods_brand.brandName }} {{ scope.row.goodsName }}
             <el-tag v-if="scope.row.isStarred" type="warning" size="small" effect="dark">
@@ -109,12 +109,12 @@
         <el-table-column align="left" label="商品价格" prop="price" min-width="10%">
           <template #default="scope">¥{{ scope.row.price }}</template>
         </el-table-column>
-        <el-table-column align="left" label="评分" prop="score" min-width="10%">
+        <el-table-column align="left" label="评分" prop="score" min-width="15%">
           <template #default="scope">
             <el-rate v-model="scope.row.score" disabled />
           </template>
         </el-table-column>
-        <el-table-column align="left" label="按钮组" min-width="10%">
+        <el-table-column align="left" label="按钮组" min-width="15%">
           <template #default="scope">
             <el-button
               type="text"
@@ -153,69 +153,75 @@
         <el-form-item label="商品名称:">
           <el-input v-model="formData.goodsName" clearable placeholder="请输入" />
         </el-form-item>
-	      <el-row type="flex" class="row-bg">
-		      <el-col :span="8">
-			      <el-form-item label="商品价格:">
-				      <el-input-number v-model.number="formData.price" placeholder="请输入" />
-			      </el-form-item>
-		      </el-col>
-		      <el-col :span="8">
-			      <el-form-item label="品牌:" prop="brand">
-				      <el-select v-model="formData.brand" placeholder="请选择" clearable filterable>
-					      <el-option
-						      v-for="item in brandOptions"
-						      :key="item.ID"
-						      :label="item.brandName"
-						      :value="item.ID"
-					      />
-				      </el-select>
-			      </el-form-item>
-		      </el-col>
-		      <el-col :span="8">
-			      <el-form-item label="分类:" prop="category">
-				      <el-cascader
-					      ref="elcascader"
-					      v-model="formData.category"
-					      :options="categoryOptions"
-					      :props="{
-              value: 'ID',
-              label: 'cateName',
-              children: 'children',
-              expandTrigger: 'hover',
-            }"
-					      clearable
-					      filterable
-					      @change="handleChange"
-				      />
-			      </el-form-item>
-		      </el-col>
-	      </el-row>
-	      <el-row>
-		      <el-col :span="8">
-			      <el-form-item label="use_times:">
-				      <el-input-number v-model.number="formData.useTimes" />
-			      </el-form-item>
-		      </el-col>
-		      <el-col :span="8">
-			      <el-form-item label="score:">
-				      <el-rate v-model.number="formData.score" />
-			      </el-form-item>
-		      </el-col>
-		      <el-col :span="8">
-			      <el-form-item label="star:">
-				      <el-switch
-					      v-model="formData.isStarred"
-					      active-color="#13ce66"
-					      inactive-color="#ff4949"
-					      active-text="是"
-					      inactive-text="否"
-					      clearable
-				      />
-			      </el-form-item>
-		      </el-col>
-	      </el-row>
+        <el-row type="flex" class="row-bg">
+          <el-col :span="8">
+            <el-form-item label="商品价格:">
+              <el-input-number v-model.number="formData.price" placeholder="请输入" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="品牌:" prop="brand">
+              <el-select v-model="formData.brand" placeholder="请选择" clearable filterable>
+                <el-option
+                  v-for="item in brandOptions"
+                  :key="item.ID"
+                  :label="item.brandName"
+                  :value="item.ID"
+                />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="分类:" prop="category">
+              <el-cascader
+                ref="elcascader"
+                v-model="formData.category"
+                :options="categoryOptions"
+                :props="{
+                  value: 'ID',
+                  label: 'cateName',
+                  children: 'children',
+                  expandTrigger: 'hover',
+                }"
+                clearable
+                filterable
+                @change="handleChange"
+              />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="8">
+            <el-form-item label="use_times:">
+              <el-input-number v-model.number="formData.useTimes" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="score:">
+              <el-rate v-model.number="formData.score" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="star:">
+              <el-switch
+                v-model="formData.isStarred"
+                active-color="#13ce66"
+                inactive-color="#ff4949"
+                active-text="是"
+                inactive-text="否"
+                clearable
+              />
+            </el-form-item>
+          </el-col>
+        </el-row>
         <el-form-item label="more字段:">
-          <mavon-editor v-model="formData.more" style="min-height: 400px" />
+          <mavon-editor
+            ref="md"
+            v-model="formData.more"
+            style="min-height: 300px"
+            @imgAdd="imgAdd"
+            @imgDel="imgDel"
+          />
         </el-form-item>
       </el-form>
       <template #footer>
@@ -229,6 +235,9 @@
 </template>
 
 <script>
+
+const base = ref(import.meta.env.VITE_BASE_API).value
+const userStore = useUserStore()
 
 export default {
   name: 'GoodsEvaluation',
@@ -252,6 +261,44 @@ export default {
     }
   },
   methods: {
+    imgAdd(pos, $file) {
+      // 第一步.将图片上传到服务器.
+      var formdata = new FormData()
+      formdata.append('file', $file)
+      this.uploadFileRequest(`/fileUploadAndDownload/upload`, formdata).then(resp => {
+        var json = resp.data.data // 取出上传成功后的url
+        var msg = resp.msg
+        // console.log(resp)
+	      // console.log(json)
+        if (resp.status === 200) {
+          this.$refs.md.$imglst2Url([[pos, json.file.url]])
+        } else {
+          this.$message({ type: resp.status, message: msg })
+        }
+      })
+    },
+    uploadFileRequest(url, params) {
+      console.log(base)
+      return axios({
+        method: 'post',
+        url: `${base}${url}`,
+        data: params,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'x-token': userStore.token
+        }
+      })
+    },
+	  // imgDel(pos) {
+    //   console.log(pos)
+    //   deleteFile(pos).then(resp => {
+    // 	  var json = resp.data.data // 取出上传成功后的url
+    // 	  var msg = resp.msg
+    // 	  if (resp.status === 200) {
+    //       this.$message({ type: resp.status, message: msg })
+    // 	  }
+    //   })
+    // },
   }
 }
 </script>
@@ -276,6 +323,8 @@ import {
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { ref } from 'vue'
 import { Document, StarFilled } from '@element-plus/icons-vue'
+import axios from 'axios'
+import { useUserStore } from '@/pinia/modules/user'
 
 // 自动化生成的字典（可能为空）以及字段
 const formData = ref({
@@ -531,11 +580,11 @@ const enterDialog = async() => {
 //	}
 //}
 .popover-box {
-	width: auto;
-	height: auto;
-	max-width: 70%;
-	max-height: 70%;
-	//overflow: auto;
+  width: auto;
+  height: auto;
+  max-width: 70%;
+  max-height: 70%;
+  //overflow: auto;
 }
 
 //.popover-box::-webkit-scrollbar {
