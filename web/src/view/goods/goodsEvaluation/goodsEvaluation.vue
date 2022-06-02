@@ -149,54 +149,71 @@
     <!--	  详情页弹窗-->
     <el-dialog v-model="dialogFormVisible" :before-close="closeDialog" title="弹窗操作">
       <el-form :model="formData" label-position="right" label-width="80px">
+
         <el-form-item label="商品名称:">
           <el-input v-model="formData.goodsName" clearable placeholder="请输入" />
         </el-form-item>
-        <el-form-item label="商品价格:">
-          <el-input-number v-model.number="formData.price" placeholder="请输入" />
-        </el-form-item>
-        <el-form-item label="品牌:" prop="brand">
-          <el-select v-model="formData.brand" placeholder="请选择" clearable filterable>
-            <el-option
-              v-for="item in brandOptions"
-              :key="item.ID"
-              :label="item.brandName"
-              :value="item.ID"
-            />
-          </el-select>
-        </el-form-item>
-        <el-form-item label="分类:" prop="category">
-          <el-cascader
-            ref="elcascader"
-            v-model="formData.category"
-            :options="categoryOptions"
-            :props="{
+	      <el-row type="flex" class="row-bg">
+		      <el-col :span="8">
+			      <el-form-item label="商品价格:">
+				      <el-input-number v-model.number="formData.price" placeholder="请输入" />
+			      </el-form-item>
+		      </el-col>
+		      <el-col :span="8">
+			      <el-form-item label="品牌:" prop="brand">
+				      <el-select v-model="formData.brand" placeholder="请选择" clearable filterable>
+					      <el-option
+						      v-for="item in brandOptions"
+						      :key="item.ID"
+						      :label="item.brandName"
+						      :value="item.ID"
+					      />
+				      </el-select>
+			      </el-form-item>
+		      </el-col>
+		      <el-col :span="8">
+			      <el-form-item label="分类:" prop="category">
+				      <el-cascader
+					      ref="elcascader"
+					      v-model="formData.category"
+					      :options="categoryOptions"
+					      :props="{
               value: 'ID',
               label: 'cateName',
               children: 'children',
               expandTrigger: 'hover',
             }"
-            clearable
-            filterable
-            @change="handleChange"
-          />
-        </el-form-item>
-        <el-form-item label="use_times:">
-          <el-input-number v-model.number="formData.useTimes" />
-        </el-form-item>
-        <el-form-item label="评分:">
-          <el-rate v-model.number="formData.score" />
-        </el-form-item>
-        <el-form-item label="是否加星:">
-          <el-switch
-            v-model="formData.isStarred"
-            active-color="#13ce66"
-            inactive-color="#ff4949"
-            active-text="是"
-            inactive-text="否"
-            clearable
-          />
-        </el-form-item>
+					      clearable
+					      filterable
+					      @change="handleChange"
+				      />
+			      </el-form-item>
+		      </el-col>
+	      </el-row>
+	      <el-row>
+		      <el-col :span="8">
+			      <el-form-item label="use_times:">
+				      <el-input-number v-model.number="formData.useTimes" />
+			      </el-form-item>
+		      </el-col>
+		      <el-col :span="8">
+			      <el-form-item label="score:">
+				      <el-rate v-model.number="formData.score" />
+			      </el-form-item>
+		      </el-col>
+		      <el-col :span="8">
+			      <el-form-item label="star:">
+				      <el-switch
+					      v-model="formData.isStarred"
+					      active-color="#13ce66"
+					      inactive-color="#ff4949"
+					      active-text="是"
+					      inactive-text="否"
+					      clearable
+				      />
+			      </el-form-item>
+		      </el-col>
+	      </el-row>
         <el-form-item label="more字段:">
           <mavon-editor v-model="formData.more" style="min-height: 400px" />
         </el-form-item>
