@@ -9,81 +9,84 @@
       </el-form>
     </div>
     <div class="gva-table-box">
-        <div class="gva-btn-list">
-            <el-button size="small" type="primary" icon="plus" @click="openDialog">新增</el-button>
-            <el-popover v-model:visible="deleteVisible" placement="top" width="160">
-            <p>确定要删除吗？</p>
-            <div style="text-align: right; margin-top: 8px;">
-                <el-button size="small" type="text" @click="deleteVisible = false">取消</el-button>
-                <el-button size="small" type="primary" @click="onDelete">确定</el-button>
-            </div>
-            <template #reference>
-                <el-button icon="delete" size="small" style="margin-left: 10px;" :disabled="!multipleSelection.length" @click="deleteVisible = true">删除</el-button>
-            </template>
-            </el-popover>
-        </div>
-        <el-table
+      <div class="gva-btn-list">
+        <el-button size="small" type="primary" icon="plus" @click="openDialog">新增</el-button>
+        <el-popover v-model:visible="deleteVisible" placement="top" width="160">
+          <p>确定要删除吗？</p>
+          <div style="text-align: right; margin-top: 8px;">
+            <el-button size="small" type="text" @click="deleteVisible = false">取消</el-button>
+            <el-button size="small" type="primary" @click="onDelete">确定</el-button>
+          </div>
+          <template #reference>
+            <el-button icon="delete" size="small" style="margin-left: 10px;" :disabled="!multipleSelection.length" @click="deleteVisible = true">删除</el-button>
+          </template>
+        </el-popover>
+      </div>
+      <el-table
         ref="multipleTable"
         style="width: 100%"
         tooltip-effect="dark"
         :data="tableData"
         row-key="ID"
         @selection-change="handleSelectionChange"
-        >
+      >
         <el-table-column type="selection" width="55" />
-        <el-table-column align="left" label="日期" width="180">
-            <template #default="scope">{{ formatDate(scope.row.CreatedAt) }}</template>
+        <!--        <el-table-column align="left" label="日期" width="180">-->
+        <!--          <template #default="scope">{{ formatDate(scope.row.CreatedAt) }}</template>-->
+        <!--        </el-table-column>-->
+        <!--        <el-table-column align="left" label="uuid字段" prop="uuid" width="120" />-->
+        <el-table-column align="left" label="分类名称" prop="cateName" min-width="10%" />
+        <el-table-column align="left" label="url" prop="cateName" min-width="35%">
+          <template #default="scope">
+            https://mali-api.wrss.top/rss/{{ scope.row.uuid }}
+            <el-button class="btn" data-clipboard-action="copy" size="mini" icon="document-copy" circle plain type="text" @click="copyLink(value)" />
+            <!--            <Clipboard />-->
+          </template>
         </el-table-column>
-        <el-table-column align="left" label="uuid字段" prop="uuid" width="120" />
-        <el-table-column align="left" label="cateName字段" prop="cateName" width="120" />
-        <el-table-column align="left" label="自定义标题" prop="title" width="120" />
-        <el-table-column align="left" label="限制聚合feed源的item数量" prop="num" width="120" />
-        <el-table-column align="left" label="自定义该rss描述" prop="remark" width="120" />
-        <el-table-column align="left" label="author字段" prop="author" width="120" />
-        <el-table-column align="left" label="是否mute整个分类（默认0展示1不展示）" prop="isMute" width="120">
-            <template #default="scope">{{ formatBoolean(scope.row.isMute) }}</template>
+        <el-table-column align="left" label="标题" prop="title" min-width="10%" />
+        <el-table-column align="left" label="限制数量" prop="num" min-width="10%" />
+        <el-table-column align="left" label="描述" prop="remark" min-width="15%" />
+        <el-table-column align="left" label="is_mute" prop="isMute" min-width="10%">
+          <template #default="scope">{{ formatBoolean(scope.row.isMute) }}</template>
         </el-table-column>
-        <el-table-column align="left" label="按钮组">
-            <template #default="scope">
+        <el-table-column align="left" label="按钮组" min-width="10%">
+          <template #default="scope">
             <el-button type="text" icon="edit" size="small" class="table-button" @click="updateRssCategoryFunc(scope.row)">变更</el-button>
             <el-button type="text" icon="delete" size="small" @click="deleteRow(scope.row)">删除</el-button>
-            </template>
+          </template>
         </el-table-column>
-        </el-table>
-        <div class="gva-pagination">
-            <el-pagination
-            layout="total, sizes, prev, pager, next, jumper"
-            :current-page="page"
-            :page-size="pageSize"
-            :page-sizes="[10, 30, 50, 100]"
-            :total="total"
-            @current-change="handleCurrentChange"
-            @size-change="handleSizeChange"
-            />
-        </div>
+      </el-table>
+      <div class="gva-pagination">
+        <el-pagination
+          layout="total, sizes, prev, pager, next, jumper"
+          :current-page="page"
+          :page-size="pageSize"
+          :page-sizes="[10, 30, 50, 100]"
+          :total="total"
+          @current-change="handleCurrentChange"
+          @size-change="handleSizeChange"
+        />
+      </div>
     </div>
     <el-dialog v-model="dialogFormVisible" :before-close="closeDialog" title="弹窗操作">
       <el-form :model="formData" label-position="right" label-width="80px">
-        <el-form-item label="uuid字段:">
-          <el-input v-model.number="formData.uuid" clearable placeholder="请输入" />
-        </el-form-item>
-        <el-form-item label="cateName字段:">
+        <el-form-item label="分类名称:">
           <el-input v-model="formData.cateName" clearable placeholder="请输入" />
         </el-form-item>
-        <el-form-item label="自定义标题:">
+        <el-form-item label="title:">
           <el-input v-model="formData.title" clearable placeholder="请输入" />
         </el-form-item>
-        <el-form-item label="限制聚合feed源的item数量:">
-          <el-input v-model.number="formData.num" clearable placeholder="请输入" />
+        <el-form-item label="limit:">
+          <el-input-number v-model.number="formData.num" clearable placeholder="请输入" />
         </el-form-item>
-        <el-form-item label="自定义该rss描述:">
+        <el-form-item label="描述:">
           <el-input v-model="formData.remark" clearable placeholder="请输入" />
         </el-form-item>
-        <el-form-item label="author字段:">
+        <el-form-item label="author:">
           <el-input v-model="formData.author" clearable placeholder="请输入" />
         </el-form-item>
-        <el-form-item label="是否mute整个分类（默认0展示1不展示）:">
-          <el-switch v-model="formData.isMute" active-color="#13ce66" inactive-color="#ff4949" active-text="是" inactive-text="否" clearable ></el-switch>
+        <el-form-item label="is_mute:">
+          <el-switch v-model="formData.isMute" active-color="#13ce66" inactive-color="#ff4949" active-text="是" inactive-text="否" clearable />
         </el-form-item>
       </el-form>
       <template #footer>
@@ -97,8 +100,12 @@
 </template>
 
 <script>
+// import Clipboard from '@/components/clipboard/clipboard'
+
 export default {
-  name: 'RssCategory'
+  name: 'RssCategory',
+  components: {
+  },
 }
 </script>
 
@@ -119,14 +126,14 @@ import { ref } from 'vue'
 
 // 自动化生成的字典（可能为空）以及字段
 const formData = ref({
-        uuid: 0,
-        cateName: '',
-        title: '',
-        num: 0,
-        remark: '',
-        author: '',
-        isMute: false,
-        })
+  // uuid: 0,
+  cateName: '',
+  title: '',
+  num: 99,
+  remark: '',
+  author: 'jf',
+  isMute: false,
+})
 
 // =========== 表格控制部分 ===========
 const page = ref(1)
@@ -144,8 +151,8 @@ const onReset = () => {
 const onSubmit = () => {
   page.value = 1
   pageSize.value = 10
-  if (searchInfo.value.isMute === ""){
-      searchInfo.value.isMute=null
+  if (searchInfo.value.isMute === '') {
+    searchInfo.value.isMute = null
   }
   getTableData()
 }
@@ -178,90 +185,87 @@ getTableData()
 // ============== 表格控制部分结束 ===============
 
 // 获取需要的字典 可能为空 按需保留
-const setOptions = async () =>{
+const setOptions = async() => {
 }
 
 // 获取需要的字典 可能为空 按需保留
 setOptions()
 
-
 // 多选数据
 const multipleSelection = ref([])
 // 多选
 const handleSelectionChange = (val) => {
-    multipleSelection.value = val
+  multipleSelection.value = val
 }
 
 // 删除行
 const deleteRow = (row) => {
-    ElMessageBox.confirm('确定要删除吗?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-    }).then(() => {
-            deleteRssCategoryFunc(row)
-        })
-    }
-
+  ElMessageBox.confirm('确定要删除吗?', '提示', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning'
+  }).then(() => {
+    deleteRssCategoryFunc(row)
+  })
+}
 
 // 批量删除控制标记
 const deleteVisible = ref(false)
 
 // 多选删除
 const onDelete = async() => {
-      const ids = []
-      if (multipleSelection.value.length === 0) {
-        ElMessage({
-          type: 'warning',
-          message: '请选择要删除的数据'
-        })
-        return
-      }
-      multipleSelection.value &&
+  const ids = []
+  if (multipleSelection.value.length === 0) {
+    ElMessage({
+      type: 'warning',
+      message: '请选择要删除的数据'
+    })
+    return
+  }
+  multipleSelection.value &&
         multipleSelection.value.map(item => {
           ids.push(item.ID)
         })
-      const res = await deleteRssCategoryByIds({ ids })
-      if (res.code === 0) {
-        ElMessage({
-          type: 'success',
-          message: '删除成功'
-        })
-        if (tableData.value.length === ids.length && page.value > 1) {
-          page.value--
-        }
-        deleteVisible.value = false
-        getTableData()
-      }
+  const res = await deleteRssCategoryByIds({ ids })
+  if (res.code === 0) {
+    ElMessage({
+      type: 'success',
+      message: '删除成功'
+    })
+    if (tableData.value.length === ids.length && page.value > 1) {
+      page.value--
     }
+    deleteVisible.value = false
+    getTableData()
+  }
+}
 
 // 行为控制标记（弹窗内部需要增还是改）
 const type = ref('')
 
 // 更新行
 const updateRssCategoryFunc = async(row) => {
-    const res = await findRssCategory({ ID: row.ID })
-    type.value = 'update'
-    if (res.code === 0) {
-        formData.value = res.data.rerssCategory
-        dialogFormVisible.value = true
-    }
+  const res = await findRssCategory({ ID: row.ID })
+  type.value = 'update'
+  if (res.code === 0) {
+    formData.value = res.data.rerssCategory
+    dialogFormVisible.value = true
+  }
 }
 
-
 // 删除行
-const deleteRssCategoryFunc = async (row) => {
-    const res = await deleteRssCategory({ ID: row.ID })
-    if (res.code === 0) {
-        ElMessage({
-                type: 'success',
-                message: '删除成功'
-            })
-            if (tableData.value.length === 1 && page.value > 1) {
-            page.value--
-        }
-        getTableData()
+const deleteRssCategoryFunc = async(row) => {
+  const res = await deleteRssCategory({ ID: row.ID })
+  if (res.code === 0) {
+    ElMessage({
+      type: 'success',
+      message: '删除成功'
+    })
+    if (tableData.value.length === 1 && page.value > 1) {
+      page.value--
     }
+    getTableData()
+  }
 }
 
 // 弹窗控制标记
@@ -269,46 +273,47 @@ const dialogFormVisible = ref(false)
 
 // 打开弹窗
 const openDialog = () => {
-    type.value = 'create'
-    dialogFormVisible.value = true
+  type.value = 'create'
+  dialogFormVisible.value = true
 }
 
 // 关闭弹窗
 const closeDialog = () => {
-    dialogFormVisible.value = false
-    formData.value = {
-        uuid: 0,
-        cateName: '',
-        title: '',
-        num: 0,
-        remark: '',
-        author: '',
-        isMute: false,
-        }
+  dialogFormVisible.value = false
+  formData.value = {
+    // uuid: 0,
+    cateName: '',
+    title: '',
+    num: 99,
+    remark: '',
+    author: 'jf',
+    isMute: false,
+  }
 }
 // 弹窗确定
-const enterDialog = async () => {
-      let res
-      switch (type.value) {
-        case 'create':
-          res = await createRssCategory(formData.value)
-          break
-        case 'update':
-          res = await updateRssCategory(formData.value)
-          break
-        default:
-          res = await createRssCategory(formData.value)
-          break
-      }
-      if (res.code === 0) {
-        ElMessage({
-          type: 'success',
-          message: '创建/更改成功'
-        })
-        closeDialog()
-        getTableData()
-      }
+const enterDialog = async() => {
+  let res
+  switch (type.value) {
+    case 'create':
+      res = await createRssCategory(formData.value)
+      break
+    case 'update':
+      res = await updateRssCategory(formData.value)
+      break
+    default:
+      res = await createRssCategory(formData.value)
+      break
+  }
+  if (res.code === 0) {
+    ElMessage({
+      type: 'success',
+      message: '创建/更改成功'
+    })
+    closeDialog()
+    getTableData()
+  }
 }
+
 </script>
 
 <style>

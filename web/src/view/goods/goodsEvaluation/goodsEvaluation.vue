@@ -155,23 +155,6 @@
         </el-form-item>
         <el-row type="flex" class="row-bg">
           <el-col :span="8">
-            <el-form-item label="商品价格:">
-              <el-input-number v-model.number="formData.price" placeholder="请输入" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="品牌:" prop="brand">
-              <el-select v-model="formData.brand" placeholder="请选择" clearable filterable>
-                <el-option
-                  v-for="item in brandOptions"
-                  :key="item.ID"
-                  :label="item.brandName"
-                  :value="item.ID"
-                />
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
             <el-form-item label="分类:" prop="category">
               <el-cascader
                 ref="elcascader"
@@ -187,6 +170,23 @@
                 filterable
                 @change="handleChange"
               />
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="品牌:" prop="brand">
+              <el-select v-model="formData.brand" placeholder="请选择" clearable filterable>
+                <el-option
+                  v-for="item in brandOptions"
+                  :key="item.ID"
+                  :label="item.brandName"
+                  :value="item.ID"
+                />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="商品价格:">
+              <el-input-number v-model.number="formData.price" placeholder="请输入" />
             </el-form-item>
           </el-col>
         </el-row>
