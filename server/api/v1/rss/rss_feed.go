@@ -2,20 +2,20 @@ package rss
 
 import (
 	"github.com/flipped-aurora/gin-vue-admin/server/global"
-    "github.com/flipped-aurora/gin-vue-admin/server/model/rss"
-    "github.com/flipped-aurora/gin-vue-admin/server/model/common/request"
-    rssReq "github.com/flipped-aurora/gin-vue-admin/server/model/rss/request"
-    "github.com/flipped-aurora/gin-vue-admin/server/model/common/response"
-    "github.com/flipped-aurora/gin-vue-admin/server/service"
-    "github.com/gin-gonic/gin"
-    "go.uber.org/zap"
+	"github.com/flipped-aurora/gin-vue-admin/server/model/common/request"
+	"github.com/flipped-aurora/gin-vue-admin/server/model/common/response"
+	"github.com/flipped-aurora/gin-vue-admin/server/model/rss"
+	rssReq "github.com/flipped-aurora/gin-vue-admin/server/model/rss/request"
+	"github.com/flipped-aurora/gin-vue-admin/server/service"
+	"github.com/gin-gonic/gin"
+	"github.com/mmcdole/gofeed"
+	"go.uber.org/zap"
 )
 
 type RssFeedApi struct {
 }
 
 var rssFeedService = service.ServiceGroupApp.RssServiceGroup.RssFeedService
-
 
 // CreateRssFeed 创建RssFeed
 // @Tags RssFeed
@@ -29,8 +29,17 @@ var rssFeedService = service.ServiceGroupApp.RssServiceGroup.RssFeedService
 func (rssFeedApi *RssFeedApi) CreateRssFeed(c *gin.Context) {
 	var rssFeed rss.RssFeed
 	_ = c.ShouldBindJSON(&rssFeed)
+
+	// rss名称等数据直接通过解析rss获得
+	fp := gofeed.NewParser()
+	feed, err := fp.ParseURL(rssFeed.Url)
+	if err != nil {
+		return
+	}
+	rssFeed.RssName = feed.Title
+
 	if err := rssFeedService.CreateRssFeed(rssFeed); err != nil {
-        global.GVA_LOG.Error("创建失败!", zap.Error(err))
+		global.GVA_LOG.Error("创建失败!", zap.Error(err))
 		response.FailWithMessage("创建失败", c)
 	} else {
 		response.OkWithMessage("创建成功", c)
@@ -50,7 +59,7 @@ func (rssFeedApi *RssFeedApi) DeleteRssFeed(c *gin.Context) {
 	var rssFeed rss.RssFeed
 	_ = c.ShouldBindJSON(&rssFeed)
 	if err := rssFeedService.DeleteRssFeed(rssFeed); err != nil {
-        global.GVA_LOG.Error("删除失败!", zap.Error(err))
+		global.GVA_LOG.Error("删除失败!", zap.Error(err))
 		response.FailWithMessage("删除失败", c)
 	} else {
 		response.OkWithMessage("删除成功", c)
@@ -68,9 +77,9 @@ func (rssFeedApi *RssFeedApi) DeleteRssFeed(c *gin.Context) {
 // @Router /rssFeed/deleteRssFeedByIds [delete]
 func (rssFeedApi *RssFeedApi) DeleteRssFeedByIds(c *gin.Context) {
 	var IDS request.IdsReq
-    _ = c.ShouldBindJSON(&IDS)
+	_ = c.ShouldBindJSON(&IDS)
 	if err := rssFeedService.DeleteRssFeedByIds(IDS); err != nil {
-        global.GVA_LOG.Error("批量删除失败!", zap.Error(err))
+		global.GVA_LOG.Error("批量删除失败!", zap.Error(err))
 		response.FailWithMessage("批量删除失败", c)
 	} else {
 		response.OkWithMessage("批量删除成功", c)
@@ -90,7 +99,7 @@ func (rssFeedApi *RssFeedApi) UpdateRssFeed(c *gin.Context) {
 	var rssFeed rss.RssFeed
 	_ = c.ShouldBindJSON(&rssFeed)
 	if err := rssFeedService.UpdateRssFeed(rssFeed); err != nil {
-        global.GVA_LOG.Error("更新失败!", zap.Error(err))
+		global.GVA_LOG.Error("更新失败!", zap.Error(err))
 		response.FailWithMessage("更新失败", c)
 	} else {
 		response.OkWithMessage("更新成功", c)
@@ -110,7 +119,7 @@ func (rssFeedApi *RssFeedApi) FindRssFeed(c *gin.Context) {
 	var rssFeed rss.RssFeed
 	_ = c.ShouldBindQuery(&rssFeed)
 	if err, rerssFeed := rssFeedService.GetRssFeed(rssFeed.ID); err != nil {
-        global.GVA_LOG.Error("查询失败!", zap.Error(err))
+		global.GVA_LOG.Error("查询失败!", zap.Error(err))
 		response.FailWithMessage("查询失败", c)
 	} else {
 		response.OkWithData(gin.H{"rerssFeed": rerssFeed}, c)
@@ -130,14 +139,14 @@ func (rssFeedApi *RssFeedApi) GetRssFeedList(c *gin.Context) {
 	var pageInfo rssReq.RssFeedSearch
 	_ = c.ShouldBindQuery(&pageInfo)
 	if err, list, total := rssFeedService.GetRssFeedInfoList(pageInfo); err != nil {
-	    global.GVA_LOG.Error("获取失败!", zap.Error(err))
-        response.FailWithMessage("获取失败", c)
-    } else {
-        response.OkWithDetailed(response.PageResult{
-            List:     list,
-            Total:    total,
-            Page:     pageInfo.Page,
-            PageSize: pageInfo.PageSize,
-        }, "获取成功", c)
-    }
+		global.GVA_LOG.Error("获取失败!", zap.Error(err))
+		response.FailWithMessage("获取失败", c)
+	} else {
+		response.OkWithDetailed(response.PageResult{
+			List:     list,
+			Total:    total,
+			Page:     pageInfo.Page,
+			PageSize: pageInfo.PageSize,
+		}, "获取成功", c)
+	}
 }

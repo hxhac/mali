@@ -14,7 +14,8 @@ type RssFeed struct {
 	Url      string `json:"url" form:"url" gorm:"column:url;comment:rss的url;size:255;"`
 	Keywords string `json:"keywords" form:"keywords" gorm:"column:keywords;comment:关键字过滤，逗号连接;size:255;"`
 	// IsStarred *bool  `json:"isStarred" form:"isStarred" gorm:"column:is_starred;comment:是否加星;default:0"`
-	IsPause *bool `json:"isPause" form:"isPause" gorm:"column:is_pause;comment:是否暂停（0不暂停1暂停）;default:0"`
+	IsPause     *bool       `json:"isPause" form:"isPause" gorm:"column:is_pause;comment:是否暂停（0不暂停1暂停）;default:0"`
+	RssCategory RssCategory `json:"rss_category" gorm:"foreignKey:CateId"`
 }
 
 // TableName RssFeed 表名

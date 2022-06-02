@@ -2,6 +2,16 @@
   <div>
     <div class="gva-search-box">
       <el-form :inline="true" :model="searchInfo" class="demo-form-inline">
+        <el-form-item label="rss分类:">
+          <el-select v-model="searchInfo.cateId" placeholder="请选择" clearable filterable>
+            <el-option
+              v-for="item in categoryOptions"
+              :key="item.ID"
+              :label="item.cateName"
+              :value="item.ID"
+            />
+          </el-select>
+        </el-form-item>
         <el-form-item>
           <el-button size="small" type="primary" icon="search" @click="onSubmit">查询</el-button>
           <el-button size="small" icon="refresh" @click="onReset">重置</el-button>
@@ -33,11 +43,14 @@
         <el-table-column type="selection" width="55" />
         <el-table-column align="left" label="rss名称" prop="rssName" min-width="10%">
           <template #default="scope">
-            {{ scope.row.rssName }}
+            <el-link :href="scope.row.url" :underline="false">{{ scope.row.rssName }}</el-link>
           </template>
         </el-table-column>
-        <el-table-column align="left" label="rss分类" prop="cateId" min-width="10%" />
-        <!--        <el-table-column align="left" label="url" prop="url" width="120" />-->
+        <el-table-column align="left" label="rss分类" prop="cateId" min-width="10%">
+          <template #default="scope">
+            {{ scope.row.rss_category.cateName }}
+          </template>
+        </el-table-column>
         <el-table-column align="left" label="关键字" prop="keywords" min-width="10%" />
         <el-table-column align="left" label="是否暂停" prop="isPause" min-width="10%">
           <template #default="scope">{{ formatBoolean(scope.row.isPause) }}</template>
@@ -64,7 +77,14 @@
     <el-dialog v-model="dialogFormVisible" :before-close="closeDialog" title="弹窗操作">
       <el-form :model="formData" label-position="right" label-width="80px">
         <el-form-item label="rss分类:">
-          <el-input v-model.number="formData.cateId" clearable placeholder="请输入" />
+          <el-select v-model="formData.cateId" placeholder="请选择" clearable filterable>
+            <el-option
+              v-for="item in categoryOptions"
+              :key="item.ID"
+              :label="item.cateName"
+              :value="item.ID"
+            />
+          </el-select>
         </el-form-item>
         <el-form-item label="url:">
           <el-input v-model="formData.url" clearable placeholder="请输入" />
@@ -88,7 +108,7 @@
 
 <script>
 export default {
-  name: 'RssFeed'
+  name: 'RssFeed',
 }
 </script>
 
@@ -101,6 +121,7 @@ import {
   findRssFeed,
   getRssFeedList
 } from '@/api/rssFeed'
+import { getRssCategoryList } from '@/api/rssCategory'
 
 // 全量引入格式化工具 请按需保留
 import { getDictFunc, formatDate, formatBoolean, filterDict } from '@/utils/format'
@@ -109,7 +130,7 @@ import { ref } from 'vue'
 
 // 自动化生成的字典（可能为空）以及字段
 const formData = ref({
-  cateId: 0,
+  cateId: null,
   url: '',
   keywords: '',
   isPause: false,
@@ -164,8 +185,13 @@ getTableData()
 
 // ============== 表格控制部分结束 ===============
 
+const categoryOptions = ref([])
 // 获取需要的字典 可能为空 按需保留
 const setOptions = async() => {
+  const category = await getRssCategoryList({ pageSize: 999 })
+  if (category.code === 0) {
+    categoryOptions.value = category.data.list
+  }
 }
 
 // 获取需要的字典 可能为空 按需保留
@@ -261,7 +287,7 @@ const openDialog = () => {
 const closeDialog = () => {
   dialogFormVisible.value = false
   formData.value = {
-    cateId: 0,
+    cateId: null,
     url: '',
     keywords: '',
     isPause: false,
@@ -290,6 +316,7 @@ const enterDialog = async() => {
     getTableData()
   }
 }
+
 </script>
 
 <style>
