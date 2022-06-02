@@ -4,6 +4,7 @@ import (
 	"github.com/flipped-aurora/gin-vue-admin/server/api/v1/example"
 	"github.com/flipped-aurora/gin-vue-admin/server/api/v1/goods"
 	"github.com/flipped-aurora/gin-vue-admin/server/api/v1/life"
+	"github.com/flipped-aurora/gin-vue-admin/server/api/v1/rss"
 	"github.com/flipped-aurora/gin-vue-admin/server/api/v1/system"
 )
 
@@ -13,6 +14,7 @@ type ApiGroup struct {
 	DailyApiGroup   life.ApiGroup
 	GoodsApiGroup   goods.ApiGroup
 	LifeApiGroup    life.ApiGroup
+	RssApiGroup     rss.ApiGroup
 }
 
 var ApiGroupApp = new(ApiGroup)
