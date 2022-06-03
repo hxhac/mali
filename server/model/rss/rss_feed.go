@@ -9,11 +9,10 @@ import (
 // 如果含有time.Time 请自行import time包
 type RssFeed struct {
 	global.GVA_MODEL
-	RssName  string `json:"rssName" form:"rssName" gorm:"column:rss_name;comment:item名称;size:255;not null; unique;"`
-	CateId   *int   `json:"cateId" form:"cateId" gorm:"column:cate_id;comment:rss分类;size:10;"`
-	Url      string `json:"url" form:"url" gorm:"column:url;comment:rss的url;size:255;"`
-	Keywords string `json:"keywords" form:"keywords" gorm:"column:keywords;comment:关键字过滤，逗号连接;size:255;"`
-	// IsStarred *bool  `json:"isStarred" form:"isStarred" gorm:"column:is_starred;comment:是否加星;default:0"`
+	RssName     string      `json:"rssName" form:"rssName" gorm:"column:rss_name;comment:item名称;size:255;not null; unique;"`
+	CateId      *int        `json:"cateId" form:"cateId" gorm:"column:cate_id;comment:rss分类;size:10;"`
+	Url         string      `json:"url" form:"url" gorm:"column:url;comment:rss的url;size:255;"`
+	Keywords    string      `json:"keywords" form:"keywords" gorm:"column:keywords;comment:关键字过滤，逗号连接;size:255;"`
 	IsPause     *bool       `json:"isPause" form:"isPause" gorm:"column:is_pause;comment:是否暂停（0不暂停1暂停）;default:0"`
 	RssCategory RssCategory `json:"rss_category" gorm:"foreignKey:CateId"`
 }

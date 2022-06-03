@@ -13,6 +13,7 @@ func (s *RssRouter) InitRssRouter(Router *gin.RouterGroup) (R gin.IRoutes) {
 	{
 		rssRouter.GET("yearly", baseApi.HabitYearlyRss)
 		rssRouter.GET("everyday", baseApi.HabitEverydayRss)
+		rssRouter.GET("cate/:uuid", baseApi.FeedRss)
 	}
 	return rssRouter
 }

@@ -6,14 +6,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type LifeDocRouter struct {
-}
+type LifeDocRouter struct{}
 
 // InitLifeDocRouter 初始化 LifeDoc 路由信息
 func (s *LifeDocRouter) InitLifeDocRouter(Router *gin.RouterGroup) {
 	lifeDocRouter := Router.Group("lifeDoc").Use(middleware.OperationRecord())
 	lifeDocRouterWithoutRecord := Router.Group("lifeDoc")
-	var lifeDocApi = v1.ApiGroupApp.LifeApiGroup.LifeDocApi
+	lifeDocApi := v1.ApiGroupApp.LifeApiGroup.LifeDocApi
 	{
 		lifeDocRouter.POST("createLifeDoc", lifeDocApi.CreateLifeDoc)             // 新建LifeDoc
 		lifeDocRouter.DELETE("deleteLifeDoc", lifeDocApi.DeleteLifeDoc)           // 删除LifeDoc

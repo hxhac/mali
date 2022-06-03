@@ -12,8 +12,7 @@ import (
 	"go.uber.org/zap"
 )
 
-type RssCategoryApi struct {
-}
+type RssCategoryApi struct{}
 
 var rssCategoryService = service.ServiceGroupApp.RssServiceGroup.RssCategoryService
 
