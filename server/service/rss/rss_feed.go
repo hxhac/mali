@@ -7,8 +7,7 @@ import (
 	rssReq "github.com/flipped-aurora/gin-vue-admin/server/model/rss/request"
 )
 
-type RssFeedService struct {
-}
+type RssFeedService struct{}
 
 // CreateRssFeed 创建RssFeed记录
 // Author [piexlmax](https://github.com/piexlmax)

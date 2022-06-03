@@ -14,7 +14,7 @@ type LifeYearly struct {
 	Remark  string `json:"remark" form:"remark" gorm:"column:remark;comment:;size:255;"`
 	More    string `json:"more" form:"more" gorm:"column:more;"`
 	Task    string `json:"task" form:"task" gorm:"column:task;comment:;size:255;"`
-	IsPause bool   `json:"isPause" form:"isPause" gorm:"column:is_pause;default:false;comment:是否暂停"`
+	IsPause bool   `json:"isPause" form:"isPause" gorm:"column:is_pause;default:0;comment:是否暂停;not null;"`
 }
 
 // TableName LifeYearly 表名

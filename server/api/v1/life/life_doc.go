@@ -11,8 +11,7 @@ import (
 	"go.uber.org/zap"
 )
 
-type LifeDocApi struct {
-}
+type LifeDocApi struct{}
 
 var lifeDocService = service.ServiceGroupApp.LifeServiceGroup.LifeDocService
 

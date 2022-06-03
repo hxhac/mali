@@ -7,8 +7,7 @@ import (
 	lifeReq "github.com/flipped-aurora/gin-vue-admin/server/model/life/request"
 )
 
-type LifeDocService struct {
-}
+type LifeDocService struct{}
 
 // CreateLifeDoc 创建LifeDoc记录
 // Author [piexlmax](https://github.com/piexlmax)
