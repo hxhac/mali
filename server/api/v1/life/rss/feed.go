@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"log"
 	"sort"
-	"strings"
 	"time"
 
 	resp "github.com/flipped-aurora/gin-vue-admin/server/model/common/response"
@@ -51,24 +50,24 @@ func (RssApi) FeedRss(ctx *gin.Context) {
 		// for _, item := range sourceFeed.Items[:limit_per_feed] {
 		for _, item := range sourceFeed.Items {
 			// 判断title是否命中关键字
-			if !strings.Contains(r.Title, "") {
-				if seen[item.Link] {
-					continue
-				}
-				created := item.PublishedParsed
-				if created == nil {
-					created = item.UpdatedParsed
-				}
-				feed.Items = append(feed.Items, &feeds.Item{
-					Title:       item.Title,
-					Link:        &feeds.Link{Href: item.Link},
-					Description: item.Description,
-					Author:      &feeds.Author{Name: getAuthor(sourceFeed)},
-					Created:     *created,
-					Content:     item.Content,
-				})
-				seen[item.Link] = true
+			// if !strings.Contains(r.Title, "") {
+			if seen[item.Link] {
+				continue
 			}
+			created := item.PublishedParsed
+			if created == nil {
+				created = item.UpdatedParsed
+			}
+			feed.Items = append(feed.Items, &feeds.Item{
+				Title:       item.Title,
+				Link:        &feeds.Link{Href: item.Link},
+				Description: item.Description,
+				Author:      &feeds.Author{Name: getAuthor(sourceFeed)},
+				Created:     *created,
+				Content:     item.Content,
+			})
+			seen[item.Link] = true
+			// }
 		}
 	}
 

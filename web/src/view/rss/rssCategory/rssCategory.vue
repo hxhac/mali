@@ -34,7 +34,7 @@
         <el-table-column align="left" label="分类名称" prop="cateName" min-width="10%" />
         <el-table-column align="left" label="url" prop="cateName" min-width="35%">
           <template #default="scope">
-            <p :class="scope.row.uuid">https://mali-api.wrss.top/rss/video/{{ scope.row.uuid }}</p>
+            <p :id="['foo'+scope.row.uuid]">https://mali-api.wrss.top/rss/video/{{ scope.row.uuid }}</p>
             <el-button
               id="copy"
               class="btn"
@@ -44,7 +44,7 @@
               circle
               plain
               type="text"
-              :data-clipboard-target="['.'+scope.row.uuid]"
+              :data-clipboard-target="['#foo'+scope.row.uuid]"
               @click="handleCopyFun"
             />
           </template>
