@@ -38,7 +38,7 @@
         <el-table-column align="left" label="分类名称" prop="cateName" min-width="10%" />
         <el-table-column align="left" label="url" prop="cateName" min-width="35%">
           <template #default="scope">
-            https://mali-api.wrss.top/rss/{{ scope.row.uuid }}
+            https://mali-api.wrss.top/rss/video/{{ scope.row.uuid }}
             <el-button class="btn" data-clipboard-action="copy" size="mini" icon="document-copy" circle plain type="text" @click="copyLink(value)" />
             <!--            <Clipboard />-->
           </template>
