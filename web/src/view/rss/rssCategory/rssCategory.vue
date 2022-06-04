@@ -44,7 +44,7 @@
           </template>
         </el-table-column>
         <el-table-column align="left" label="标题" prop="title" min-width="10%" />
-        <el-table-column align="left" label="限制数量" prop="num" min-width="10%" />
+        <el-table-column align="left" label="该分类下feed数" prop="num" min-width="10%" />
         <el-table-column align="left" label="描述" prop="remark" min-width="15%" />
         <el-table-column align="left" label="is_mute" prop="isMute" min-width="10%">
           <template #default="scope">{{ formatBoolean(scope.row.isMute) }}</template>
