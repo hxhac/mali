@@ -30,9 +30,11 @@ func (rssFeedApi *RssFeedApi) CreateRssFeed(c *gin.Context) {
 	_ = c.ShouldBindJSON(&rssFeed)
 
 	// rss名称等数据直接通过解析rss获得
+	// 验证feed是否合法
 	fp := gofeed.NewParser()
 	feed, err := fp.ParseURL(rssFeed.Url)
 	if err != nil {
+		response.FailWithMessage("feed非法，创建失败", c)
 		return
 	}
 	rssFeed.RssName = feed.Title
