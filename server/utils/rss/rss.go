@@ -3,12 +3,10 @@ package rss
 import (
 	"errors"
 	"fmt"
+	"github.com/flipped-aurora/gin-vue-admin/server/utils/helper/slice"
+	"github.com/flipped-aurora/gin-vue-admin/server/utils/log"
+	"github.com/flipped-aurora/gin-vue-admin/server/utils/redis"
 	"time"
-
-	"github.com/91go/rss2/utils/helper/slice"
-
-	"github.com/91go/rss2/utils/log"
-	"github.com/91go/rss2/utils/redis"
 
 	"github.com/gogf/gf/os/gtime"
 	"github.com/gogf/gf/util/gconv"

@@ -4,7 +4,7 @@ import (
 	"io"
 	"net/http"
 
-	"github.com/91go/rss2/utils/log"
+	"github.com/flipped-aurora/gin-vue-admin/server/utils/log"
 
 	"github.com/gogf/gf/net/ghttp"
 
