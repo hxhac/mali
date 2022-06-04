@@ -125,11 +125,11 @@ func (s byPublished) Less(i, j int) bool {
 }
 
 func getAuthor(feed *gofeed.Feed) string {
-	if feed.Author != nil {
-		return feed.Author.Name
-	}
-	if feed.Items[0].Author != nil {
-		return feed.Items[0].Author.Name
+	// if feed.Authors != nil {
+	// 	return feed.Authors[0].Name
+	// }
+	if feed.Items[0].Authors != nil {
+		return feed.Items[0].Authors[0].Name
 	}
 	log.Printf("Could not determine author for %v", feed.Link)
 	return DefaultAuthor
