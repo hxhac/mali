@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"sort"
+	"strings"
 	"time"
 
 	resp "github.com/flipped-aurora/gin-vue-admin/server/model/common/response"
@@ -21,6 +22,7 @@ const (
 
 var rssCategoryService = service.ServiceGroupApp.RssServiceGroup.RssCategoryService
 
+// FeedRss xxx
 func (RssApi) FeedRss(ctx *gin.Context) {
 	uuid := ctx.Param("uuid")
 	err, r := rssCategoryService.GetRssCategoryByUUID(uuid)
@@ -40,6 +42,7 @@ func (RssApi) FeedRss(ctx *gin.Context) {
 		},
 		Created: time.Now(),
 	}
+
 	// 根据发布时间排序
 	sort.Sort(sort.Reverse(byPublished(allFeeds)))
 	// limit_per_feed := FeedLimitPerFeed
@@ -47,22 +50,25 @@ func (RssApi) FeedRss(ctx *gin.Context) {
 	for _, sourceFeed := range allFeeds {
 		// for _, item := range sourceFeed.Items[:limit_per_feed] {
 		for _, item := range sourceFeed.Items {
-			if seen[item.Link] {
-				continue
+			// 判断title是否命中关键字
+			if !strings.Contains(r.Title, "") {
+				if seen[item.Link] {
+					continue
+				}
+				created := item.PublishedParsed
+				if created == nil {
+					created = item.UpdatedParsed
+				}
+				feed.Items = append(feed.Items, &feeds.Item{
+					Title:       item.Title,
+					Link:        &feeds.Link{Href: item.Link},
+					Description: item.Description,
+					Author:      &feeds.Author{Name: getAuthor(sourceFeed)},
+					Created:     *created,
+					Content:     item.Content,
+				})
+				seen[item.Link] = true
 			}
-			created := item.PublishedParsed
-			if created == nil {
-				created = item.UpdatedParsed
-			}
-			feed.Items = append(feed.Items, &feeds.Item{
-				Title:       item.Title,
-				Link:        &feeds.Link{Href: item.Link},
-				Description: item.Description,
-				Author:      &feeds.Author{Name: getAuthor(sourceFeed)},
-				Created:     *created,
-				Content:     item.Content,
-			})
-			seen[item.Link] = true
 		}
 	}
 
@@ -128,6 +134,7 @@ func (s byPublished) Less(i, j int) bool {
 }
 
 // 获取item的author
+// TODO
 func getAuthor(feed *gofeed.Feed) string {
 	// if feed.Authors != nil {
 	// 	return feed.Authors[0].Name

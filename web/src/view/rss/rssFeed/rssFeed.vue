@@ -63,8 +63,7 @@
         <el-table-column type="selection" width="55" />
         <el-table-column align="left" label="rss名称" prop="rssName" min-width="10%">
           <template #default="scope">
-            <el-link :href="scope.row.url" :underline="false">{{ scope.row.rssName }}</el-link>
-
+            <el-link :href="scope.row.url" :underline="false">{{ scope.row.rssName }} &nbsp;</el-link>
             <el-tag v-if="scope.row.isStarred" type="warning" size="small" effect="dark">
               <el-icon>
                 <StarFilled />
@@ -72,7 +71,7 @@
             </el-tag>
             <el-tag v-if="scope.row.isPause" type="danger" size="small" effect="dark">
               <el-icon>
-                <VideoPause />
+                <DeleteFilled />
               </el-icon>
             </el-tag>
           </template>
@@ -177,7 +176,7 @@ import { getRssCategoryList } from '@/api/rssCategory'
 import { getDictFunc, formatDate, formatBoolean, filterDict } from '@/utils/format'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { ref } from 'vue'
-import { Document, StarFilled, Close, VideoPause } from '@element-plus/icons-vue'
+import { Document, StarFilled, CircleClose, Close, CloseBold, Delete, DeleteFilled } from '@element-plus/icons-vue'
 
 // 自动化生成的字典（可能为空）以及字段
 const formData = ref({
