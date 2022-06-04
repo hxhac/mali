@@ -62,7 +62,7 @@ func (rssCategoryService *RssCategoryService) GetRssURLs(uuid string) (err error
 from rss_feed
 where cate_id = (select id from rss_category where uuid = ?)
   and is_pause = false
-  and deleted_at != null
+  and deleted_at is null
 order by is_starred desc;`, uuid).Scan(&result).Error
 
 	return err, result
