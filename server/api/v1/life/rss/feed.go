@@ -1,6 +1,7 @@
 package rss
 
 import (
+	"fmt"
 	"log"
 	"sort"
 	"time"
@@ -31,7 +32,7 @@ func (RssApi) FeedRss(ctx *gin.Context) {
 	allFeeds := fetchUrls(urls)
 	// 合并所有feed
 	feed := &feeds.Feed{
-		Title:       r.CateName,
+		Title:       fmt.Sprintf("%s - %s", "rss", r.CateName),
 		Link:        &feeds.Link{Href: GetURL(ctx.Request)},
 		Description: r.Remark,
 		Author: &feeds.Author{
@@ -39,6 +40,7 @@ func (RssApi) FeedRss(ctx *gin.Context) {
 		},
 		Created: time.Now(),
 	}
+	// 根据发布时间排序
 	sort.Sort(sort.Reverse(byPublished(allFeeds)))
 	// limit_per_feed := FeedLimitPerFeed
 	seen := make(map[string]bool)
@@ -86,6 +88,7 @@ func fetchUrl(url string, ch chan<- *gofeed.Feed) {
 	}
 }
 
+//
 func fetchUrls(urls []string) []*gofeed.Feed {
 	allFeeds := make([]*gofeed.Feed, 0)
 	ch := make(chan *gofeed.Feed)
@@ -124,6 +127,7 @@ func (s byPublished) Less(i, j int) bool {
 	return date1.Before(*date2)
 }
 
+// 获取item的author
 func getAuthor(feed *gofeed.Feed) string {
 	// if feed.Authors != nil {
 	// 	return feed.Authors[0].Name

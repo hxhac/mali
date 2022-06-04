@@ -51,6 +51,7 @@ func (rssCategoryService *RssCategoryService) GetRssCategoryByUUID(uuid string) 
 	return
 }
 
+// GetRssURLs 获取所有该分类下的feed源
 func (rssCategoryService *RssCategoryService) GetRssURLs(uuid string) (err error, result []string) {
 	// type Result struct {
 	// 	url string

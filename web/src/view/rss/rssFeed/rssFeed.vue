@@ -12,6 +12,26 @@
             />
           </el-select>
         </el-form-item>
+        <el-form-item label="starred">
+          <el-select v-model="searchInfo.isStarred" clearable filterable>
+            <el-option
+              v-for="item in isStarredOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="pause">
+          <el-select v-model="searchInfo.isPause" clearable filterable>
+            <el-option
+              v-for="item in isStarredOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </el-form-item>
         <el-form-item>
           <el-button size="small" type="primary" icon="search" @click="onSubmit">查询</el-button>
           <el-button size="small" icon="refresh" @click="onReset">重置</el-button>
@@ -44,6 +64,17 @@
         <el-table-column align="left" label="rss名称" prop="rssName" min-width="10%">
           <template #default="scope">
             <el-link :href="scope.row.url" :underline="false">{{ scope.row.rssName }}</el-link>
+
+            <el-tag v-if="scope.row.isStarred" type="warning" size="small" effect="dark">
+              <el-icon>
+                <StarFilled />
+              </el-icon>
+            </el-tag>
+            <el-tag v-if="scope.row.isPause" type="danger" size="small" effect="dark">
+              <el-icon>
+                <VideoPause />
+              </el-icon>
+            </el-tag>
           </template>
         </el-table-column>
         <el-table-column align="left" label="rss分类" prop="cateId" min-width="10%">
@@ -52,9 +83,12 @@
           </template>
         </el-table-column>
         <el-table-column align="left" label="关键字" prop="keywords" min-width="10%" />
-        <el-table-column align="left" label="是否暂停" prop="isPause" min-width="10%">
-          <template #default="scope">{{ formatBoolean(scope.row.isPause) }}</template>
-        </el-table-column>
+        <!--        <el-table-column align="left" label="starred" prop="isStarred" min-width="10%">-->
+        <!--          <template #default="scope">{{ formatBoolean(scope.row.isStarred) }}</template>-->
+        <!--        </el-table-column>-->
+        <!--        <el-table-column align="left" label="是否暂停" prop="isPause" min-width="10%">-->
+        <!--          <template #default="scope">{{ formatBoolean(scope.row.isPause) }}</template>-->
+        <!--        </el-table-column>-->
         <el-table-column align="left" label="按钮组" min-width="10%">
           <template #default="scope">
             <el-button type="text" icon="edit" size="small" class="table-button" @click="updateRssFeedFunc(scope.row)">变更</el-button>
@@ -92,6 +126,9 @@
         <el-form-item label="keywords:">
           <el-input v-model="formData.keywords" clearable placeholder="请输入" />
         </el-form-item>
+        <el-form-item label="is_starred:">
+          <el-switch v-model="formData.isStarred" active-color="#13ce66" inactive-color="#ff4949" active-text="是" inactive-text="否" clearable />
+        </el-form-item>
         <el-form-item label="是否暂停:">
           <el-switch v-model="formData.isPause" active-color="#13ce66" inactive-color="#ff4949" active-text="是" inactive-text="否" clearable />
         </el-form-item>
@@ -109,6 +146,19 @@
 <script>
 export default {
   name: 'RssFeed',
+  data() {
+    return {
+      value: '请选择',
+      isStarredOptions: [{
+        value: true,
+        label: '是'
+      }, {
+        value: false,
+        label: '否'
+      }],
+      fileList: []
+    }
+  },
 }
 </script>
 
@@ -127,6 +177,7 @@ import { getRssCategoryList } from '@/api/rssCategory'
 import { getDictFunc, formatDate, formatBoolean, filterDict } from '@/utils/format'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { ref } from 'vue'
+import { Document, StarFilled, Close, VideoPause } from '@element-plus/icons-vue'
 
 // 自动化生成的字典（可能为空）以及字段
 const formData = ref({
@@ -319,5 +370,12 @@ const enterDialog = async() => {
 
 </script>
 
-<style>
+<style lang="scss">
+.el-table .cell {
+	white-space: pre-line; // 单元格内空格展示为换行
+}
+
+.el-tag + .el-tag {
+	margin-left: 10px;
+}
 </style>

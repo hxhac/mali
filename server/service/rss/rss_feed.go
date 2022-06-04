@@ -56,6 +56,12 @@ func (rssFeedService *RssFeedService) GetRssFeedInfoList(info rssReq.RssFeedSear
 	if info.CateId != nil {
 		db = db.Where("cate_id = ?", info.CateId)
 	}
+	if info.IsStarred != nil {
+		db = db.Where("is_starred = ?", info.IsStarred)
+	}
+	if info.IsPause != nil {
+		db = db.Where("is_pause = ?", info.IsPause)
+	}
 	err = db.Count(&total).Error
 	if err != nil {
 		return
