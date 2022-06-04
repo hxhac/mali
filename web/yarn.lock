@@ -2727,7 +2727,7 @@
   "resolved" "https://registry.npmmirror.com/cli-width/-/cli-width-3.0.0.tgz"
   "version" "3.0.0"
 
-"clipboard@^2.0.6":
+"clipboard@^2.0.11":
   "integrity" "sha512-C+0bbOqkezLIsmWSvlsXS0Q0bmkugu7jcfMIACB+RDEntIzQIkdr148we28AfSloQLRdZlYL/QYyrq05j/3Faw=="
   "resolved" "https://registry.npmmirror.com/clipboard/-/clipboard-2.0.11.tgz"
   "version" "2.0.11"
@@ -8899,13 +8899,6 @@
   "integrity" "sha512-2ham8XPWTONajOR0ohOKOHXkm3+gaBmGut3SRuu75xLd/RRaY6vqgh8NBYYk7+RW3u5AtzPQZG8F10LHkl0lAQ=="
   "resolved" "https://registry.npmmirror.com/vm-browserify/-/vm-browserify-1.1.2.tgz"
   "version" "1.1.2"
-
-"vue-clipboard3@^2.0.0":
-  "integrity" "sha512-Q9S7dzWGax7LN5iiSPcu/K1GGm2gcBBlYwmMsUc5/16N6w90cbKow3FnPmPs95sungns4yvd9/+JhbAznECS2A=="
-  "resolved" "https://registry.npmmirror.com/vue-clipboard3/-/vue-clipboard3-2.0.0.tgz"
-  "version" "2.0.0"
-  dependencies:
-    "clipboard" "^2.0.6"
 
 "vue-demi@*":
   "integrity" "sha512-BREuTgTYlUr0zw0EZn3hnhC3I6gPWv+Kwh4MCih6QcAeaTlaIX0DwOVN0wHej7hSvDPecz4jygy/idsgKfW58Q=="
