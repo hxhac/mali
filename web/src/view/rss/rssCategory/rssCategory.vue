@@ -31,16 +31,22 @@
         @selection-change="handleSelectionChange"
       >
         <el-table-column type="selection" width="55" />
-        <!--        <el-table-column align="left" label="日期" width="180">-->
-        <!--          <template #default="scope">{{ formatDate(scope.row.CreatedAt) }}</template>-->
-        <!--        </el-table-column>-->
-        <!--        <el-table-column align="left" label="uuid字段" prop="uuid" width="120" />-->
         <el-table-column align="left" label="分类名称" prop="cateName" min-width="10%" />
         <el-table-column align="left" label="url" prop="cateName" min-width="35%">
           <template #default="scope">
-            https://mali-api.wrss.top/rss/video/{{ scope.row.uuid }}
-            <el-button class="btn" data-clipboard-action="copy" size="mini" icon="document-copy" circle plain type="text" @click="copyLink(value)" />
-            <!--            <Clipboard />-->
+            <p :class="scope.row.uuid">https://mali-api.wrss.top/rss/video/{{ scope.row.uuid }}</p>
+            <el-button
+              id="copy"
+              class="btn"
+              data-clipboard-action="copy"
+              size="mini"
+              icon="document-copy"
+              circle
+              plain
+              type="text"
+              :data-clipboard-target="['.'+scope.row.uuid]"
+              @click="handleCopyFun"
+            />
           </template>
         </el-table-column>
         <el-table-column align="left" label="标题" prop="title" min-width="10%" />
@@ -100,12 +106,14 @@
 </template>
 
 <script>
-// import Clipboard from '@/components/clipboard/clipboard'
 
 export default {
   name: 'RssCategory',
   components: {
   },
+  return: {
+    rssBaseURL: 'https://mali-api.wrss.top/rss/video/'
+  }
 }
 </script>
 
@@ -123,6 +131,7 @@ import {
 import { getDictFunc, formatDate, formatBoolean, filterDict } from '@/utils/format'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { ref } from 'vue'
+import Clipboard from 'clipboard'
 
 // 自动化生成的字典（可能为空）以及字段
 const formData = ref({
@@ -312,6 +321,25 @@ const enterDialog = async() => {
     closeDialog()
     getTableData()
   }
+}
+
+const handleCopyFun = async() => {
+  const clipboard = new Clipboard('#copy')
+  clipboard.on('success', e => {
+    ElMessage({
+      type: 'success',
+      message: '复制成功'
+    })
+    clipboard.destroy() // 释放内存
+  })
+  clipboard.on('error', e => {
+    // 不支持复制
+    ElMessage({
+      type: 'warning',
+      message: '该浏览器不支持自动复制'
+    })
+    clipboard.destroy() // 释放内存
+  })
 }
 
 </script>
