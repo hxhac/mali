@@ -80,6 +80,11 @@ func (rssCategoryService *RssCategoryService) GetRssCategoryInfoList(info rssReq
 	if err != nil {
 		return
 	}
-	err = db.Limit(limit).Offset(offset).Find(&rssCategorys).Error
+	// err = db.Limit(limit).Offset(offset).Order("").Find(&rssCategorys).Error
+	err = db.Raw(`select rc.*, count(rf.id) as num
+from rss_category as rc
+         left join rss_feed as rf on rc.id = rf.cate_id
+group by rc.id
+order by num desc;`).Limit(limit).Offset(offset).Find(&rssCategorys).Error
 	return err, rssCategorys, total
 }
