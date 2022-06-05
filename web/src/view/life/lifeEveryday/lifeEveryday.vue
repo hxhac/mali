@@ -181,6 +181,7 @@ import {
 import { getDictFunc, formatDate, formatBoolean, filterDict } from '@/utils/format'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { ref } from 'vue'
+import { generateTimeStub } from '@/utils/date'
 
 // 自动化生成的字典（可能为空）以及字段
 const formData = ref({
@@ -367,30 +368,7 @@ const enterDialog = async() => {
   }
 }
 
-const timeStubOptions = ref([[]])
-const generateTimeStub = async(minute) => {
-  var seconds = minute * 60
-  const len = (60 * 24 * 60) / seconds // 数组长度
-
-  for (var i = 0, total = 0; i < len; i++) {
-    var h = parseInt(total / 3600)
-    var min = parseInt(total % 3600 / 60)
-
-    // time_stub
-    const timeStub = h + 'h' + (min < 10 ? '' : min + 'm')
-    // format_time
-    const formatTime = s(h) + ':' + s(min)
-    const res = { 'key': timeStub, 'value': formatTime }
-    timeStubOptions.value.push(res)
-    total += seconds
-  }
-}
-generateTimeStub(15)
-
-function s(n) {
-  return n < 10 ? '0' + n : n
-}
-
+const timeStubOptions = generateTimeStub(15)
 </script>
 
 <style>

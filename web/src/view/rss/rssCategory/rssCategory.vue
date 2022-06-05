@@ -52,9 +52,11 @@
         <el-table-column align="left" label="标题" prop="title" min-width="10%" />
         <el-table-column align="left" label="该分类下feed数" prop="num" min-width="10%" />
         <el-table-column align="left" label="描述" prop="remark" min-width="15%" />
+        <el-table-column align="left" label="更新时间" prop="updateTimeStub" min-width="15%" />
         <el-table-column align="left" label="is_mute" prop="isMute" min-width="10%">
           <template #default="scope">{{ formatBoolean(scope.row.isMute) }}</template>
         </el-table-column>
+
         <el-table-column align="left" label="按钮组" min-width="10%">
           <template #default="scope">
             <el-button type="text" icon="edit" size="small" class="table-button" @click="updateRssCategoryFunc(scope.row)">变更</el-button>
@@ -94,6 +96,16 @@
         <el-form-item label="is_mute:">
           <el-switch v-model="formData.isMute" active-color="#13ce66" inactive-color="#ff4949" active-text="是" inactive-text="否" clearable />
         </el-form-item>
+        <el-form-item label="开始时间:">
+          <el-select v-model="formData.updateTimeStub" placeholder="请选择">
+            <el-option
+              v-for="item in timeStubOptions"
+              :key="item.key"
+              :label="item.value"
+              :value="item.key"
+            />
+          </el-select>
+        </el-form-item>
       </el-form>
       <template #footer>
         <div class="dialog-footer">
@@ -132,6 +144,7 @@ import { getDictFunc, formatDate, formatBoolean, filterDict } from '@/utils/form
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { ref } from 'vue'
 import Clipboard from 'clipboard'
+import { generateTimeStub } from '@/utils/date'
 
 // 自动化生成的字典（可能为空）以及字段
 const formData = ref({
@@ -142,6 +155,7 @@ const formData = ref({
   remark: '',
   author: 'jf',
   isMute: false,
+  updateTimeStub: '20h',
 })
 
 // =========== 表格控制部分 ===========
@@ -290,13 +304,13 @@ const openDialog = () => {
 const closeDialog = () => {
   dialogFormVisible.value = false
   formData.value = {
-    // uuid: 0,
     cateName: '',
     title: '',
     num: 99,
     remark: '',
     author: 'jf',
     isMute: false,
+    updateTimeStub: '20h',
   }
 }
 // 弹窗确定
@@ -341,6 +355,8 @@ const handleCopyFun = async() => {
     clipboard.destroy() // 释放内存
   })
 }
+
+const timeStubOptions = generateTimeStub(15)
 
 </script>
 

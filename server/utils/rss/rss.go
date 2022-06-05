@@ -3,10 +3,11 @@ package rss
 import (
 	"errors"
 	"fmt"
+	"time"
+
 	"github.com/flipped-aurora/gin-vue-admin/server/utils/helper/slice"
 	"github.com/flipped-aurora/gin-vue-admin/server/utils/log"
 	"github.com/flipped-aurora/gin-vue-admin/server/utils/redis"
-	"time"
 
 	"github.com/gogf/gf/os/gtime"
 	"github.com/gogf/gf/util/gconv"
@@ -30,9 +31,9 @@ type Title struct {
 
 //
 type Item struct {
-	URL, Title, Contents, ID string
-	UpdatedTime              time.Time
-	Enclosure                *feeds.Enclosure
+	URL, Title, Contents, ID, Author, Description string
+	UpdatedTime                                   time.Time
+	Enclosure                                     *feeds.Enclosure
 }
 
 // Rss 输出rss
