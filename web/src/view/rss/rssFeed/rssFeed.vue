@@ -184,6 +184,7 @@ const formData = ref({
   url: '',
   keywords: '',
   isPause: false,
+  isStarred: false,
 })
 
 // =========== 表格控制部分 ===========
@@ -341,6 +342,7 @@ const closeDialog = () => {
     url: '',
     keywords: '',
     isPause: false,
+	  isStarred: false,
   }
 }
 // 弹窗确定
