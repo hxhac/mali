@@ -52,3 +52,30 @@ func DiffDateTime(nn string) int64 {
 	seconds := str.Sub(gtime.NewFromTime(GetToday())).Milliseconds()
 	return seconds
 }
+
+func DiffNowDateTime(nn string) int64 {
+	str, _ := gtime.NewFromTime(GetToday()).AddStr(nn)
+	seconds := gtime.Now().Sub(str).Milliseconds()
+	return seconds
+}
+
+// 判断时间范围
+func CheckTimeLimit(nn string) bool {
+	diff := DiffNowDateTime(nn)
+	// 没到目标时间
+	if diff < 0 {
+		return false
+	}
+
+	// 超过目标时间30min
+	duration, err := time.ParseDuration("30m")
+	if err != nil {
+		return false
+	}
+	ss := duration.Milliseconds()
+	if diff > ss {
+		return false
+	}
+
+	return true
+}

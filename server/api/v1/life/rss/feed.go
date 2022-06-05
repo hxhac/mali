@@ -1,15 +1,14 @@
 package rss
 
 import (
-	"fmt"
 	"log"
 	"sort"
-	"time"
 
 	resp "github.com/flipped-aurora/gin-vue-admin/server/model/common/response"
 	"github.com/flipped-aurora/gin-vue-admin/server/service"
+	"github.com/flipped-aurora/gin-vue-admin/server/utils/helper/time"
+	"github.com/flipped-aurora/gin-vue-admin/server/utils/rss"
 	"github.com/gin-gonic/gin"
-	"github.com/gorilla/feeds"
 	"github.com/mmcdole/gofeed"
 )
 
@@ -17,11 +16,11 @@ const (
 	DefaultAuthor    = "jf"
 	FeedLimitPerFeed = 99
 	TimeoutSeconds   = 60
+	TimeLimit        = 30 // 默认晚上8点后30min
 )
 
 var rssCategoryService = service.ServiceGroupApp.RssServiceGroup.RssCategoryService
 
-// FeedRss xxx
 func (RssApi) FeedRss(ctx *gin.Context) {
 	uuid := ctx.Param("uuid")
 	err, r := rssCategoryService.GetRssCategoryByUUID(uuid)
@@ -31,23 +30,35 @@ func (RssApi) FeedRss(ctx *gin.Context) {
 
 	_, urls := rssCategoryService.GetRssURLs(r.Uuid)
 	allFeeds := fetchUrls(urls)
-	// 合并所有feed
-	feed := &feeds.Feed{
-		Title:       fmt.Sprintf("%s - %s", "rss", r.CateName),
-		Link:        &feeds.Link{Href: GetURL(ctx.Request)},
-		Description: r.Remark,
-		Author: &feeds.Author{
-			Name: r.Author,
+
+	feed := &rss.Feed{
+		Title: rss.Title{
+			Prefix: "rss",
+			Name:   r.CateName,
 		},
-		Created: time.Now(),
+		Author:      r.Author,
+		URL:         GetURL(ctx.Request),
+		UpdatedTime: time.GetToday(),
 	}
 
+	// 判断当前是否处于更新时间范围内
+	if !time.CheckTimeLimit(r.UpdateTimeStub) {
+		res := rss.Rss(feed, nil)
+		resp.SendXML(ctx, res)
+		return
+	}
+
+	res := rss.Rss(feed, feeds(allFeeds))
+	resp.SendXML(ctx, res)
+}
+
+func feeds(allFeeds []*gofeed.Feed) []rss.Item {
 	// 根据发布时间排序
 	sort.Sort(sort.Reverse(byPublished(allFeeds)))
-	// limit_per_feed := FeedLimitPerFeed
 	seen := make(map[string]bool)
+	ret := []rss.Item{}
+
 	for _, sourceFeed := range allFeeds {
-		// for _, item := range sourceFeed.Items[:limit_per_feed] {
 		for _, item := range sourceFeed.Items {
 			// 判断title是否命中关键字
 			// if !strings.Contains(r.Title, "") {
@@ -58,24 +69,18 @@ func (RssApi) FeedRss(ctx *gin.Context) {
 			if created == nil {
 				created = item.UpdatedParsed
 			}
-			feed.Items = append(feed.Items, &feeds.Item{
+			ret = append(ret, rss.Item{
 				Title:       item.Title,
-				Link:        &feeds.Link{Href: item.Link},
+				URL:         item.Link,
 				Description: item.Description,
-				Author:      &feeds.Author{Name: getAuthor(sourceFeed)},
-				Created:     *created,
-				Content:     item.Content,
+				Author:      getAuthor(sourceFeed),
+				Contents:    item.Content,
+				UpdatedTime: *created,
 			})
 			seen[item.Link] = true
-			// }
 		}
 	}
-
-	res, err := feed.ToAtom()
-	if err != nil {
-		return
-	}
-	resp.SendXML(ctx, res)
+	return ret
 }
 
 func fetchUrl(url string, ch chan<- *gofeed.Feed) {

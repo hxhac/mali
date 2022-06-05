@@ -4,6 +4,9 @@
 // (new Date()).Format("yyyy-MM-dd hh:mm:ss.S") ==> 2006-07-02 08:09:04.423
 // (new Date()).Format("yyyy-M-d h:m:s.S")      ==> 2006-7-2 8:9:4.18
 // eslint-disable-next-line no-extend-native
+
+import { ref } from 'vue'
+
 Date.prototype.Format = function(fmt) {
   var o = {
     'M+': this.getMonth() + 1, // 月份
@@ -31,4 +34,28 @@ export function formatTimeToStr(times, pattern) {
     d = new Date(times).Format(pattern)
   }
   return d.toLocaleString()
+}
+
+export function generateTimeStub(minute) {
+  var seconds = minute * 60
+  const len = (60 * 24 * 60) / seconds // 数组长度
+  const timeStubOptions = ref([[]])
+
+  for (var i = 0, total = 0; i < len; i++) {
+    var h = parseInt(total / 3600)
+    var min = parseInt(total % 3600 / 60)
+
+    // time_stub
+    const timeStub = h + 'h' + (min < 10 ? '' : min + 'm')
+    // format_time
+    const formatTime = s(h) + ':' + s(min)
+    const res = { 'key': timeStub, 'value': formatTime }
+    timeStubOptions.value.push(res)
+    total += seconds
+  }
+  return timeStubOptions
+}
+
+function s(n) {
+  return n < 10 ? '0' + n : n
 }
