@@ -66,6 +66,6 @@ func (rssFeedService *RssFeedService) GetRssFeedInfoList(info rssReq.RssFeedSear
 	if err != nil {
 		return
 	}
-	err = db.Preload("RssCategory").Limit(limit).Offset(offset).Find(&rssFeeds).Error
+	err = db.Preload("RssCategory").Order("is_starred DESC").Limit(limit).Offset(offset).Find(&rssFeeds).Error
 	return err, rssFeeds, total
 }
