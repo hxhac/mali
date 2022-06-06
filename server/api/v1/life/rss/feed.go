@@ -61,7 +61,6 @@ func feeds(allFeeds []*gofeed.Feed) []rss.Item {
 	for _, sourceFeed := range allFeeds {
 		for _, item := range sourceFeed.Items {
 			// 判断title是否命中关键字
-			// if !strings.Contains(r.Title, "") {
 			if seen[item.Link] {
 				continue
 			}
@@ -73,7 +72,7 @@ func feeds(allFeeds []*gofeed.Feed) []rss.Item {
 				Title:       item.Title,
 				URL:         item.Link,
 				Description: item.Description,
-				Author:      getAuthor(sourceFeed),
+				Author:      getAuthor(item.Author),
 				Contents:    item.Content,
 				UpdatedTime: *created,
 			})
@@ -139,13 +138,13 @@ func (s byPublished) Less(i, j int) bool {
 
 // 获取item的author
 // TODO
-func getAuthor(feed *gofeed.Feed) string {
+func getAuthor(author *gofeed.Person) string {
 	// if feed.Authors != nil {
 	// 	return feed.Authors[0].Name
 	// }
-	if feed.Items[0].Authors != nil {
-		return feed.Items[0].Authors[0].Name
+	if author != nil {
+		return author.Name
 	}
-	log.Printf("Could not determine author for %v", feed.Link)
+	// log.Printf("Could not determine author for %v", feed.Link)
 	return DefaultAuthor
 }
