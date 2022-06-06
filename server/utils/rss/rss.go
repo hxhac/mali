@@ -68,11 +68,12 @@ func rss(fe *Feed, items []Item) string {
 		feed.Add(&feeds.Item{
 			Title:       items[key].Title,
 			Link:        &feeds.Link{Href: items[key].URL},
-			Description: items[key].Contents,
-			// Author:      &feeds.Author{CateName: items[key].Author},
-			Id:        items[key].ID,
-			Enclosure: items[key].Enclosure,
-			Updated:   items[key].UpdatedTime,
+			Content:     items[key].Contents,
+			Description: items[key].Description,
+			Author:      &feeds.Author{Name: items[key].Author},
+			Id:          items[key].ID,
+			Enclosure:   items[key].Enclosure,
+			Updated:     items[key].UpdatedTime,
 		})
 	}
 
