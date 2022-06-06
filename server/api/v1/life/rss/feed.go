@@ -54,6 +54,7 @@ func (RssApi) FeedRss(ctx *gin.Context) {
 
 func feeds(allFeeds []*gofeed.Feed) []rss.Item {
 	// 根据发布时间排序
+	// TODO 无法处理没有pubDate参数的rss源
 	sort.Sort(sort.Reverse(byPublished(allFeeds)))
 	seen := make(map[string]bool)
 	ret := []rss.Item{}

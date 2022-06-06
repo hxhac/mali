@@ -96,7 +96,7 @@
         <el-form-item label="is_mute:">
           <el-switch v-model="formData.isMute" active-color="#13ce66" inactive-color="#ff4949" active-text="是" inactive-text="否" clearable />
         </el-form-item>
-        <el-form-item label="开始时间:">
+        <el-form-item label="更新时间:">
           <el-select v-model="formData.updateTimeStub" placeholder="请选择">
             <el-option
               v-for="item in timeStubOptions"
