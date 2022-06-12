@@ -76,6 +76,7 @@ func feeds(allFeeds []*gofeed.Feed) []rss.Item {
 				Author:      getAuthor(item.Author),
 				Contents:    item.Content,
 				UpdatedTime: *created,
+				ID:          item.GUID,
 			})
 			seen[item.Link] = true
 		}
