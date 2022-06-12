@@ -65,10 +65,12 @@ func (rssFeedService *RssFeedService) GetRssFeedInfoList(info rssReq.RssFeedSear
 	if info.IsPause != nil {
 		db = db.Where("is_pause = ?", info.IsPause)
 	}
+
 	err = db.Count(&total).Error
 	if err != nil {
 		return
 	}
-	err = db.Preload("RssCategory").Order("is_starred DESC").Limit(limit).Offset(offset).Find(&rssFeeds).Error
+
+	err = db.Limit(limit).Offset(offset).Preload("RssCategory").Order("is_starred DESC").Order("id DESC").Order("is_pause ASC").Find(&rssFeeds).Error
 	return err, rssFeeds, total
 }
