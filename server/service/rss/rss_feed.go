@@ -56,6 +56,9 @@ func (rssFeedService *RssFeedService) GetRssFeedInfoList(info rssReq.RssFeedSear
 	if info.CateId != nil {
 		db = db.Where("cate_id = ?", info.CateId)
 	}
+	if info.RssName != "" {
+		db = db.Where("rss_name LIKE ?", "%"+info.RssName+"%")
+	}
 	if info.IsStarred != nil {
 		db = db.Where("is_starred = ?", info.IsStarred)
 	}
