@@ -12,6 +12,9 @@
             />
           </el-select>
         </el-form-item>
+	      <el-form-item label="rss名称:">
+		      <el-input v-model="searchInfo.rssName" placeholder="商品名称" clearable />
+	      </el-form-item>
         <el-form-item label="starred">
           <el-select v-model="searchInfo.isStarred" clearable filterable>
             <el-option
