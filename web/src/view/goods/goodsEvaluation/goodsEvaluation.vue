@@ -215,13 +215,7 @@
           </el-col>
         </el-row>
         <el-form-item label="more字段:">
-          <mavon-editor
-            ref="md"
-            v-model="formData.more"
-            style="min-height: 300px"
-            @imgAdd="imgAdd"
-            @imgDel="imgDel"
-          />
+          <Md v-model="formData.more" />
         </el-form-item>
       </el-form>
       <template #footer>
@@ -235,9 +229,6 @@
 </template>
 
 <script>
-
-const base = ref(import.meta.env.VITE_BASE_API).value
-const userStore = useUserStore()
 
 export default {
   name: 'GoodsEvaluation',
@@ -261,44 +252,6 @@ export default {
     }
   },
   methods: {
-    imgAdd(pos, $file) {
-      // 第一步.将图片上传到服务器.
-      var formdata = new FormData()
-      formdata.append('file', $file)
-      this.uploadFileRequest(`/fileUploadAndDownload/upload`, formdata).then(resp => {
-        var json = resp.data.data // 取出上传成功后的url
-        var msg = resp.msg
-        // console.log(resp)
-	      // console.log(json)
-        if (resp.status === 200) {
-          this.$refs.md.$imglst2Url([[pos, json.file.url]])
-        } else {
-          this.$message({ type: resp.status, message: msg })
-        }
-      })
-    },
-    uploadFileRequest(url, params) {
-      console.log(base)
-      return axios({
-        method: 'post',
-        url: `${base}${url}`,
-        data: params,
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          'x-token': userStore.token
-        }
-      })
-    },
-	  // imgDel(pos) {
-    //   console.log(pos)
-    //   deleteFile(pos).then(resp => {
-    // 	  var json = resp.data.data // 取出上传成功后的url
-    // 	  var msg = resp.msg
-    // 	  if (resp.status === 200) {
-    //       this.$message({ type: resp.status, message: msg })
-    // 	  }
-    //   })
-    // },
   }
 }
 </script>
@@ -323,8 +276,7 @@ import {
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { ref } from 'vue'
 import { Document, StarFilled } from '@element-plus/icons-vue'
-import axios from 'axios'
-import { useUserStore } from '@/pinia/modules/user'
+import Md from '@/components/md/md.vue'
 
 // 自动化生成的字典（可能为空）以及字段
 const formData = ref({
