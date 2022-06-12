@@ -42,7 +42,7 @@ func (RssApi) FeedRss(ctx *gin.Context) {
 	}
 
 	// 判断当前是否处于更新时间范围内
-	if !time.CheckTimeLimit(r.UpdateTimeStub) {
+	if *r.IsUpdate == false && !time.CheckTimeLimit(r.UpdateTimeStub) {
 		res := rss.Rss(feed, nil)
 		resp.SendXML(ctx, res)
 		return
