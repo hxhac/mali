@@ -72,7 +72,7 @@
           <el-input v-model="formData.brandName" clearable placeholder="请输入" />
         </el-form-item>
 	      <el-form-item label="more字段:">
-		      <mavon-editor v-model="formData.more" style="min-height: 400px"/>
+		      <Md v-model="formData.more" />
 	      </el-form-item>
       </el-form>
       <template #footer>
@@ -106,6 +106,7 @@ import { getDictFunc, formatDate, formatBoolean, filterDict } from '@/utils/form
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { ref } from 'vue'
 import { Document } from '@element-plus/icons-vue'
+import Md from '@/components/md/md.vue'
 
 // 自动化生成的字典（可能为空）以及字段
 const formData = ref({
