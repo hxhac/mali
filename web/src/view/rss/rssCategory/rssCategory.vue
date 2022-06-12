@@ -31,10 +31,29 @@
         @selection-change="handleSelectionChange"
       >
         <el-table-column type="selection" width="55" />
-        <el-table-column align="left" label="分类名称" prop="cateName" min-width="10%" />
+        <el-table-column align="left" label="分类名称" prop="cateName" min-width="10%">
+	        <template #default="scope">
+		        {{ scope.row.cateName }}
+		        <el-tag v-if="scope.row.num" type="info" size="small" effect="dark">
+			        <el-icon>
+				        {{ scope.row.num }}
+			        </el-icon>
+		        </el-tag>
+		        <el-tag v-if="scope.row.isMute" type="warning" size="small" effect="dark">
+			        <el-icon>
+				        <DeleteFilled />
+			        </el-icon>
+		        </el-tag>
+		        <el-tag v-if="scope.row.isUpdate" type="success" size="small" effect="dark">
+			        <el-icon>
+				        <Orange />
+			        </el-icon>
+		        </el-tag>
+	        </template>
+        </el-table-column>
         <el-table-column align="left" label="url" prop="cateName" min-width="35%">
           <template #default="scope">
-            <p :id="['foo'+scope.row.uuid]">https://mali-api.wrss.top/rss/video/{{ scope.row.uuid }}</p>
+	          <span :id="['foo'+scope.row.uuid]">https://mali-api.wrss.top/rss/video/{{ scope.row.uuid }}</span>&nbsp;
             <el-button
               id="copy"
               class="btn"
@@ -49,14 +68,8 @@
             />
           </template>
         </el-table-column>
-        <el-table-column align="left" label="标题" prop="title" min-width="10%" />
-        <el-table-column align="left" label="该分类下feed数" prop="num" min-width="10%" />
         <el-table-column align="left" label="描述" prop="remark" min-width="15%" />
         <el-table-column align="left" label="更新时间" prop="updateTimeStub" min-width="15%" />
-        <el-table-column align="left" label="is_mute" prop="isMute" min-width="10%">
-          <template #default="scope">{{ formatBoolean(scope.row.isMute) }}</template>
-        </el-table-column>
-
         <el-table-column align="left" label="按钮组" min-width="10%">
           <template #default="scope">
             <el-button type="text" icon="edit" size="small" class="table-button" @click="updateRssCategoryFunc(scope.row)">变更</el-button>
@@ -81,9 +94,6 @@
         <el-form-item label="分类名称:">
           <el-input v-model="formData.cateName" clearable placeholder="请输入" />
         </el-form-item>
-        <el-form-item label="title:">
-          <el-input v-model="formData.title" clearable placeholder="请输入" />
-        </el-form-item>
         <el-form-item label="limit:">
           <el-input-number v-model.number="formData.num" clearable placeholder="请输入" />
         </el-form-item>
@@ -96,6 +106,9 @@
         <el-form-item label="is_mute:">
           <el-switch v-model="formData.isMute" active-color="#13ce66" inactive-color="#ff4949" active-text="是" inactive-text="否" clearable />
         </el-form-item>
+	      <el-form-item label="is_update:">
+		      <el-switch v-model="formData.isUpdate" active-color="#13ce66" inactive-color="#ff4949" active-text="是" inactive-text="否" clearable />
+	      </el-form-item>
         <el-form-item label="更新时间:">
           <el-select v-model="formData.updateTimeStub" placeholder="请选择">
             <el-option
@@ -145,12 +158,12 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 import { ref } from 'vue'
 import Clipboard from 'clipboard'
 import { generateTimeStub } from '@/utils/date'
+import { DeleteFilled, Orange } from '@element-plus/icons-vue'
 
 // 自动化生成的字典（可能为空）以及字段
 const formData = ref({
   // uuid: 0,
   cateName: '',
-  title: '',
   num: 99,
   remark: '',
   author: 'jf',
@@ -305,7 +318,6 @@ const closeDialog = () => {
   dialogFormVisible.value = false
   formData.value = {
     cateName: '',
-    title: '',
     num: 99,
     remark: '',
     author: 'jf',
@@ -361,4 +373,7 @@ const timeStubOptions = generateTimeStub(15)
 </script>
 
 <style>
+.el-tag + .el-tag {
+	margin-left: 10px;
+}
 </style>
