@@ -34,7 +34,7 @@
         <el-table-column align="left" label="分类名称" prop="cateName" min-width="10%">
 	        <template #default="scope">
 		        {{ scope.row.cateName }}
-		        <el-tag v-if="scope.row.num" type="info" size="small" effect="dark">
+		        <el-tag type="info" size="small" effect="dark">
 			        <el-icon>
 				        {{ scope.row.num }}
 			        </el-icon>
