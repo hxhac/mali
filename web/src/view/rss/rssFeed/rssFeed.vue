@@ -74,7 +74,7 @@
             </el-tag>
             <el-tag v-if="scope.row.isPause" type="danger" size="small" effect="dark">
               <el-icon>
-                <DeleteFilled />
+                <Close />
               </el-icon>
             </el-tag>
           </template>
@@ -178,7 +178,7 @@ import { getRssCategoryList } from '@/api/rssCategory'
 // 全量引入格式化工具 请按需保留
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { ref } from 'vue'
-import { StarFilled, DeleteFilled } from '@element-plus/icons-vue'
+import { StarFilled, DeleteFilled, Close } from '@element-plus/icons-vue'
 
 // 自动化生成的字典（可能为空）以及字段
 const formData = ref({
