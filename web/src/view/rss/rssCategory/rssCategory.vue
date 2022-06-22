@@ -31,29 +31,30 @@
         @selection-change="handleSelectionChange"
       >
         <el-table-column type="selection" width="55" />
-        <el-table-column align="left" label="分类名称" prop="cateName" min-width="20%">
+        <el-table-column align="left" label="分类名称" prop="cateName" min-width="10%">
 	        <template #default="scope">
-		        {{ scope.row.cateName }} <el-badge :value="scope.row.num" />
+		        {{ scope.row.cateName }}&nbsp;
+<!--		        <el-badge :value="scope.row.num" type="info" />-->
+		        <el-tag type="info" size="small" effect="dark">
+			        <el-icon>
+				        {{ scope.row.num }}
+			        </el-icon>
+		        </el-tag>
 		        
-		        <el-tag type="info" effect="dark">
+		        <el-tag v-if="scope.row.isMute" type="error" size="small" effect="dark">
 			        <el-icon>
-				        {{ scope.row.updateTimeStub }}
+				        <Close />
 			        </el-icon>
 		        </el-tag>
-
-		        <el-tag v-if="scope.row.isMute" type="warning" size="small" effect="dark">
-			        <el-icon>
-				        <DeleteFilled />
-			        </el-icon>
-		        </el-tag>
+		        
 		        <el-tag v-if="scope.row.isUpdate" type="success" size="small" effect="dark">
 			        <el-icon>
-				        <Orange />
+				        <Check />
 			        </el-icon>
 		        </el-tag>
 	        </template>
         </el-table-column>
-        <el-table-column align="left" label="url" min-width="30%">
+        <el-table-column align="left" label="url" min-width="35%">
           <template #default="scope">
 	          <span :id="['foo'+scope.row.uuid]">https://mali-api.wrss.top/rss/video/{{ scope.row.uuid }}</span>&nbsp;
             <el-button
@@ -70,7 +71,12 @@
             />
           </template>
         </el-table-column>
-        <el-table-column align="left" label="描述" prop="remark" min-width="40%" />
+        <el-table-column align="left" label="描述" prop="remark" min-width="45%" >
+	        <template #default="scope">
+		        [更新时间# {{ scope.row.updateTimeStub }}]
+		        {{ scope.row.remark }}
+	        </template>
+        </el-table-column>
 
         <el-table-column align="left" label="按钮组" min-width="10%">
           <template #default="scope">
@@ -160,7 +166,7 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 import { ref } from 'vue'
 import Clipboard from 'clipboard'
 import { generateTimeStub } from '@/utils/date'
-import { DeleteFilled, Orange } from '@element-plus/icons-vue'
+import { DeleteFilled, Orange, Close, Check } from '@element-plus/icons-vue'
 
 // 自动化生成的字典（可能为空）以及字段
 const formData = ref({
@@ -374,7 +380,11 @@ const timeStubOptions = generateTimeStub(15)
 
 </script>
 
-<style>
+<style lang="scss">
+.el-table .cell {
+	white-space: pre-line; // 单元格内空格展示为换行
+}
+
 .el-tag + .el-tag {
 	margin-left: 10px;
 }
