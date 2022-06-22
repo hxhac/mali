@@ -31,14 +31,16 @@
         @selection-change="handleSelectionChange"
       >
         <el-table-column type="selection" width="55" />
-        <el-table-column align="left" label="分类名称" prop="cateName" min-width="10%">
+        <el-table-column align="left" label="分类名称" prop="cateName" min-width="20%">
 	        <template #default="scope">
-		        {{ scope.row.cateName }}
-		        <el-tag type="info" size="small" effect="dark">
+		        {{ scope.row.cateName }} <el-badge :value="scope.row.num" />
+		        
+		        <el-tag type="info" effect="dark">
 			        <el-icon>
-				        {{ scope.row.num }}
+				        {{ scope.row.updateTimeStub }}
 			        </el-icon>
 		        </el-tag>
+
 		        <el-tag v-if="scope.row.isMute" type="warning" size="small" effect="dark">
 			        <el-icon>
 				        <DeleteFilled />
@@ -51,7 +53,7 @@
 		        </el-tag>
 	        </template>
         </el-table-column>
-        <el-table-column align="left" label="url" prop="cateName" min-width="35%">
+        <el-table-column align="left" label="url" min-width="30%">
           <template #default="scope">
 	          <span :id="['foo'+scope.row.uuid]">https://mali-api.wrss.top/rss/video/{{ scope.row.uuid }}</span>&nbsp;
             <el-button
@@ -68,8 +70,8 @@
             />
           </template>
         </el-table-column>
-        <el-table-column align="left" label="描述" prop="remark" min-width="15%" />
-        <el-table-column align="left" label="更新时间" prop="updateTimeStub" min-width="15%" />
+        <el-table-column align="left" label="描述" prop="remark" min-width="40%" />
+
         <el-table-column align="left" label="按钮组" min-width="10%">
           <template #default="scope">
             <el-button type="text" icon="edit" size="small" class="table-button" @click="updateRssCategoryFunc(scope.row)">变更</el-button>
