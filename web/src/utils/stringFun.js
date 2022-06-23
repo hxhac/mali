@@ -27,3 +27,12 @@ export const toHump = (name) => {
 		return letter.toUpperCase();
 	});
 }
+
+// 判断字符串中图片数
+export const checkIsImg = (str) => {
+	var r = str.match(/\.(jpeg|jpg|gif|png)/ig)
+	if (r != null) {
+		return r.length
+	}
+	return 0
+}

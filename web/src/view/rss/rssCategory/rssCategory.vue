@@ -40,7 +40,6 @@
 				        {{ scope.row.num }}
 			        </el-icon>
 		        </el-tag>
-		        
 		        <el-tag v-if="scope.row.isMute" type="error" size="small" effect="dark">
 			        <el-icon>
 				        <Close />

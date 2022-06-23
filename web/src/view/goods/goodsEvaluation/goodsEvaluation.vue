@@ -99,9 +99,13 @@
                 {{ scope.row.useTimes }}
               </el-icon>
             </el-tag>
+            <!-- 判断图片数，如果有图片就展示图片数，没有图片就展示icon-->
             <el-tag v-if="scope.row.more" size="small" effect="dark">
-              <el-icon>
+              <el-icon v-if="checkIsImg(scope.row.more) === 0">
                 <Document />
+              </el-icon>
+              <el-icon v-if="checkIsImg(scope.row.more) > 0">
+                {{ checkIsImg(scope.row.more) }}
               </el-icon>
             </el-tag>
           </template>
@@ -277,6 +281,7 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 import { ref } from 'vue'
 import { Document, StarFilled } from '@element-plus/icons-vue'
 import Md from '@/components/md/md.vue'
+import { checkIsImg } from '@/utils/stringFun'
 
 // 自动化生成的字典（可能为空）以及字段
 const formData = ref({
@@ -498,7 +503,6 @@ const enterDialog = async() => {
 // const closeDialogDoc = () => {
 // 	dialogDocVisible.value = false
 // }
-
 </script>
 
 <style lang="scss">
