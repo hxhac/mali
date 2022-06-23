@@ -30,7 +30,10 @@ export const toHump = (name) => {
 
 // 判断字符串中图片数
 export const checkIsImg = (str) => {
-	var r = str.match(/\.(jpeg|jpg|gif|png)/ig)
+	// var r = str.match(/\.(jpeg|jpg|gif|png)/ig)
+	// var r = str.match(/^https?:\/\/(.+\/)+.+(\.(gif|png|jpg|jpeg|webp|svg|psd|bmp|tif))/ig)
+	var r = str.match(/https?:\/\/(.+\/)+.+\.(jpeg|jpg|gif|png)/ig)
+	// console.log(r)
 	if (r != null) {
 		return r.length
 	}
