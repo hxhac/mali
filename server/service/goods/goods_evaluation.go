@@ -78,7 +78,10 @@ func (goodsEvaluationService *GoodsEvaluationService) GetGoodsEvaluationInfoList
 		return
 	}
 	err = db.Preload("GoodsBrand").
-		Order("is_starred DESC").Order("score DESC").Order("use_times DESC").
+		Order("is_starred DESC").
+		Order("score DESC").
+		Order("use_times DESC").
+		Order("id DESC").
 		Limit(limit).Offset(offset).
 		Find(&goodsEvaluations).Error
 
