@@ -64,7 +64,7 @@
         @selection-change="handleSelectionChange"
       >
         <el-table-column type="selection" width="55" />
-        <el-table-column align="left" label="rss名称" prop="rssName" min-width="10%">
+        <el-table-column align="left" label="rss名称" prop="rssName" min-width="20%">
           <template #default="scope">
             <el-link :href="scope.row.url" :underline="false">{{ scope.row.rssName }} &nbsp;</el-link>
             <el-tag v-if="scope.row.isStarred" type="warning" size="small" effect="dark">
@@ -84,13 +84,15 @@
             {{ scope.row.rss_category.cateName }}
           </template>
         </el-table-column>
-        <el-table-column align="left" label="关键字" prop="keywords" min-width="10%" />
+        <el-table-column align="left" label="关键字" prop="keywords" min-width="30%" />
         <!--        <el-table-column align="left" label="starred" prop="isStarred" min-width="10%">-->
         <!--          <template #default="scope">{{ formatBoolean(scope.row.isStarred) }}</template>-->
         <!--        </el-table-column>-->
         <!--        <el-table-column align="left" label="是否暂停" prop="isPause" min-width="10%">-->
         <!--          <template #default="scope">{{ formatBoolean(scope.row.isPause) }}</template>-->
         <!--        </el-table-column>-->
+	      
+	      <el-table-column align="left" label="备注" prop="remark" min-width="30%" />
         <el-table-column align="left" label="按钮组" min-width="10%">
           <template #default="scope">
             <el-button type="text" icon="edit" size="small" class="table-button" @click="updateRssFeedFunc(scope.row)">变更</el-button>
@@ -134,6 +136,9 @@
         <el-form-item label="是否暂停:">
           <el-switch v-model="formData.isPause" active-color="#13ce66" inactive-color="#ff4949" active-text="是" inactive-text="否" clearable />
         </el-form-item>
+	      <el-form-item label="备注:">
+		      <el-input v-model="formData.remark" clearable placeholder="请输入" />
+	      </el-form-item>
       </el-form>
       <template #footer>
         <div class="dialog-footer">
