@@ -31,7 +31,7 @@
         @selection-change="handleSelectionChange"
       >
         <el-table-column type="selection" width="55" />
-        <el-table-column align="left" label="分类名称" prop="cateName" min-width="10%">
+        <el-table-column align="left" label="分类名称" prop="cateName" min-width="15%">
 	        <template #default="scope">
 		        {{ scope.row.cateName }}&nbsp;
 <!--		        <el-badge :value="scope.row.num" type="info" />-->
@@ -40,6 +40,11 @@
 				        {{ scope.row.num }}
 			        </el-icon>
 		        </el-tag>
+		
+		        <el-tag v-if="scope.row.updateTimeStub" size="small" effect="dark">
+			        {{ scope.row.updateTimeStub }}
+		        </el-tag>
+		        
 		        <el-tag v-if="scope.row.isMute" type="error" size="small" effect="dark">
 			        <el-icon>
 				        <Close />
@@ -70,9 +75,8 @@
             />
           </template>
         </el-table-column>
-        <el-table-column align="left" label="描述" prop="remark" min-width="45%" >
+        <el-table-column align="left" label="描述" prop="remark" min-width="40%" >
 	        <template #default="scope">
-		        [更新时间# {{ scope.row.updateTimeStub }}]
 		        {{ scope.row.remark }}
 	        </template>
         </el-table-column>
