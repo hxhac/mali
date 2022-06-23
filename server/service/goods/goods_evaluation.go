@@ -72,12 +72,15 @@ func (goodsEvaluationService *GoodsEvaluationService) GetGoodsEvaluationInfoList
 	if info.More != "" {
 		db = db.Where("more LIKE ?", "%"+info.More+"%")
 	}
+	if info.Label != nil {
+		db = db.Where("label = ?", info.Label)
+	}
 
 	err = db.Count(&total).Error
 	if err != nil {
 		return
 	}
-	err = db.Preload("GoodsBrand").
+	err = db.Preload("GoodsBrand").Preload("GoodsLabel").
 		Order("is_starred DESC").
 		Order("score DESC").
 		Order("use_times DESC").

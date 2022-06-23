@@ -30,9 +30,17 @@
             />
           </el-select>
         </el-form-item>
-        <el-form-item label="goods">
-          <el-input v-model="searchInfo.goodsName" placeholder="商品名称" clearable />
+        <el-form-item label="label">
+          <el-select v-model="searchInfo.label" clearable filterable>
+            <el-option
+              v-for="item in labelOptions"
+              :key="item.ID"
+              :label="item.labelName"
+              :value="item.ID"
+            />
+          </el-select>
         </el-form-item>
+
         <el-form-item label="starred">
           <el-select v-model="searchInfo.isStarred" clearable filterable>
             <el-option
@@ -43,6 +51,11 @@
             />
           </el-select>
         </el-form-item>
+
+        <el-form-item label="goods">
+          <el-input v-model="searchInfo.goodsName" placeholder="商品名称" clearable />
+        </el-form-item>
+
         <el-form-item label="more">
           <el-input v-model="searchInfo.more" placeholder="商品备注" clearable />
         </el-form-item>
@@ -89,16 +102,23 @@
         <el-table-column align="left" label="商品名称" prop="goodsName,brand" min-width="40%">
           <template #default="scope">
             {{ scope.row.goods_brand.brandName }} {{ scope.row.goodsName }}
-            <el-tag v-if="scope.row.isStarred" type="warning" size="small" effect="dark">
-              <el-icon>
-                <StarFilled />
-              </el-icon>
-            </el-tag>
+
             <el-tag v-if="scope.row.useTimes" type="info" size="small" effect="dark">
               <el-icon>
                 {{ scope.row.useTimes }}
               </el-icon>
             </el-tag>
+  
+            <el-tag v-if="scope.row.isStarred" type="warning" size="small" effect="dark">
+              <el-icon>
+                <StarFilled />
+              </el-icon>
+            </el-tag>
+
+            <el-tag v-if="scope.row.label" type="success" size="small" effect="dark">
+              {{ scope.row.goods_label.labelName }}
+            </el-tag>
+
             <!-- 判断图片数，如果有图片就展示图片数，没有图片就展示icon-->
             <el-tag v-if="scope.row.more" size="small" effect="dark">
               <el-icon v-if="checkIsImg(scope.row.more) === 0">
@@ -194,7 +214,7 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row>
+        <el-row type="flex" class="row-bg">
           <el-col :span="8">
             <el-form-item label="use_times:">
               <el-input-number v-model.number="formData.useTimes" />
@@ -215,6 +235,20 @@
                 inactive-text="否"
                 clearable
               />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row type="flex" class="row-bg">
+          <el-col :span="8">
+            <el-form-item label="label:" prop="label">
+              <el-select v-model="formData.label" placeholder="请选择" clearable filterable>
+                <el-option
+                  v-for="item in labelOptions"
+                  :key="item.ID"
+                  :label="item.labelName"
+                  :value="item.ID"
+                />
+              </el-select>
             </el-form-item>
           </el-col>
         </el-row>
@@ -275,6 +309,9 @@ import {
 import {
   getGoodsCategoryList,
 } from '@/api/goodsCategory'
+import {
+  getGoodsLabelList,
+} from '@/api/goodsLabel'
 
 // 全量引入格式化工具 请按需保留
 import { ElMessage, ElMessageBox } from 'element-plus'
@@ -350,6 +387,7 @@ getTableData()
 // 获取需要的字典 可能为空 按需保留
 const brandOptions = ref([])
 const categoryOptions = ref([])
+const labelOptions = ref([])
 const setOptions = async() => {
   // 产品品牌
   const brand = await getGoodsBrandList({ pageSize: 999 })
@@ -361,6 +399,12 @@ const setOptions = async() => {
   const category = await getGoodsCategoryList({ pageSize: 999 })
   if (category.code === 0) {
     categoryOptions.value = category.data.list
+  }
+
+  // 产品分类数据
+  const label = await getGoodsLabelList({ pageSize: 999 })
+  if (category.code === 0) {
+    labelOptions.value = label.data.list
   }
 }
 
