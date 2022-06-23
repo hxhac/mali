@@ -87,6 +87,6 @@ from rss_category as rc
          left join rss_feed as rf on rc.id = rf.cate_id
 where rc.deleted_at is null
 group by rc.id
-order by num desc;`).Limit(limit).Offset(offset).Find(&rssCategorys).Error
+order by rc.is_update desc, rc.num desc, rc.is_mute asc;`).Limit(limit).Offset(offset).Find(&rssCategorys).Error
 	return err, rssCategorys, total
 }
