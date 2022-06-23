@@ -9,9 +9,16 @@ module.exports = {
 	env: {
 		browser: true,
 		node: true,
-		es6: true
+		es6: true,
+		// 'vue/setup-compiler-macros': true
 	},
 	extends: ['plugin:vue/recommended', 'eslint:recommended'],
+	globals: {
+		defineProps: "readonly",
+		defineEmits: "readonly",
+		defineExpose: "readonly",
+		withDefaults: "readonly",
+	},
 
 	// add your custom rules here
 	// it is base on https://github.com/vuejs/eslint-config-vue
