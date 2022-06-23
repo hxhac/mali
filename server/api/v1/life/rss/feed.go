@@ -13,7 +13,7 @@ import (
 )
 
 const (
-	DefaultAuthor    = "jf"
+	DefaultAuthor    = ""
 	FeedLimitPerFeed = 99
 	TimeoutSeconds   = 60
 	TimeLimit        = 30 // 默认晚上8点后30min
@@ -39,6 +39,13 @@ func (RssApi) FeedRss(ctx *gin.Context) {
 		Author:      r.Author,
 		URL:         GetURL(ctx.Request),
 		UpdatedTime: time.GetToday(),
+	}
+
+	// 如果禁止，则停止更新
+	if *r.IsMute {
+		res := rss.Rss(feed, nil)
+		resp.SendXML(ctx, res)
+		return
 	}
 
 	// 判断当前是否处于更新时间范围内
