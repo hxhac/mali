@@ -31,10 +31,8 @@
         @selection-change="handleSelectionChange"
       >
         <el-table-column type="selection" width="55" />
-<!--        <el-table-column align="left" label="日期" mwidth="">-->
-<!--          <template #default="scope">{{ formatDate(scope.row.CreatedAt) }}</template>-->
-<!--        </el-table-column>-->
-        <el-table-column align="left" label="label字段" prop="label" min-width="30%" />
+
+        <el-table-column align="left" label="label字段" prop="labelName" min-width="30%" />
         <el-table-column align="left" label="remark字段" prop="remark" min-width="40%" />
         <el-table-column align="left" label="按钮组" min-width="20%">
           <template #default="scope">
@@ -58,7 +56,7 @@
     <el-dialog v-model="dialogFormVisible" :before-close="closeDialog" title="弹窗操作">
       <el-form :model="formData" label-position="right" label-width="80px">
         <el-form-item label="label字段:">
-          <el-input v-model="formData.label" clearable placeholder="请输入" />
+          <el-input v-model="formData.labelName" clearable placeholder="请输入" />
         </el-form-item>
         <el-form-item label="remark字段:">
           <el-input v-model="formData.remark" clearable placeholder="请输入" />
@@ -97,7 +95,7 @@ import { ref } from 'vue'
 
 // 自动化生成的字典（可能为空）以及字段
 const formData = ref({
-  label: '',
+  labelName: '',
   remark: '',
 })
 
@@ -244,7 +242,7 @@ const openDialog = () => {
 const closeDialog = () => {
   dialogFormVisible.value = false
   formData.value = {
-    label: '',
+    labelName: '',
     remark: '',
   }
 }
