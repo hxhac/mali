@@ -71,6 +71,10 @@ func (rssFeedService *RssFeedService) GetRssFeedInfoList(info rssReq.RssFeedSear
 		return
 	}
 
-	err = db.Limit(limit).Offset(offset).Preload("RssCategory").Order("is_starred DESC").Order("id DESC").Order("is_pause ASC").Find(&rssFeeds).Error
+	err = db.Limit(limit).Offset(offset).Preload("RssCategory").
+		Order("is_starred DESC").
+		Order("is_pause ASC").
+		Order("id DESC").
+		Find(&rssFeeds).Error
 	return err, rssFeeds, total
 }
