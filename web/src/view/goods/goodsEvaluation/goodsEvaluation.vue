@@ -41,17 +41,6 @@
           </el-select>
         </el-form-item>
 
-        <el-form-item label="starred">
-          <el-select v-model="searchInfo.isStarred" clearable filterable>
-            <el-option
-              v-for="item in isStarredOptions"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            />
-          </el-select>
-        </el-form-item>
-
         <el-form-item label="goods">
           <el-input v-model="searchInfo.goodsName" placeholder="商品名称" clearable />
         </el-form-item>
@@ -106,12 +95,6 @@
             <el-tag v-if="scope.row.useTimes" type="info" size="small" effect="dark">
               <el-icon>
                 {{ scope.row.useTimes }}
-              </el-icon>
-            </el-tag>
-  
-            <el-tag v-if="scope.row.isStarred" type="warning" size="small" effect="dark">
-              <el-icon>
-                <StarFilled />
               </el-icon>
             </el-tag>
 
@@ -197,6 +180,18 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
+            <el-form-item label="标签:" prop="label">
+              <el-select v-model="formData.label" placeholder="请选择" clearable filterable>
+                <el-option
+                  v-for="item in labelOptions"
+                  :key="item.ID"
+                  :label="item.labelName"
+                  :value="item.ID"
+                />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
             <el-form-item label="品牌:" prop="brand">
               <el-select v-model="formData.brand" placeholder="请选择" clearable filterable>
                 <el-option
@@ -208,47 +203,21 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
-            <el-form-item label="商品价格:">
-              <el-input-number v-model.number="formData.price" placeholder="请输入" />
-            </el-form-item>
-          </el-col>
         </el-row>
         <el-row type="flex" class="row-bg">
           <el-col :span="8">
-            <el-form-item label="use_times:">
+            <el-form-item label="次数:">
               <el-input-number v-model.number="formData.useTimes" />
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="score:">
+            <el-form-item label="价格:">
+              <el-input-number v-model.number="formData.price" placeholder="请输入" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="评分:">
               <el-rate v-model.number="formData.score" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="star:">
-              <el-switch
-                v-model="formData.isStarred"
-                active-color="#13ce66"
-                inactive-color="#ff4949"
-                active-text="是"
-                inactive-text="否"
-                clearable
-              />
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row type="flex" class="row-bg">
-          <el-col :span="8">
-            <el-form-item label="label:" prop="label">
-              <el-select v-model="formData.label" placeholder="请选择" clearable filterable>
-                <el-option
-                  v-for="item in labelOptions"
-                  :key="item.ID"
-                  :label="item.labelName"
-                  :value="item.ID"
-                />
-              </el-select>
             </el-form-item>
           </el-col>
         </el-row>
@@ -273,13 +242,6 @@ export default {
   data() {
     return {
       value: '请选择',
-      isStarredOptions: [{
-        value: true,
-        label: '是'
-      }, {
-        value: false,
-        label: '否'
-      }],
       fileList: []
     }
   },
@@ -327,7 +289,6 @@ const formData = ref({
   brand: null,
   category: null,
   score: null,
-  isStarred: false,
   useTimes: 1,
   more: '',
 })
@@ -348,9 +309,7 @@ const onReset = () => {
 const onSubmit = () => {
   page.value = 1
   pageSize.value = 10
-  if (searchInfo.value.isStarred === '') {
-    searchInfo.value.isStarred = null
-  }
+
   getTableData()
 }
 
@@ -505,7 +464,6 @@ const closeDialog = () => {
     brand: null,
     category: null,
     score: null,
-    isStarred: false,
     useTimes: 1,
     more: '',
   }

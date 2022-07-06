@@ -63,9 +63,7 @@ func (goodsEvaluationService *GoodsEvaluationService) GetGoodsEvaluationInfoList
 		}
 		db = db.Where("find_in_set(?, replace(replace(category, '{', ''), '}', ''))", res)
 	}
-	if info.IsStarred != nil {
-		db = db.Where("is_starred = ?", info.IsStarred)
-	}
+
 	if info.GoodsName != "" {
 		db = db.Where("goods_name LIKE ?", "%"+info.GoodsName+"%")
 	}
@@ -81,7 +79,6 @@ func (goodsEvaluationService *GoodsEvaluationService) GetGoodsEvaluationInfoList
 		return
 	}
 	err = db.Preload("GoodsBrand").Preload("GoodsLabel").
-		Order("is_starred DESC").
 		Order("score DESC").
 		Order("use_times DESC").
 		Order("id DESC").
