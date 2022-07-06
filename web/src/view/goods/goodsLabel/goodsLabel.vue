@@ -32,7 +32,12 @@
       >
         <el-table-column type="selection" width="55" />
 
-        <el-table-column align="left" label="label字段" prop="labelName" min-width="30%" />
+        <el-table-column align="left" label="label字段" prop="labelName" min-width="30%" >
+	        <template #default="scope">
+		        <el-tag size="small" effect="dark" :color="scope.row.color">{{ scope.row.labelName }}
+		        </el-tag>
+	        </template>
+        </el-table-column>
         <el-table-column align="left" label="remark字段" prop="remark" min-width="40%" />
         <el-table-column align="left" label="按钮组" min-width="20%">
           <template #default="scope">
@@ -58,6 +63,9 @@
         <el-form-item label="label字段:">
           <el-input v-model="formData.labelName" clearable placeholder="请输入" />
         </el-form-item>
+	      <el-form-item label="颜色:">
+		      <el-input v-model="formData.color" clearable placeholder="请输入" />
+	      </el-form-item>
         <el-form-item label="remark字段:">
           <el-input v-model="formData.remark" clearable placeholder="请输入" />
         </el-form-item>
@@ -272,4 +280,24 @@ const enterDialog = async() => {
 </script>
 
 <style>
+.el-tag + .el-tag {
+	margin-left: 10px;
+}
+/* 去掉自定义color之后，边框颜色type会覆盖，通过该css自定义边框颜色*/
+.el-tag {
+	--el-tag-border-color: #B8B8B8
+}
+.button-new-tag {
+	margin-left: 10px;
+	height: 32px;
+	line-height: 30px;
+	padding-top: 0;
+	padding-bottom: 0;
+}
+.input-new-tag {
+	width: 90px;
+	margin-left: 10px;
+	vertical-align: bottom;
+}
 </style>
+

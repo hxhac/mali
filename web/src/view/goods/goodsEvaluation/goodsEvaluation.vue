@@ -98,7 +98,13 @@
               </el-icon>
             </el-tag>
 
-            <el-tag v-if="scope.row.label" type="success" size="small" effect="dark">
+            <el-tag
+              v-if="scope.row.label"
+              size="small"
+              effect="dark"
+              :color="scope.row.goods_label.color"
+              :hit="false"
+            >
               {{ scope.row.goods_label.labelName }}
             </el-tag>
 
