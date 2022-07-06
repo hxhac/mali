@@ -12,9 +12,9 @@
             />
           </el-select>
         </el-form-item>
-	      <el-form-item label="rss名称:">
-		      <el-input v-model="searchInfo.rssName" placeholder="商品名称" clearable />
-	      </el-form-item>
+        <el-form-item label="rss名称:">
+          <el-input v-model="searchInfo.rssName" placeholder="商品名称" clearable />
+        </el-form-item>
         <el-form-item label="starred">
           <el-select v-model="searchInfo.isStarred" clearable filterable>
             <el-option
@@ -91,8 +91,8 @@
         <!--        <el-table-column align="left" label="是否暂停" prop="isPause" min-width="10%">-->
         <!--          <template #default="scope">{{ formatBoolean(scope.row.isPause) }}</template>-->
         <!--        </el-table-column>-->
-	      
-	      <el-table-column align="left" label="备注" prop="remark" min-width="30%" />
+        
+        <el-table-column align="left" label="备注" prop="remark" min-width="30%" />
         <el-table-column align="left" label="按钮组" min-width="10%">
           <template #default="scope">
             <el-button type="text" icon="edit" size="small" class="table-button" @click="updateRssFeedFunc(scope.row)">变更</el-button>
@@ -136,9 +136,9 @@
         <el-form-item label="是否暂停:">
           <el-switch v-model="formData.isPause" active-color="#13ce66" inactive-color="#ff4949" active-text="是" inactive-text="否" clearable />
         </el-form-item>
-	      <el-form-item label="备注:">
-		      <el-input v-model="formData.remark" clearable placeholder="请输入" />
-	      </el-form-item>
+        <el-form-item label="备注:">
+          <el-input v-model="formData.remark" type="textarea" :autosize="{ minRows: 4 }" clearable placeholder="请输入" />
+        </el-form-item>
       </el-form>
       <template #footer>
         <div class="dialog-footer">
@@ -349,7 +349,7 @@ const closeDialog = () => {
     url: '',
     keywords: '',
     isPause: false,
-	  isStarred: false,
+    isStarred: false,
   }
 }
 // 弹窗确定
@@ -380,10 +380,10 @@ const enterDialog = async() => {
 
 <style lang="scss">
 .el-table .cell {
-	white-space: pre-line; // 单元格内空格展示为换行
+  white-space: pre-line; // 单元格内空格展示为换行
 }
 
 .el-tag + .el-tag {
-	margin-left: 10px;
+  margin-left: 10px;
 }
 </style>
