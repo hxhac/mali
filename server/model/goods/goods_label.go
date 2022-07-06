@@ -11,6 +11,8 @@ type GoodsLabel struct {
 	global.GVA_MODEL
 	LabelName string `json:"labelName" form:"labelName" gorm:"column:label_name;comment:;size:255;"`
 	Remark    string `json:"remark" form:"remark" gorm:"column:remark;comment:;size:255;"`
+	Color     string `json:"color" form:"color" gorm:"column:color;comment:;size
+:255;"`
 }
 
 // TableName GoodsLabel 表名
