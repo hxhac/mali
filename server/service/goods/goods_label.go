@@ -57,6 +57,7 @@ func (goodsLabelService *GoodsLabelService) GetGoodsLabelInfoList(info goodsReq.
 	if err != nil {
 		return
 	}
-	err = db.Limit(limit).Offset(offset).Find(&goodsLabels).Error
+	err = db.Limit(limit).Offset(offset).Order("score DESC").Find(&goodsLabels).
+		Error
 	return err, goodsLabels, total
 }

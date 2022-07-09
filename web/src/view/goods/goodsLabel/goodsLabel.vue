@@ -33,10 +33,16 @@
         <el-table-column type="selection" width="55" />
 
         <el-table-column align="left" label="label字段" prop="labelName" min-width="30%" >
-	        <template #default="scope">
-		        <el-tag size="small" effect="dark" :color="scope.row.color">{{ scope.row.labelName }}
-		        </el-tag>
-	        </template>
+          <template #default="scope">
+            <el-tag size="small" effect="dark" :type="scope.row.color">{{
+		            scope.row.labelName }}
+            </el-tag>
+	          <el-tag type="info" size="small" effect="dark">
+		          <el-icon>
+			          {{ scope.row.score }}
+		          </el-icon>
+	          </el-tag>
+          </template>
         </el-table-column>
         <el-table-column align="left" label="remark字段" prop="remark" min-width="40%" />
         <el-table-column align="left" label="按钮组" min-width="20%">
@@ -63,8 +69,14 @@
         <el-form-item label="label字段:">
           <el-input v-model="formData.labelName" clearable placeholder="请输入" />
         </el-form-item>
-	      <el-form-item label="颜色:">
-		      <el-input v-model="formData.color" clearable placeholder="请输入" />
+        <el-form-item label="颜色:">
+          <el-select v-model="formData.color" placeholder="请选择">
+            <el-option v-for="item in options" :key="item.value"
+                       :label="item.label" :value="item.value" />
+          </el-select>
+        </el-form-item>
+	      <el-form-item label="评分:">
+		      <el-rate v-model.number="formData.score" />
 	      </el-form-item>
         <el-form-item label="remark字段:">
           <el-input v-model="formData.remark" clearable placeholder="请输入" />
@@ -82,7 +94,28 @@
 
 <script>
 export default {
-  name: 'GoodsLabel'
+  name: 'GoodsLabel',
+  data() {
+    return {
+      options: [{
+        value: 'success',
+        label: '绿色'
+      }, {
+        value: 'info',
+        label: '灰色'
+      }, {
+        value: 'warning',
+        label: '橙色'
+      }, {
+        value: 'danger',
+        label: '红色'
+      }, {
+        value: '',
+        label: '蓝色'
+      }],
+      value: ''
+    }
+  }
 }
 </script>
 
@@ -281,24 +314,19 @@ const enterDialog = async() => {
 
 <style scoped>
 .el-tag + .el-tag {
-	margin-left: 10px;
-}
-/* 去掉自定义color之后，边框颜色type会覆盖，通过该css自定义边框颜色*/
-.el-tag {
-	/*--el-tag-border-color: #B8B8B8*/
-	--el-tag-border-color: #B8
+  margin-left: 10px;
 }
 .button-new-tag {
-	margin-left: 10px;
-	height: 32px;
-	line-height: 30px;
-	padding-top: 0;
-	padding-bottom: 0;
+  margin-left: 10px;
+  height: 32px;
+  line-height: 30px;
+  padding-top: 0;
+  padding-bottom: 0;
 }
 .input-new-tag {
-	width: 90px;
-	margin-left: 10px;
-	vertical-align: bottom;
+  width: 90px;
+  margin-left: 10px;
+  vertical-align: bottom;
 }
 </style>
 
