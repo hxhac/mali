@@ -513,7 +513,7 @@ const enterDialog = async() => {
 // }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .el-table .cell {
   white-space: pre-line; // 单元格内空格展示为换行
 }
@@ -521,6 +521,12 @@ const enterDialog = async() => {
 // [elment ui 使用标签时两个标签会连在一起 - SegmentFault 思否](https://segmentfault.com/q/1010000011729618)
 .el-tag + .el-tag {
   margin-left: 10px;
+}
+
+/* 去掉自定义color之后，边框颜色type会覆盖，通过该css自定义边框颜色*/
+.el-tag {
+	//--el-tag-border-color: #B8B8B8
+	--el-tag-border-color: #B8
 }
 
 //.el-table__fixed-body-wrapper {

@@ -279,13 +279,14 @@ const enterDialog = async() => {
 }
 </script>
 
-<style>
+<style scoped>
 .el-tag + .el-tag {
 	margin-left: 10px;
 }
 /* 去掉自定义color之后，边框颜色type会覆盖，通过该css自定义边框颜色*/
 .el-tag {
-	--el-tag-border-color: #B8B8B8
+	/*--el-tag-border-color: #B8B8B8*/
+	--el-tag-border-color: #B8
 }
 .button-new-tag {
 	margin-left: 10px;
