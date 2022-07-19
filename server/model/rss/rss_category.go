@@ -11,9 +11,8 @@ import (
 // 如果含有time.Time 请自行import time包
 type RssCategory struct {
 	global.GVA_MODEL
-	Uuid     string `json:"uuid" form:"uuid" gorm:"column:uuid;comment:;size:10;"`
-	CateName string `json:"cateName" form:"cateName" gorm:"column:cate_name;comment:;size:255;"`
-	// Title           string `json:"title" form:"title" gorm:"column:title;comment:自定义标题;size:255;"`
+	Uuid            string `json:"uuid" form:"uuid" gorm:"column:uuid;comment:;size:10;"`
+	CateName        string `json:"cateName" form:"cateName" gorm:"column:cate_name;comment:;size:255;"`
 	Num             *int   `json:"num" form:"num" gorm:"column:num;comment:限制聚合feed源的item数量;size:10;default:99;"`
 	Remark          string `json:"remark" form:"remark" gorm:"column:remark;comment:自定义该rss描述;size:255;"`
 	Author          string `json:"author" form:"author" gorm:"column:author;comment:;size:255;"`
@@ -21,6 +20,7 @@ type RssCategory struct {
 	IsUpdate        *bool  `json:"isUpdate" form:"isUpdate" gorm:"column:is_update;comment:是否正常更新(默认0不正常更新1正常更新);default:0;"`
 	UpdateTimeStub  string `json:"updateTimeStub" form:"updateTimeStub" gorm:"column:update_time_stub;comment:更新时间stub;size:255;"`
 	UpdateTimestamp *int   `json:"updateTimestamp" form:"updateTimestamp" gorm:"column:update_timestamp;comment:该分类更新时间戳;size:20;default:0;not null;"`
+	Cron            string `json:"cron" form:"cron" gorm:"column:cron;comment:;size:255;"`
 }
 
 // TableName RssCategory 表名

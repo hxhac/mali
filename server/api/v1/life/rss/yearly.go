@@ -45,7 +45,8 @@ func yearly() []rss.Item {
 	items, _ := lifeYearlyService.FindAll()
 
 	for _, item := range items {
-		if !item.IsPause && CheckCron(item.Cron, carbon.Now()) {
+		if !item.IsPause && CheckCron(item.Cron, carbon.Now(),
+			carbon.Now().IsSaturday()) {
 			title := fmt.Sprintf("[%s] - [%s] - %s", item.Prefix, gtime.Date(), item.Task)
 			ret = append(ret, rss.Item{
 				Title:       title,
@@ -59,13 +60,13 @@ func yearly() []rss.Item {
 	return ret
 }
 
-func CheckCron(cronTime string, cb carbon.Carbon) bool {
+// CheckCron
+func CheckCron(cronTime string, cb carbon.Carbon, isWeekDay bool) bool {
 	dayOfYear := cb.DayOfYear()
 	dayOfMonth := cb.DayOfMonth()
 	weekOfYear := cb.WeekOfYear()
 	monthOfYear := cb.MonthOfYear()
 
-	isSaturday := cb.IsSaturday()
 	isJanuary := cb.IsJanuary()
 	isMatched, number := ExtractTimeNumber(cronTime)
 
@@ -74,7 +75,7 @@ func CheckCron(cronTime string, cb carbon.Carbon) bool {
 		return true
 	}
 	// 判断weekly
-	if gstr.Contains(cronTime, "weekly") && isSaturday && (weekOfYear%number != 0 || !isMatched) {
+	if gstr.Contains(cronTime, "weekly") && isWeekDay && (weekOfYear%number != 0 || !isMatched) {
 		return true
 	}
 	// 判断monthly

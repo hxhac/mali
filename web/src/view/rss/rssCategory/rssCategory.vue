@@ -32,35 +32,35 @@
       >
         <el-table-column type="selection" width="55" />
         <el-table-column align="left" label="分类名称" prop="cateName" min-width="15%">
-	        <template #default="scope">
-		        {{ scope.row.cateName }}&nbsp;
-<!--		        <el-badge :value="scope.row.num" type="info" />-->
-		        <el-tag type="info" size="small" effect="dark">
-			        <el-icon>
-				        {{ scope.row.num }}
-			        </el-icon>
-		        </el-tag>
-		
-		        <el-tag v-if="scope.row.updateTimeStub" size="small" effect="dark">
-			        {{ scope.row.updateTimeStub }}
-		        </el-tag>
-		        
-		        <el-tag v-if="scope.row.isMute" type="error" size="small" effect="dark">
-			        <el-icon>
-				        <Close />
-			        </el-icon>
-		        </el-tag>
-		        
-		        <el-tag v-if="scope.row.isUpdate" type="success" size="small" effect="dark">
-			        <el-icon>
-				        <Check />
-			        </el-icon>
-		        </el-tag>
-	        </template>
+          <template #default="scope">
+            {{ scope.row.cateName }}&nbsp;
+
+            <el-tag type="info" size="small" effect="dark">
+              <el-icon>
+                {{ scope.row.num }}
+              </el-icon>
+            </el-tag>
+
+            <el-tag v-if="scope.row.updateTimeStub" size="small" effect="dark">
+              {{ scope.row.cron }} - {{ scope.row.updateTimeStub }}
+            </el-tag>
+
+            <el-tag v-if="scope.row.isMute" type="error" size="small" effect="dark">
+              <el-icon>
+                <Close />
+              </el-icon>
+            </el-tag>
+
+            <el-tag v-if="scope.row.isUpdate" type="success" size="small" effect="dark">
+              <el-icon>
+                <Check />
+              </el-icon>
+            </el-tag>
+          </template>
         </el-table-column>
         <el-table-column align="left" label="url" min-width="35%">
           <template #default="scope">
-	          <span :id="['foo'+scope.row.uuid]">https://mali-api.wrss.top/rss/video/{{ scope.row.uuid }}</span>&nbsp;
+            <span :id="['foo'+scope.row.uuid]">https://mali-api.wrss.top/rss/video/{{ scope.row.uuid }}</span>&nbsp;
             <el-button
               id="copy"
               class="btn"
@@ -76,9 +76,9 @@
           </template>
         </el-table-column>
         <el-table-column align="left" label="描述" prop="remark" min-width="40%" >
-	        <template #default="scope">
-		        {{ scope.row.remark }}
-	        </template>
+          <template #default="scope">
+            {{ scope.row.remark }}
+          </template>
         </el-table-column>
 
         <el-table-column align="left" label="按钮组" min-width="10%">
@@ -117,9 +117,18 @@
         <el-form-item label="is_mute:">
           <el-switch v-model="formData.isMute" active-color="#13ce66" inactive-color="#ff4949" active-text="是" inactive-text="否" clearable />
         </el-form-item>
-	      <el-form-item label="is_update:">
-		      <el-switch v-model="formData.isUpdate" active-color="#13ce66" inactive-color="#ff4949" active-text="是" inactive-text="否" clearable />
-	      </el-form-item>
+        <el-form-item label="is_update:">
+          <el-switch v-model="formData.isUpdate" active-color="#13ce66" inactive-color="#ff4949" active-text="是" inactive-text="否" clearable />
+        </el-form-item>
+        <el-form-item label="cron字段:" prop="cron">
+          <el-select v-model="formData.cron" placeholder="请选择">
+            <el-option
+              v-for="item in cronOptions"
+              :key="item"
+              :value="item"
+            />
+          </el-select>
+        </el-form-item>
         <el-form-item label="更新时间:">
           <el-select v-model="formData.updateTimeStub" placeholder="请选择">
             <el-option
@@ -148,7 +157,13 @@ export default {
   components: {
   },
   return: {
-    rssBaseURL: 'https://mali-api.wrss.top/rss/video/'
+    rssBaseURL: 'https://mali-api.wrss.top/rss/video/',
+  },
+  data() {
+    return {
+      value: '请选择',
+      cronOptions: ['@daily', '@2daily', '@weekly', '@2weekly'],
+    }
   }
 }
 </script>
@@ -169,7 +184,7 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 import { ref } from 'vue'
 import Clipboard from 'clipboard'
 import { generateTimeStub } from '@/utils/date'
-import { DeleteFilled, Orange, Close, Check } from '@element-plus/icons-vue'
+import { Close, Check } from '@element-plus/icons-vue'
 
 // 自动化生成的字典（可能为空）以及字段
 const formData = ref({
@@ -180,6 +195,7 @@ const formData = ref({
   author: 'jf',
   isMute: false,
   updateTimeStub: '20h',
+  cron: '@daily',
 })
 
 // =========== 表格控制部分 ===========
@@ -334,6 +350,7 @@ const closeDialog = () => {
     author: 'jf',
     isMute: false,
     updateTimeStub: '20h',
+    cron: '@daily',
   }
 }
 // 弹窗确定
@@ -385,10 +402,10 @@ const timeStubOptions = generateTimeStub(15)
 
 <style lang="scss">
 .el-table .cell {
-	white-space: pre-line; // 单元格内空格展示为换行
+  white-space: pre-line; // 单元格内空格展示为换行
 }
 
 .el-tag + .el-tag {
-	margin-left: 10px;
+  margin-left: 10px;
 }
 </style>

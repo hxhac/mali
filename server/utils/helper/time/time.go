@@ -59,7 +59,7 @@ func DiffNowDateTime(nn string) int64 {
 	return seconds
 }
 
-// 判断时间范围
+// CheckTimeLimit 判断时间范围
 func CheckTimeLimit(nn string) bool {
 	diff := DiffNowDateTime(nn)
 	// 没到目标时间
