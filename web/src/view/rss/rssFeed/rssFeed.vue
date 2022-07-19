@@ -64,9 +64,15 @@
         @selection-change="handleSelectionChange"
       >
         <el-table-column type="selection" width="55" />
-        <el-table-column align="left" label="rss名称" prop="rssName" min-width="20%">
+        <el-table-column align="left" label="rss名称" prop="rssName"
+                         min-width="30%">
           <template #default="scope">
             <el-link :href="scope.row.url" :underline="false">{{ scope.row.rssName }} &nbsp;</el-link>
+            
+            <el-tag v-if="scope.row.cateId" size="small" effect="dark">
+              {{ scope.row.rss_category.cateName }}
+            </el-tag>
+            
             <el-tag v-if="scope.row.isStarred" type="success" size="small" effect="dark">
               <el-icon>
                 <Check />
@@ -79,20 +85,15 @@
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column align="left" label="rss分类" prop="cateId" min-width="10%">
+        
+<!--        <el-table-column align="left" label="关键字" prop="keywords" min-width="30%" />-->
+        <el-table-column align="left" label="评分" prop="score" min-width="20%">
           <template #default="scope">
-            {{ scope.row.rss_category.cateName }}
+            <el-rate v-model="scope.row.score" disabled />
           </template>
         </el-table-column>
-        <el-table-column align="left" label="关键字" prop="keywords" min-width="30%" />
-        <!--        <el-table-column align="left" label="starred" prop="isStarred" min-width="10%">-->
-        <!--          <template #default="scope">{{ formatBoolean(scope.row.isStarred) }}</template>-->
-        <!--        </el-table-column>-->
-        <!--        <el-table-column align="left" label="是否暂停" prop="isPause" min-width="10%">-->
-        <!--          <template #default="scope">{{ formatBoolean(scope.row.isPause) }}</template>-->
-        <!--        </el-table-column>-->
         
-        <el-table-column align="left" label="备注" prop="remark" min-width="30%" />
+        <el-table-column align="left" label="备注" prop="remark" min-width="40%" />
         <el-table-column align="left" label="按钮组" min-width="10%">
           <template #default="scope">
             <el-button type="text" icon="edit" size="small" class="table-button" @click="updateRssFeedFunc(scope.row)">变更</el-button>
@@ -135,6 +136,9 @@
         </el-form-item>
         <el-form-item label="是否暂停:">
           <el-switch v-model="formData.isPause" active-color="#13ce66" inactive-color="#ff4949" active-text="是" inactive-text="否" clearable />
+        </el-form-item>
+        <el-form-item label="评分:">
+          <el-rate v-model.number="formData.score" />
         </el-form-item>
         <el-form-item label="备注:">
           <el-input v-model="formData.remark" type="textarea" :autosize="{ minRows: 4 }" clearable placeholder="请输入" />
@@ -192,6 +196,7 @@ const formData = ref({
   keywords: '',
   isPause: false,
   isStarred: false,
+  score: null,
 })
 
 // =========== 表格控制部分 ===========
@@ -350,6 +355,7 @@ const closeDialog = () => {
     keywords: '',
     isPause: false,
     isStarred: false,
+    score: null,
   }
 }
 // 弹窗确定
@@ -380,7 +386,7 @@ const enterDialog = async() => {
 
 <style lang="scss">
 .el-table .cell {
-  white-space: pre-line; // 单元格内空格展示为换行
+  white-space: pre; // 单元格内空格展示为换行
 }
 
 .el-tag + .el-tag {

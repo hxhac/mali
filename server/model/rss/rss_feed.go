@@ -16,6 +16,7 @@ type RssFeed struct {
 	Remark      string      `json:"remark" form:"remark" gorm:"column:remark;comment:备注;size:255;"`
 	IsPause     *bool       `json:"isPause" form:"isPause" gorm:"column:is_pause;comment:是否暂停（0不暂停1暂停）;default:0"`
 	IsStarred   *bool       `json:"isStarred" form:"isStarred" gorm:"column:is_starred;comment:是否收藏;default:0;not null;"`
+	Score       *int        `json:"score" form:"score" gorm:"column:score;comment:评分;size:10;not null;"`
 	RssCategory RssCategory `json:"rss_category" gorm:"foreignKey:CateId"`
 }
 
