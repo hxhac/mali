@@ -109,7 +109,7 @@
           <el-input-number v-model.number="formData.num" clearable placeholder="请输入" />
         </el-form-item>
         <el-form-item label="描述:">
-          <el-input v-model="formData.remark" clearable placeholder="请输入" />
+          <el-input v-model="formData.remark" type="textarea" :autosize="{ minRows: 4 }" clearable placeholder="请输入" />
         </el-form-item>
         <el-form-item label="author:">
           <el-input v-model="formData.author" clearable placeholder="请输入" />
