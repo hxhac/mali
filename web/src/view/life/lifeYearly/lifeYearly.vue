@@ -63,31 +63,27 @@
       >
         <el-table-column type="selection" width="55" />
 
-        <el-table-column align="left" label="prefix字段" prop="prefix" min-width="10%" />
-        <el-table-column align="left" label="cron字段" prop="cron" min-width="10%" />
-        <el-table-column align="left" label="task字段" prop="task" min-width="30%" />
-        <el-table-column align="left" label="remark字段" prop="remark" min-width="30%" />
-        <el-table-column align="left" label="是否暂停" prop="isPause" min-width="10%">
+        <el-table-column align="left" label="task字段" prop="task" min-width="30%">
           <template #default="scope">
-            <el-tag
-              v-if="scope.row.isPause"
-              type="danger"
-              size="small"
-              effect="dark"
-            >
-              是
+            [{{ scope.row.prefix }}] - [{{ scope.row.cron }}] - [{{
+              scope.row.task }}]
+            <el-tag v-if="scope.row.isPause" type="error" size="small" effect="dark">
+              <el-icon>
+                <Close />
+              </el-icon>
             </el-tag>
-            <el-tag
-              v-else
-              size="small"
-              type="success"
-              effect="dark"
-            >
-              否
+
+            <el-tag v-else type="success" size="small" effect="dark">
+              <el-icon>
+                <Check />
+              </el-icon>
             </el-tag>
+
           </template>
         </el-table-column>
-        <el-table-column align="left" label="按钮组" min-width="10%">
+
+        <el-table-column align="left" label="remark字段" prop="remark" min-width="40%" />
+        <el-table-column align="left" label="按钮组" min-width="20%">
           <template #default="scope">
             <el-button
               type="text"
@@ -191,6 +187,7 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 import { ref } from 'vue'
 import { getPackageApi } from '@/api/autoCode'
 import Md from '@/components/md/md.vue'
+import { Close, Check } from '@element-plus/icons-vue'
 
 // 自动化生成的字典（可能为空）以及字段
 const formData = ref({
@@ -296,9 +293,9 @@ const onDelete = async() => {
     return
   }
   multipleSelection.value &&
-	multipleSelection.value.map(item => {
-	  ids.push(item.ID)
-	})
+  multipleSelection.value.map(item => {
+    ids.push(item.ID)
+  })
   const res = await deleteLifeYearlyByIds({ ids })
   if (res.code === 0) {
     ElMessage({
