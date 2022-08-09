@@ -31,7 +31,7 @@
         @selection-change="handleSelectionChange"
       >
         <el-table-column type="selection" width="55" />
-        <el-table-column align="left" label="分类名称" prop="cateName" min-width="15%">
+        <el-table-column align="left" label="分类名称" prop="cateName" min-width="20%">
           <template #default="scope">
             {{ scope.row.cateName }}&nbsp;
 
@@ -75,7 +75,7 @@
             />
           </template>
         </el-table-column>
-        <el-table-column align="left" label="描述" prop="remark" min-width="40%" >
+        <el-table-column align="left" label="描述" prop="remark" min-width="35%" >
           <template #default="scope">
             {{ scope.row.remark }}
           </template>
