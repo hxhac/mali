@@ -24,7 +24,7 @@ type GoodsEvaluation struct {
 	Brand      *int       `json:"brand" form:"brand" gorm:"column:brand;comment:品牌;not null;"`
 	GoodsBrand GoodsBrand `json:"goods_brand" gorm:"foreignKey:Brand"`
 
-	Label      *int       `json:"label" form:"label" gorm:"column:label;comment:商品标签"`
+	Label      *int       `json:"label" form:"label" gorm:"column:label;comment:商品标签;required;"`
 	GoodsLabel GoodsLabel `json:"goods_label" gorm:"foreignKey:Label"`
 }
 
