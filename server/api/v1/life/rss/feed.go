@@ -29,9 +29,6 @@ func (RssApi) FeedRss(ctx *gin.Context) {
 		return
 	}
 
-	_, urls := rssCategoryService.GetRssURLs(r.Uuid)
-	allFeeds := fetchUrls(urls)
-
 	feed := &rss.Feed{
 		Title: rss.Title{
 			Prefix: "rss",
@@ -51,6 +48,10 @@ func (RssApi) FeedRss(ctx *gin.Context) {
 		resp.SendXML(ctx, res)
 		return
 	}
+
+	// 正常更新的情况
+	_, urls := rssCategoryService.GetRssURLs(r.Uuid)
+	allFeeds := fetchUrls(urls)
 
 	res := rss.Rss(feed, feeds(allFeeds))
 	resp.SendXML(ctx, res)
