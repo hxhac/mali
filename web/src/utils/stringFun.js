@@ -32,7 +32,7 @@ export const toHump = (name) => {
 export const checkIsImg = (str) => {
 	// var r = str.match(/\.(jpeg|jpg|gif|png)/ig)
 	// var r = str.match(/^https?:\/\/(.+\/)+.+(\.(gif|png|jpg|jpeg|webp|svg|psd|bmp|tif))/ig)
-	var r = str.match(/https?:\/\/(.+\/)+.+\.(jpeg|jpg|gif|png)/ig)
+	var r = str.match(/https?:\/\/(.+\/)+.+\.(jpeg|jpg|gif|png|bmp|tif|pcx|exif|fpx|svg|psd|webp|wmf|apng)/ig)
 	// console.log(r)
 	if (r != null) {
 		return r.length
