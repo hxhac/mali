@@ -5,6 +5,7 @@ import (
 	"github.com/flipped-aurora/gin-vue-admin/server/model/common/request"
 	"github.com/flipped-aurora/gin-vue-admin/server/model/life"
 	dailyReq "github.com/flipped-aurora/gin-vue-admin/server/model/life/request"
+	"gorm.io/gorm/clause"
 )
 
 type LifeYearlyService struct{}
@@ -66,7 +67,10 @@ func (lifeYearlyService *LifeYearlyService) GetLifeYearlyInfoList(info dailyReq.
 	if err != nil {
 		return
 	}
-	err = db.Limit(limit).Offset(offset).Find(&lifeYearlys).Error
+	err = db.Order("is_pause ASC").Clauses(clause.OrderBy{
+		Expression: clause.Expr{SQL: "Field(cron, ?)", Vars: []interface{}{[]string{"@2daily", "@weekly", "@2weekly", "@4weekly", "@monthly", "@yearly"}},
+			WithoutParentheses: true},
+	}).Limit(limit).Offset(offset).Find(&lifeYearlys).Error
 	return err, lifeYearlys, total
 }
 
