@@ -43,21 +43,10 @@ func (RssApi) FeedRss(ctx *gin.Context) {
 	}
 
 	// 如果禁止，则停止更新
-	if *r.IsMute {
-		res := rss.Rss(feed, nil)
-		resp.SendXML(ctx, res)
-		return
-	}
-
 	// 判断当前是否处于更新时间范围内
-	checkCron := CheckCron(r.Cron, carbon.Now(), carbon.Now().IsFriday())
-	checkTime := time.CheckTimeLimit(r.UpdateTimeStub)
-	if *r.IsUpdate == false && !checkCron {
-		res := rss.Rss(feed, nil)
-		resp.SendXML(ctx, res)
-		return
-	}
-	if !checkTime {
+	// 不需要单独处理IsUpdate，因为默认有内容（只需要处理nil的情况）
+	isCron := isRssCategoryCron(r.Cron, carbon.Now(), carbon.Now().IsFriday(), r.UpdateTimeStub)
+	if *r.IsMute || (*r.IsUpdate && isCron) {
 		res := rss.Rss(feed, nil)
 		resp.SendXML(ctx, res)
 		return
@@ -97,6 +86,13 @@ func feeds(allFeeds []*gofeed.Feed) []rss.Item {
 		}
 	}
 	return ret
+}
+
+func isRssCategoryCron(cronTime string, cb carbon.Carbon, isWeekDay bool, nn string) bool {
+	checkCron := CheckCron(cronTime, cb, isWeekDay)
+	checkTime := time.CheckTimeLimit(nn)
+
+	return checkCron && checkTime
 }
 
 func fetchUrl(url string, ch chan<- *gofeed.Feed) {
