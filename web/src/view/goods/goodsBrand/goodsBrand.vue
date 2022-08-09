@@ -18,7 +18,9 @@
             <el-button size="small" type="primary" @click="onDelete">确定</el-button>
           </div>
           <template #reference>
-            <el-button icon="delete" size="small" style="margin-left: 10px;" :disabled="!multipleSelection.length" @click="deleteVisible = true">删除</el-button>
+            <el-button icon="delete" size="small" style="margin-left: 10px;" :disabled="!multipleSelection.length"
+                       @click="deleteVisible = true">删除
+            </el-button>
           </template>
         </el-popover>
       </div>
@@ -30,26 +32,33 @@
         row-key="ID"
         @selection-change="handleSelectionChange"
       >
-        <el-table-column type="selection" width="55" />
+        <el-table-column type="selection" width="55"/>
         <el-table-column align="left" label="日期" min-width="20%">
           <template #default="scope">{{ formatDate(scope.row.CreatedAt) }}</template>
         </el-table-column>
-        <el-table-column align="left" label="brandName字段" prop="brandName" min-width="20%" />
-        <el-table-column align="left" label="商品数" prop="num" min-width="10%" />
-	      <el-table-column align="left" label="more" prop="more" min-width="10%">
-		      <template #default="scope">
-			      <el-tag
-				      v-if="scope.row.more"
-			      >
-				      <el-icon>
-					      <Document></Document>
-				      </el-icon>
-			      </el-tag>
-		      </template>
-	      </el-table-column>
+        <el-table-column align="left" label="brandName字段" prop="brandName" min-width="20%">
+          <template #default="scope">
+            {{ scope.row.brandName }}
+
+            <el-tag type="info" size="small" effect="dark">
+              <el-icon>
+                {{ scope.row.num }}
+              </el-icon>
+            </el-tag>
+
+            <el-tag v-if="scope.row.more" size="small">
+              <el-icon>
+                <Document />
+              </el-icon>
+            </el-tag>
+
+          </template>
+        </el-table-column>
         <el-table-column align="left" label="按钮组" min-width="30%">
           <template #default="scope">
-            <el-button type="text" icon="edit" size="small" class="table-button" @click="updateGoodsBrandFunc(scope.row)">变更</el-button>
+            <el-button type="text" icon="edit" size="small" class="table-button"
+                       @click="updateGoodsBrandFunc(scope.row)">变更
+            </el-button>
             <el-button type="text" icon="delete" size="small" @click="deleteRow(scope.row)">删除</el-button>
           </template>
         </el-table-column>
@@ -69,11 +78,11 @@
     <el-dialog v-model="dialogFormVisible" :before-close="closeDialog" title="弹窗操作">
       <el-form :model="formData" label-position="right" label-width="80px">
         <el-form-item label="brandName字段:">
-          <el-input v-model="formData.brandName" clearable placeholder="请输入" />
+          <el-input v-model="formData.brandName" clearable placeholder="请输入"/>
         </el-form-item>
-	      <el-form-item label="more字段:">
-		      <Md v-model="formData.more" />
-	      </el-form-item>
+        <el-form-item label="more字段:">
+          <Md v-model="formData.more"/>
+        </el-form-item>
       </el-form>
       <template #footer>
         <div class="dialog-footer">
@@ -102,10 +111,10 @@ import {
 } from '@/api/goodsBrand'
 
 // 全量引入格式化工具 请按需保留
-import { getDictFunc, formatDate, formatBoolean, filterDict } from '@/utils/format'
-import { ElMessage, ElMessageBox } from 'element-plus'
-import { ref } from 'vue'
-import { Document } from '@element-plus/icons-vue'
+import {getDictFunc, formatDate, formatBoolean, filterDict} from '@/utils/format'
+import {ElMessage, ElMessageBox} from 'element-plus'
+import {ref} from 'vue'
+import {Document} from '@element-plus/icons-vue'
 import Md from '@/components/md/md.vue'
 
 // 自动化生成的字典（可能为空）以及字段
@@ -147,8 +156,8 @@ const handleCurrentChange = (val) => {
 }
 
 // 查询
-const getTableData = async() => {
-  const table = await getGoodsBrandList({ page: page.value, pageSize: pageSize.value, ...searchInfo.value })
+const getTableData = async () => {
+  const table = await getGoodsBrandList({page: page.value, pageSize: pageSize.value, ...searchInfo.value})
   if (table.code === 0) {
     tableData.value = table.data.list
     total.value = table.data.total
@@ -162,7 +171,7 @@ getTableData()
 // ============== 表格控制部分结束 ===============
 
 // 获取需要的字典 可能为空 按需保留
-const setOptions = async() => {
+const setOptions = async () => {
 }
 
 // 获取需要的字典 可能为空 按需保留
@@ -190,7 +199,7 @@ const deleteRow = (row) => {
 const deleteVisible = ref(false)
 
 // 多选删除
-const onDelete = async() => {
+const onDelete = async () => {
   const ids = []
   if (multipleSelection.value.length === 0) {
     ElMessage({
@@ -200,10 +209,10 @@ const onDelete = async() => {
     return
   }
   multipleSelection.value &&
-        multipleSelection.value.map(item => {
-          ids.push(item.ID)
-        })
-  const res = await deleteGoodsBrandByIds({ ids })
+  multipleSelection.value.map(item => {
+    ids.push(item.ID)
+  })
+  const res = await deleteGoodsBrandByIds({ids})
   if (res.code === 0) {
     ElMessage({
       type: 'success',
@@ -221,8 +230,8 @@ const onDelete = async() => {
 const type = ref('')
 
 // 更新行
-const updateGoodsBrandFunc = async(row) => {
-  const res = await findGoodsBrand({ ID: row.ID })
+const updateGoodsBrandFunc = async (row) => {
+  const res = await findGoodsBrand({ID: row.ID})
   type.value = 'update'
   if (res.code === 0) {
     formData.value = res.data.regoodsBrand
@@ -231,8 +240,8 @@ const updateGoodsBrandFunc = async(row) => {
 }
 
 // 删除行
-const deleteGoodsBrandFunc = async(row) => {
-  const res = await deleteGoodsBrand({ ID: row.ID })
+const deleteGoodsBrandFunc = async (row) => {
+  const res = await deleteGoodsBrand({ID: row.ID})
   if (res.code === 0) {
     ElMessage({
       type: 'success',
@@ -262,7 +271,7 @@ const closeDialog = () => {
   }
 }
 // 弹窗确定
-const enterDialog = async() => {
+const enterDialog = async () => {
   let res
   switch (type.value) {
     case 'create':
@@ -286,5 +295,12 @@ const enterDialog = async() => {
 }
 </script>
 
-<style>
+<style lang="scss">
+.el-table .cell {
+  white-space: pre-line; // 单元格内空格展示为换行
+}
+
+.el-tag + .el-tag {
+  margin-left: 10px;
+}
 </style>
