@@ -19,14 +19,14 @@ func (goodsBrandService *GoodsBrandService) CreateGoodsBrand(goodsBrand goods.Go
 // DeleteGoodsBrand 删除GoodsBrand记录
 // Author [piexlmax](https://github.com/piexlmax)
 func (goodsBrandService *GoodsBrandService) DeleteGoodsBrand(goodsBrand goods.GoodsBrand) (err error) {
-	err = global.GVA_DB.Delete(&goodsBrand).Error
+	err = global.GVA_DB.Unscoped().Delete(&goodsBrand).Error
 	return err
 }
 
 // DeleteGoodsBrandByIds 批量删除GoodsBrand记录
 // Author [piexlmax](https://github.com/piexlmax)
 func (goodsBrandService *GoodsBrandService) DeleteGoodsBrandByIds(ids request.IdsReq) (err error) {
-	err = global.GVA_DB.Delete(&[]goods.GoodsBrand{}, "id in ?", ids.Ids).Error
+	err = global.GVA_DB.Unscoped().Delete(&[]goods.GoodsBrand{}, "id in ?", ids.Ids).Error
 	return err
 }
 

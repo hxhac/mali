@@ -19,14 +19,14 @@ func (goodsEvaluationService *GoodsEvaluationService) CreateGoodsEvaluation(good
 // DeleteGoodsEvaluation 删除GoodsEvaluation记录
 // Author [piexlmax](https://github.com/piexlmax)
 func (goodsEvaluationService *GoodsEvaluationService) DeleteGoodsEvaluation(goodsEvaluation goods.GoodsEvaluation) (err error) {
-	err = global.GVA_DB.Delete(&goodsEvaluation).Error
+	err = global.GVA_DB.Unscoped().Delete(&goodsEvaluation).Error
 	return err
 }
 
 // DeleteGoodsEvaluationByIds 批量删除GoodsEvaluation记录
 // Author [piexlmax](https://github.com/piexlmax)
 func (goodsEvaluationService *GoodsEvaluationService) DeleteGoodsEvaluationByIds(ids request.IdsReq) (err error) {
-	err = global.GVA_DB.Delete(&[]goods.GoodsEvaluation{}, "id in ?", ids.Ids).Error
+	err = global.GVA_DB.Unscoped().Delete(&[]goods.GoodsEvaluation{}, "id in ?", ids.Ids).Error
 	return err
 }
 
