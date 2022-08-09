@@ -19,14 +19,14 @@ func (goodsCategoryService *GoodsCategoryService) CreateGoodsCategory(goodsCateg
 // DeleteGoodsCategory 删除GoodsCategory记录
 // Author [piexlmax](https://github.com/piexlmax)
 func (goodsCategoryService *GoodsCategoryService) DeleteGoodsCategory(goodsCategory goods.GoodsCategory) (err error) {
-	err = global.GVA_DB.Delete(&goodsCategory).Error
+	err = global.GVA_DB.Unscoped().Delete(&goodsCategory).Error
 	return err
 }
 
 // DeleteGoodsCategoryByIds 批量删除GoodsCategory记录
 // Author [piexlmax](https://github.com/piexlmax)
 func (goodsCategoryService *GoodsCategoryService) DeleteGoodsCategoryByIds(ids request.IdsReq) (err error) {
-	err = global.GVA_DB.Delete(&[]goods.GoodsCategory{}, "id in ?", ids.Ids).Error
+	err = global.GVA_DB.Unscoped().Delete(&[]goods.GoodsCategory{}, "id in ?", ids.Ids).Error
 	return err
 }
 
