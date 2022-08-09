@@ -28,9 +28,16 @@
         <el-table-column align="left" label="分类名称" prop="cateName" min-width="15%">
           <template #default="scope">
             {{ scope.row.cateName }}
-            <el-tag v-if="scope.row.isWishList" type="warning" size="small" effect="dark">
+
+            <el-tag v-if="scope.row.isDisable" type="danger" size="small" effect="dark">
               <el-icon>
-                <Sell />
+                <Close />
+              </el-icon>
+            </el-tag>
+
+            <el-tag v-if="scope.row.isWishList" type="success" size="small" effect="dark">
+              <el-icon>
+                <Check />
               </el-icon>
             </el-tag>
           </template>
@@ -79,6 +86,18 @@
         <el-form-item label="分类名称:">
           <el-input v-model="formData.cateName" clearable placeholder="请输入" />
         </el-form-item>
+
+        <el-form-item label="是否disable:">
+          <el-switch
+            v-model="formData.isDisable"
+            active-color="#13ce66"
+            inactive-color="#ff4949"
+            active-text="是"
+            inactive-text="否"
+            clearable
+          />
+        </el-form-item>
+        
         <el-form-item label="待购清单:">
           <el-switch
             v-model="formData.isWishList"
@@ -124,6 +143,7 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 import { ref } from 'vue'
 import { Document, Sell } from '@element-plus/icons-vue'
 import Md from '@/components/md/md.vue'
+import { Close, Check } from '@element-plus/icons-vue'
 
 // 自动化生成的字典（可能为空）以及字段
 const formData = ref({
