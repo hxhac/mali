@@ -43,17 +43,17 @@ func (RssApi) FeedRss(ctx *gin.Context) {
 	// 判断当前是否处于更新时间范围内
 	// 不需要单独处理IsUpdate，因为默认有内容（只需要处理nil的情况）
 	isCron := isRssCategoryCron(r.Cron, carbon.Now(), carbon.Now().IsFriday(), r.UpdateTimeStub)
-	if *r.IsMute || (*r.IsUpdate && isCron) {
-		res := rss.Rss(feed, nil)
+	if *r.IsUpdate || isCron && !*r.IsMute {
+		// 正常更新的情况
+		_, urls := rssCategoryService.GetRssURLs(r.Uuid)
+		allFeeds := fetchUrls(urls)
+
+		res := rss.Rss(feed, feeds(allFeeds))
 		resp.SendXML(ctx, res)
 		return
 	}
 
-	// 正常更新的情况
-	_, urls := rssCategoryService.GetRssURLs(r.Uuid)
-	allFeeds := fetchUrls(urls)
-
-	res := rss.Rss(feed, feeds(allFeeds))
+	res := rss.Rss(feed, nil)
 	resp.SendXML(ctx, res)
 }
 
