@@ -18,6 +18,9 @@ type GoodsEvaluation struct {
 	Score     *int   `json:"score" form:"score" gorm:"column:score;comment:评分;size:10;not null;"`
 	More      string `json:"more" form:"more" gorm:"column:more;comment:;"`
 	UseTimes  *int   `json:"useTimes" form:"useTimes" gorm:"column:use_times;comment:复购使用次数;not null;default:1"`
+	// 用来生成"生活习惯feed"的字段
+	CleanCron string `json:"cleanCron" form:"cleanCron" gorm:"column:clean_cron;comment:消耗品的更换周期/耐用品的清洁周期;"`
+	BuyCron   string `json:"buyCron" form:"buyCron" gorm:"column:buy_cron;comment:复购周期;"`
 	// GoodsPic   string        `json:"goodsPic" form:"goodsPic" gorm:"column:goods_pic;type:longtext;comment:商品图片;"`
 	Category pq.Int64Array `json:"category" form:"category[]" gorm:"type:varchar(255)[];column:category;comment:分类;size:255;not null;"`
 
