@@ -61,3 +61,19 @@ func (goodsLabelService *GoodsLabelService) GetGoodsLabelInfoList(info goodsReq.
 		Error
 	return err, goodsLabels, total
 }
+
+// GetGoodsLabelInfoList 分页获取GoodsLabel记录
+// Author [piexlmax](https://github.com/piexlmax)
+func (goodsLabelService *GoodsLabelService) GetGoodsLabelInfoListByScore(score int) (err error, goodsLabels []goods.GoodsLabel, total int64) {
+
+	// 创建db
+	db := global.GVA_DB.Model(&goods.GoodsLabel{})
+	// 如果有条件搜索 下方会自动创建搜索语句
+	err = db.Count(&total).Error
+	if err != nil {
+		return
+	}
+	err = db.Where("score >= ?", score).Order("score DESC").Find(&goodsLabels).
+		Error
+	return err, goodsLabels, total
+}

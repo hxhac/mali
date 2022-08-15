@@ -98,6 +98,16 @@
               </el-icon>
             </el-tag>
 
+            <!-- 判断图片数，如果有图片就展示图片数，没有图片就展示icon-->
+            <el-tag v-if="scope.row.more" size="small" effect="dark" :type="success">
+              <el-icon v-if="checkIsImg(scope.row.more) === 0">
+                <Document />
+              </el-icon>
+              <el-icon v-if="checkIsImg(scope.row.more) > 0">
+                {{ checkIsImg(scope.row.more) }}
+              </el-icon>
+            </el-tag>
+
             <el-tag
               v-if="scope.row.label"
               size="small"
@@ -107,16 +117,9 @@
             >
               {{ scope.row.goods_label.labelName }}
             </el-tag>
+            <el-tag v-if="scope.row.buyCron" :type="scope.row.goods_label.color" size="small" effect="dark" :hit="false">buy: {{ scope.row.buyCron }}</el-tag>
+            <el-tag v-if="scope.row.cleanCron" :type="scope.row.goods_label.color" size="small" effect="dark" :hit="false">clean: {{ scope.row.cleanCron }}</el-tag>
 
-            <!-- 判断图片数，如果有图片就展示图片数，没有图片就展示icon-->
-            <el-tag v-if="scope.row.more" size="small" effect="dark">
-              <el-icon v-if="checkIsImg(scope.row.more) === 0">
-                <Document />
-              </el-icon>
-              <el-icon v-if="checkIsImg(scope.row.more) > 0">
-                {{ checkIsImg(scope.row.more) }}
-              </el-icon>
-            </el-tag>
           </template>
         </el-table-column>
         <el-table-column align="left" label="商品价格" prop="price" min-width="10%">
@@ -227,6 +230,32 @@
             </el-form-item>
           </el-col>
         </el-row>
+        <el-row type="flex" class="row-bg">
+          <el-col :span="8">
+            <el-form-item label="复购周期:" prop="buyCron">
+              <el-select v-model="formData.buyCron" placeholder="请选择" clearable>
+                <el-option
+                  v-for="item in cronOptions"
+                  :key="item"
+                  :value="item"
+                />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="清洁/更换周期:" prop="cleanCron">
+              <el-select v-model="formData.cleanCron" placeholder="请选择" clearable>
+                <el-option
+                  v-for="item in cronOptions"
+                  :key="item"
+                  :value="item"
+                />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+          </el-col>
+        </el-row>
         <el-form-item label="more字段:">
           <Md v-model="formData.more" />
         </el-form-item>
@@ -248,7 +277,8 @@ export default {
   data() {
     return {
       value: '请选择',
-      fileList: []
+      fileList: [],
+      cronOptions: ['@2daily', '@4daily', '@weekly', '@2weekly', '@4weekly', '@8weekly', '@6monthly', '@yearly'],
     }
   },
   computed: {},
