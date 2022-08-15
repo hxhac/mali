@@ -2,7 +2,6 @@ package rss
 
 import (
 	"fmt"
-	"github.com/apcera/termtables"
 	resp "github.com/flipped-aurora/gin-vue-admin/server/model/common/response"
 	"github.com/flipped-aurora/gin-vue-admin/server/service"
 	"github.com/flipped-aurora/gin-vue-admin/server/utils/helper/time"
@@ -11,6 +10,8 @@ import (
 	"github.com/gogf/gf/crypto/gmd5"
 	"github.com/gogf/gf/os/gtime"
 	"github.com/golang-module/carbon"
+	"github.com/olekukonko/tablewriter"
+	"strings"
 )
 
 var goodsEvaluationService = service.ServiceGroupApp.GoodsServiceGroup.GoodsEvaluationService
@@ -49,17 +50,19 @@ func labelGoods() []rss.Item {
 
 		// 筛掉掉没有cron的label
 		if len(goodsList) != 0 {
-			t := termtables.CreateTable()
-			t.AddHeaders("物品名称", "复购周期", "清洁周期/更换周期")
-			t.AddSeparator()
+			tableString := &strings.Builder{}
+			t := tablewriter.NewWriter(tableString)
+			t.SetHeader([]string{"物品名称", "复购周期", "清洁周期/更换周期"})
+			t.SetCenterSeparator("|")
 			// TODO 如果cron不触发，就
 			for _, goodsInfo := range goodsList {
-				t.AddRow(fmt.Sprintf("%s %s", goodsInfo.GoodsBrand.BrandName, goodsInfo.GoodsName), checkCronToIcon(goodsInfo.BuyCron), checkCronToIcon(goodsInfo.CleanCron))
+				// t.AddRow()
+				t.Append([]string{fmt.Sprintf("%s %s", goodsInfo.GoodsBrand.BrandName, goodsInfo.GoodsName), checkCronToIcon(goodsInfo.BuyCron), checkCronToIcon(goodsInfo.CleanCron)})
 			}
-			t.SetModeHTML()
 
 			// 通过表格形式列出
-			ct := t.Render()
+			t.Render()
+			ct := tableString.String()
 			uuid, _ := gmd5.EncryptString(fmt.Sprintf("%s%s", time.GetToday().String(), ct))
 			title := fmt.Sprintf("[%s] - %s", gtime.Date(), label.LabelName)
 			ret = append(ret, rss.Item{
