@@ -45,7 +45,7 @@ func yearly() []rss.Item {
 	items, _ := lifeYearlyService.FindAll()
 
 	for _, item := range items {
-		if !item.IsPause && CheckCron(item.Cron, carbon.Now().IsSaturday()) {
+		if !item.IsPause && CheckCronDefault(item.Cron) {
 			title := fmt.Sprintf("[%s] - [%s] - %s", item.Prefix, gtime.Date(), item.Task)
 			ret = append(ret, rss.Item{
 				Title:       title,
@@ -57,6 +57,10 @@ func yearly() []rss.Item {
 	}
 
 	return ret
+}
+
+func CheckCronDefault(cronTime string) bool {
+	return CheckCron(cronTime, carbon.Now().IsSaturday())
 }
 
 // CheckCron

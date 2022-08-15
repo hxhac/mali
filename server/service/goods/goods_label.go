@@ -65,7 +65,6 @@ func (goodsLabelService *GoodsLabelService) GetGoodsLabelInfoList(info goodsReq.
 // GetGoodsLabelInfoList 分页获取GoodsLabel记录
 // Author [piexlmax](https://github.com/piexlmax)
 func (goodsLabelService *GoodsLabelService) GetGoodsLabelInfoListByScore(score int) (err error, goodsLabels []goods.GoodsLabel, total int64) {
-
 	// 创建db
 	db := global.GVA_DB.Model(&goods.GoodsLabel{})
 	// 如果有条件搜索 下方会自动创建搜索语句
