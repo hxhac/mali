@@ -19,14 +19,14 @@ func (rssFeedService *RssFeedService) CreateRssFeed(rssFeed rss.RssFeed) (err er
 // DeleteRssFeed 删除RssFeed记录
 // Author [piexlmax](https://github.com/piexlmax)
 func (rssFeedService *RssFeedService) DeleteRssFeed(rssFeed rss.RssFeed) (err error) {
-	err = global.GVA_DB.Delete(&rssFeed).Error
+	err = global.GVA_DB.Unscoped().Delete(&rssFeed).Error
 	return err
 }
 
 // DeleteRssFeedByIds 批量删除RssFeed记录
 // Author [piexlmax](https://github.com/piexlmax)
 func (rssFeedService *RssFeedService) DeleteRssFeedByIds(ids request.IdsReq) (err error) {
-	err = global.GVA_DB.Delete(&[]rss.RssFeed{}, "id in ?", ids.Ids).Error
+	err = global.GVA_DB.Unscoped().Delete(&[]rss.RssFeed{}, "id in ?", ids.Ids).Error
 	return err
 }
 
