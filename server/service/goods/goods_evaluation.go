@@ -104,7 +104,6 @@ func (goodsEvaluationService *GoodsEvaluationService) GetGoodsEvaluationColumn(c
 }
 
 func (goodsEvaluationService *GoodsEvaluationService) GetGoodsEvaluationByLabel(label uint) (err error, goodsEvaluations []goods.GoodsEvaluation, total int64) {
-
 	// 创建db
 	db := global.GVA_DB.Model(&goods.GoodsEvaluation{})
 	// 如果有条件搜索 下方会自动创建搜索语句

@@ -68,8 +68,10 @@ func (lifeYearlyService *LifeYearlyService) GetLifeYearlyInfoList(info dailyReq.
 		return
 	}
 	err = db.Order("is_pause ASC").Clauses(clause.OrderBy{
-		Expression: clause.Expr{SQL: "Field(cron, ?)", Vars: []interface{}{[]string{"@2daily", "@weekly", "@2weekly", "@4weekly", "@monthly", "@yearly"}},
-			WithoutParentheses: true},
+		Expression: clause.Expr{
+			SQL: "Field(cron, ?)", Vars: []interface{}{[]string{"@2daily", "@weekly", "@2weekly", "@4weekly", "@monthly", "@yearly"}},
+			WithoutParentheses: true,
+		},
 	}).Limit(limit).Offset(offset).Find(&lifeYearlys).Error
 	return err, lifeYearlys, total
 }

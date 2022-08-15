@@ -2,20 +2,23 @@ package rss
 
 import (
 	"fmt"
+	"strings"
+
 	resp "github.com/flipped-aurora/gin-vue-admin/server/model/common/response"
 	"github.com/flipped-aurora/gin-vue-admin/server/service"
+	"github.com/flipped-aurora/gin-vue-admin/server/utils/helper/html"
 	"github.com/flipped-aurora/gin-vue-admin/server/utils/helper/time"
 	"github.com/flipped-aurora/gin-vue-admin/server/utils/rss"
 	"github.com/gin-gonic/gin"
 	"github.com/gogf/gf/crypto/gmd5"
 	"github.com/gogf/gf/os/gtime"
-	"github.com/golang-module/carbon"
 	"github.com/olekukonko/tablewriter"
-	"strings"
 )
 
-var goodsEvaluationService = service.ServiceGroupApp.GoodsServiceGroup.GoodsEvaluationService
-var goodsLabelService = service.ServiceGroupApp.GoodsServiceGroup.GoodsLabelService
+var (
+	goodsEvaluationService = service.ServiceGroupApp.GoodsServiceGroup.GoodsEvaluationService
+	goodsLabelService      = service.ServiceGroupApp.GoodsServiceGroup.GoodsLabelService
+)
 
 // GoodsRss 根据goods_evaluation直接生成feed
 func (r RssApi) GoodsRss(ctx *gin.Context) {
@@ -53,31 +56,41 @@ func labelGoods() []rss.Item {
 			tableString := &strings.Builder{}
 			t := tablewriter.NewWriter(tableString)
 			t.SetHeader([]string{"物品名称", "复购周期", "清洁周期/更换周期"})
+			t.SetBorders(tablewriter.Border{Left: true, Top: false, Right: true, Bottom: false})
 			t.SetCenterSeparator("|")
-			// TODO 如果cron不触发，就
+			t.SetAlignment(tablewriter.ALIGN_CENTER)
+
+			// TODO 如果没有匹配的cron，就直接移除该feed
 			for _, goodsInfo := range goodsList {
-				// t.AddRow()
-				t.Append([]string{fmt.Sprintf("%s %s", goodsInfo.GoodsBrand.BrandName, goodsInfo.GoodsName), checkCronToIcon(goodsInfo.BuyCron), checkCronToIcon(goodsInfo.CleanCron)})
+				isBuy := CheckCronDefault(goodsInfo.BuyCron)
+				isClean := CheckCronDefault(goodsInfo.CleanCron)
+				if isBuy || isClean {
+					t.Append([]string{fmt.Sprintf("%s-%s", goodsInfo.GoodsBrand.BrandName, goodsInfo.GoodsName), checkCronToIcon(goodsInfo.BuyCron), checkCronToIcon(goodsInfo.CleanCron)})
+				}
 			}
 
 			// 通过表格形式列出
 			t.Render()
 			ct := tableString.String()
-			uuid, _ := gmd5.EncryptString(fmt.Sprintf("%s%s", time.GetToday().String(), ct))
-			title := fmt.Sprintf("[%s] - %s", gtime.Date(), label.LabelName)
-			ret = append(ret, rss.Item{
-				Title:       title,
-				Contents:    ct,
-				UpdatedTime: time.GetToday(),
-				ID:          uuid,
-			})
+			ctHTML := html.Md2HTML(ct)
+			// 判断ct中是否有td，如果没有就说明没有匹配到的cron
+			if strings.Contains(ctHTML, "td") {
+				uuid, _ := gmd5.EncryptString(fmt.Sprintf("%s%s", time.GetToday().String(), ct))
+				title := fmt.Sprintf("[%s] - %s", gtime.Date(), label.LabelName)
+				ret = append(ret, rss.Item{
+					Title:       title,
+					Contents:    ctHTML,
+					UpdatedTime: time.GetToday(),
+					ID:          uuid,
+				})
+			}
 		}
 	}
 	return ret
 }
 
 func checkCronToIcon(cron string) string {
-	checkCron := CheckCron(cron, carbon.Now().IsSaturday())
+	checkCron := CheckCronDefault(cron)
 	if checkCron {
 		return "✅"
 	}
