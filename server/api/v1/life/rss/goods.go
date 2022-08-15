@@ -47,12 +47,14 @@ func labelGoods() []rss.Item {
 		// cron是否触发？
 		_, goodsList, _ := goodsEvaluationService.GetGoodsEvaluationByLabel(label.ID)
 
-		// 筛掉所有没有cron的label
+		// 筛掉掉没有cron的label
 		if len(goodsList) != 0 {
 			t := termtables.CreateTable()
 			t.AddHeaders("物品名称", "复购周期", "清洁周期/更换周期")
+			t.AddSeparator()
+			// TODO 如果cron不触发，就
 			for _, goodsInfo := range goodsList {
-				t.AddRow(goodsInfo.GoodsName, checkCronRes(goodsInfo.BuyCron), checkCronRes(goodsInfo.CleanCron))
+				t.AddRow(fmt.Sprintf("%s %s", goodsInfo.GoodsBrand.BrandName, goodsInfo.GoodsName), checkCronToIcon(goodsInfo.BuyCron), checkCronToIcon(goodsInfo.CleanCron))
 			}
 			t.SetModeHTML()
 
@@ -71,7 +73,7 @@ func labelGoods() []rss.Item {
 	return ret
 }
 
-func checkCronRes(cron string) string {
+func checkCronToIcon(cron string) string {
 	checkCron := CheckCron(cron, carbon.Now().IsSaturday())
 	if checkCron {
 		return "✅"
