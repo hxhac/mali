@@ -135,9 +135,9 @@ func GenerateHTML(html string, datas map[string]any) string {
 }
 
 const HTML = `
+<iframe frameborder="0" scrolling="no" frameborder="0" border="0" style= "border:none;">
 <!DOCTYPE html>
 <html>
-
     <head>
         <title></title>
         <style type="text/css">
@@ -194,4 +194,5 @@ const HTML = `
         </table>
     </body>
 </html>
+</iframe>
 `
