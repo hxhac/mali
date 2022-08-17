@@ -1,24 +1,33 @@
 package rss
 
 import (
+	"bytes"
 	"fmt"
+	"log"
+	"reflect"
 	"strings"
+
+	"github.com/alecthomas/template"
 
 	resp "github.com/flipped-aurora/gin-vue-admin/server/model/common/response"
 	"github.com/flipped-aurora/gin-vue-admin/server/service"
-	"github.com/flipped-aurora/gin-vue-admin/server/utils/helper/html"
 	"github.com/flipped-aurora/gin-vue-admin/server/utils/helper/time"
 	"github.com/flipped-aurora/gin-vue-admin/server/utils/rss"
 	"github.com/gin-gonic/gin"
 	"github.com/gogf/gf/crypto/gmd5"
 	"github.com/gogf/gf/os/gtime"
-	"github.com/olekukonko/tablewriter"
 )
 
 var (
 	goodsEvaluationService = service.ServiceGroupApp.GoodsServiceGroup.GoodsEvaluationService
 	goodsLabelService      = service.ServiceGroupApp.GoodsServiceGroup.GoodsLabelService
 )
+
+type TableRes struct {
+	GoodsName string
+	BuyCron   string
+	CleanCron string
+}
 
 // GoodsRss 根据goods_evaluation直接生成feed
 func (r RssApi) GoodsRss(ctx *gin.Context) {
@@ -53,33 +62,36 @@ func labelGoods() []rss.Item {
 
 		// 筛掉掉没有cron的label
 		if len(goodsList) != 0 {
-			tableString := &strings.Builder{}
-			t := tablewriter.NewWriter(tableString)
-			t.SetHeader([]string{"物品名称", "复购周期", "清洁周期/更换周期"})
-			t.SetBorders(tablewriter.Border{Left: true, Top: false, Right: true, Bottom: false})
-			t.SetCenterSeparator("|")
-			t.SetAlignment(tablewriter.ALIGN_CENTER)
+			items := []TableRes{}
 
 			// TODO 如果没有匹配的cron，就直接移除该feed
 			for _, goodsInfo := range goodsList {
 				isBuy := CheckCronDefault(goodsInfo.BuyCron)
 				isClean := CheckCronDefault(goodsInfo.CleanCron)
 				if isBuy || isClean {
-					t.Append([]string{fmt.Sprintf("%s-%s", goodsInfo.GoodsBrand.BrandName, goodsInfo.GoodsName), checkCronToIcon(goodsInfo.BuyCron), checkCronToIcon(goodsInfo.CleanCron)})
+					table := TableRes{
+						GoodsName: fmt.Sprintf("%s-%s", goodsInfo.GoodsBrand.BrandName, goodsInfo.GoodsName),
+						BuyCron:   checkCronToIcon(goodsInfo.BuyCron),
+						CleanCron: checkCronToIcon(goodsInfo.CleanCron),
+					}
+					items = append(items, table)
 				}
 			}
 
 			// 通过表格形式列出
-			t.Render()
-			ct := tableString.String()
-			ctHTML := html.Md2HTML(ct)
-			// 判断ct中是否有td，如果没有就说明没有匹配到的cron
-			if strings.Contains(ctHTML, "td") {
+			tpl := template.Must(template.New("").Parse(HTML))
+			var buf bytes.Buffer
+			if err = tpl.Execute(&buf, items); err != nil {
+				log.Fatal(err)
+			}
+			ct := buf.String()
+			// 判断是否有数据，如果没有就说明没有匹配到的cron
+			if len(items) > 0 {
 				uuid, _ := gmd5.EncryptString(fmt.Sprintf("%s%s", time.GetToday().String(), ct))
 				title := fmt.Sprintf("[%s] - %s", gtime.Date(), label.LabelName)
 				ret = append(ret, rss.Item{
 					Title:       title,
-					Contents:    ctHTML,
+					Contents:    ct,
 					UpdatedTime: time.GetToday(),
 					ID:          uuid,
 				})
@@ -96,3 +108,90 @@ func checkCronToIcon(cron string) string {
 	}
 	return ""
 }
+
+// 生成html
+func GenerateHTML(html string, datas map[string]any) string {
+	for key, data := range datas {
+		rDataKey := reflect.TypeOf(data)
+		rDataVal := reflect.ValueOf(data)
+		fieldNum := rDataKey.NumField()
+		for i := 0; i < fieldNum; i++ {
+			fName := rDataKey.Field(i).Name
+			rValue := rDataVal.Field(i)
+
+			var fValue string
+			switch rValue.Interface().(type) {
+			case string:
+				fValue = rValue.String()
+			case []string:
+				fValue = strings.Join(rValue.Interface().([]string), "<br>")
+			}
+
+			mark := fmt.Sprintf("{{%s.%s}}", key, fName)
+			html = strings.ReplaceAll(html, mark, fValue)
+		}
+	}
+	return html
+}
+
+const HTML = `
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title></title>
+        <style type="text/css">
+            /*表格样式*/            
+            table {
+                width: 90%;
+                background: #ccc;
+                margin: 10px auto;
+                border-collapse: collapse;
+                /*border-collapse:collapse合并内外边距
+                (去除表格单元格默认的2个像素内外边距*/ 
+            }
+/*             table tr:nth-child(odd){background: #e3e3e3;} */
+            th,td {
+                height: 25px;
+                line-height: 25px;
+                text-align: center;
+                border: 1px solid #ccc;
+            }       
+            th {
+                background: #eee;
+                font-weight: normal;
+            }       
+            tr {
+                background: #fff;
+            }       
+            tr:hover {
+                background: #cc0;
+            }       
+            td a {
+                color: #06f;
+                text-decoration: none;
+            }       
+            td a:hover {
+                color: #06f;
+                text-decoration: underline;
+            }
+        </style>
+    </head>
+    <body>
+        <table>
+            <tr>
+                <th>物品名称</th>
+                <th>复购周期</th>
+                <th>清洁周期/更换周期</th>
+            </tr>
+{{ range . }}
+            <tr>
+                <td>{{ .GoodsName }}</td>
+                <td>{{ .BuyCron }}</td>
+                <td>{{ .CleanCron }}</td>
+            </tr>
+{{ end }}
+        </table>
+    </body>
+</html>
+`
