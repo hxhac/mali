@@ -135,64 +135,22 @@ func GenerateHTML(html string, datas map[string]any) string {
 }
 
 const HTML = `
-<iframe frameborder="0" scrolling="no" frameborder="0" border="0" style= "border:none;">
-<!DOCTYPE html>
 <html>
-    <head>
-        <title></title>
-        <style type="text/css">
-            /*表格样式*/            
-            table {
-                width: 90%;
-                background: #ccc;
-                margin: 10px auto;
-                border-collapse: collapse;
-                /*border-collapse:collapse合并内外边距
-                (去除表格单元格默认的2个像素内外边距*/ 
-            }
-/*             table tr:nth-child(odd){background: #e3e3e3;} */
-            th,td {
-                height: 25px;
-                line-height: 25px;
-                text-align: center;
-                border: 1px solid #ccc;
-            }       
-            th {
-                background: #eee;
-                font-weight: normal;
-            }       
-            tr {
-                background: #fff;
-            }       
-            tr:hover {
-                background: #cc0;
-            }       
-            td a {
-                color: #06f;
-                text-decoration: none;
-            }       
-            td a:hover {
-                color: #06f;
-                text-decoration: underline;
-            }
-        </style>
-    </head>
     <body>
-        <table>
-            <tr>
-                <th>物品名称</th>
-                <th>复购周期</th>
-                <th>清洁周期/更换周期</th>
+        <table style="width: 90%;background: #ccc;margin: 10px auto;border-collapse: collapse;">
+            <tr style="background: #fff;" onMouseOver="this.style.background='#cc0'" onMouseOut="this.style.background='none'">
+                <th style="height: 25px;line-height: 25px;text-align: center;border: 1px solid #ccc;background: #eee;font-weight: normal;">物品名称</th>
+                <th style="height: 25px;line-height: 25px;text-align: center;border: 1px solid #ccc;background: #eee;font-weight: normal;">复购周期</th>
+                <th style="height: 25px;line-height: 25px;text-align: center;border: 1px solid #ccc;background: #eee;font-weight: normal;">清洁周期/更换周期</th>
             </tr>
 {{ range . }}
-            <tr>
-                <td>{{ .GoodsName }}</td>
-                <td>{{ .BuyCron }}</td>
-                <td>{{ .CleanCron }}</td>
+            <tr style="background: #fff;" onMouseOver="this.style.background='#cc0'" onMouseOut="this.style.background='none'">
+                <td style="height: 25px;line-height: 25px;text-align: center;border: 1px solid #ccc;">{{ .GoodsName }}</td>
+                <td style="height: 25px;line-height: 25px;text-align: center;border: 1px solid #ccc;">{{ .BuyCron }}</td>
+                <td style="height: 25px;line-height: 25px;text-align: center;border: 1px solid #ccc;">{{ .CleanCron }}</td>
             </tr>
 {{ end }}
         </table>
     </body>
 </html>
-</iframe>
 `
