@@ -4,11 +4,9 @@ import (
 	"bytes"
 	"fmt"
 	"log"
-	"reflect"
-	"strings"
+	"strconv"
 
 	"github.com/alecthomas/template"
-
 	resp "github.com/flipped-aurora/gin-vue-admin/server/model/common/response"
 	"github.com/flipped-aurora/gin-vue-admin/server/service"
 	"github.com/flipped-aurora/gin-vue-admin/server/utils/helper/time"
@@ -44,6 +42,36 @@ func (r RssApi) GoodsRss(ctx *gin.Context) {
 	resp.SendXML(ctx, res)
 }
 
+func (RssApi) GoodsTableTemp(ctx *gin.Context) {
+	label := ctx.Query("label")
+	labelID, _ := strconv.ParseUint(label, 10, 64)
+	// 查出数据
+	items := []TableRes{}
+	_, goodsList, _ := goodsEvaluationService.GetGoodsEvaluationByLabel(uint(labelID))
+	for _, goodsInfo := range goodsList {
+		isBuy := CheckCronDefault(goodsInfo.BuyCron)
+		isClean := CheckCronDefault(goodsInfo.CleanCron)
+		if isBuy || isClean {
+			table := TableRes{
+				GoodsName: fmt.Sprintf("%s-%s", goodsInfo.GoodsBrand.BrandName, goodsInfo.GoodsName),
+				BuyCron:   checkCronToIcon(goodsInfo.BuyCron),
+				CleanCron: checkCronToIcon(goodsInfo.CleanCron),
+			}
+			items = append(items, table)
+		}
+	}
+	// 通过表格形式列出
+	tpl := template.Must(template.New("").Parse(HTML))
+	var buf bytes.Buffer
+	if err := tpl.Execute(&buf, items); err != nil {
+		log.Fatal(err)
+	}
+	ct := buf.String()
+
+	ctx.Header("Content-Type", "text/html; charset=utf-8")
+	ctx.String(200, ct, nil)
+}
+
 // 不同label的物品
 func labelGoods() []rss.Item {
 	ret := []rss.Item{}
@@ -63,7 +91,6 @@ func labelGoods() []rss.Item {
 		// 筛掉掉没有cron的label
 		if len(goodsList) != 0 {
 			items := []TableRes{}
-
 			// TODO 如果没有匹配的cron，就直接移除该feed
 			for _, goodsInfo := range goodsList {
 				isBuy := CheckCronDefault(goodsInfo.BuyCron)
@@ -78,15 +105,9 @@ func labelGoods() []rss.Item {
 				}
 			}
 
-			// 通过表格形式列出
-			tpl := template.Must(template.New("").Parse(HTML))
-			var buf bytes.Buffer
-			if err = tpl.Execute(&buf, items); err != nil {
-				log.Fatal(err)
-			}
-			ct := buf.String()
 			// 判断是否有数据，如果没有就说明没有匹配到的cron
 			if len(items) > 0 {
+				ct := fmt.Sprintf(IFrame, uint64(label.ID))
 				uuid, _ := gmd5.EncryptString(fmt.Sprintf("%s%s", time.GetToday().String(), ct))
 				title := fmt.Sprintf("[%s] - %s", gtime.Date(), label.LabelName)
 				ret = append(ret, rss.Item{
@@ -109,52 +130,68 @@ func checkCronToIcon(cron string) string {
 	return ""
 }
 
-// 生成html
-func GenerateHTML(html string, datas map[string]any) string {
-	for key, data := range datas {
-		rDataKey := reflect.TypeOf(data)
-		rDataVal := reflect.ValueOf(data)
-		fieldNum := rDataKey.NumField()
-		for i := 0; i < fieldNum; i++ {
-			fName := rDataKey.Field(i).Name
-			rValue := rDataVal.Field(i)
-
-			var fValue string
-			switch rValue.Interface().(type) {
-			case string:
-				fValue = rValue.String()
-			case []string:
-				fValue = strings.Join(rValue.Interface().([]string), "<br>")
-			}
-
-			mark := fmt.Sprintf("{{%s.%s}}", key, fName)
-			html = strings.ReplaceAll(html, mark, fValue)
-		}
-	}
-	return html
-}
-
-const HTML = `
-<iframe src='https://luckyhacking.github.io/test/' frameborder='0' width='640' height='390'></iframe>
+const IFrame = `
+<iframe src='https://mali-api.wrss.top/rss/goods/tpl?label=%d' frameborder='0' width='640' height='390'></iframe>
 `
 
-// const HTML = `
-// <html>
-//     <body>
-//         <table style="width: 90%;background: #ccc;margin: 10px auto;border-collapse: collapse;">
-//             <tr style="background: #fff;" onMouseOver="this.style.background='#cc0'" onMouseOut="this.style.background='none'">
-//                 <th style="height: 25px;line-height: 25px;text-align: center;border: 1px solid #ccc;background: #eee;font-weight: normal;">物品名称</th>
-//                 <th style="height: 25px;line-height: 25px;text-align: center;border: 1px solid #ccc;background: #eee;font-weight: normal;">复购周期</th>
-//                 <th style="height: 25px;line-height: 25px;text-align: center;border: 1px solid #ccc;background: #eee;font-weight: normal;">清洁周期/更换周期</th>
-//             </tr>
-// {{ range . }}
-//             <tr style="background: #fff;" onMouseOver="this.style.background='#cc0'" onMouseOut="this.style.background='none'">
-//                 <td style="height: 25px;line-height: 25px;text-align: center;border: 1px solid #ccc;">{{ .GoodsName }}</td>
-//                 <td style="height: 25px;line-height: 25px;text-align: center;border: 1px solid #ccc;">{{ .BuyCron }}</td>
-//                 <td style="height: 25px;line-height: 25px;text-align: center;border: 1px solid #ccc;">{{ .CleanCron }}</td>
-//             </tr>
-// {{ end }}
-//         </table>
-//     </body>
-// </html>
-// `
+const HTML = `
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title></title>
+        <style type="text/css">
+            /*表格样式*/            
+            table {
+                width: 90%;
+                background: #ccc;
+                margin: 10px auto;
+                border-collapse: collapse;
+                /*border-collapse:collapse合并内外边距
+                (去除表格单元格默认的2个像素内外边距*/ 
+            }
+/*             table tr:nth-child(odd){background: #e3e3e3;} */
+            th,td {
+                height: 25px;
+                line-height: 25px;
+                text-align: center;
+                border: 1px solid #ccc;
+            }       
+            th {
+                background: #eee;
+                font-weight: normal;
+            }       
+            tr {
+                background: #fff;
+            }       
+            tr:hover {
+                background: #cc0;
+            }       
+            td a {
+                color: #06f;
+                text-decoration: none;
+            }       
+            td a:hover {
+                color: #06f;
+                text-decoration: underline;
+            }
+        </style>
+    </head>
+    <body>
+        <table>
+            <tr>
+                <th>物品名称</th>
+                <th>复购周期</th>
+                <th>清洁周期/更换周期</th>
+            </tr>
+{{ range . }}
+            <tr>
+                <td>{{ .GoodsName }}</td>
+                <td>{{ .BuyCron }}</td>
+                <td>{{ .CleanCron }}</td>
+            </tr>
+{{ end }}
+        </table>
+    </body>
+</html>
+`
