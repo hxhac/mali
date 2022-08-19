@@ -15,6 +15,7 @@ func (s *RssRouter) InitRssRouter(Router *gin.RouterGroup) (R gin.IRoutes) {
 		rssRouter.GET("everyday", baseApi.HabitEverydayRss)
 		rssRouter.GET("video/:uuid", baseApi.FeedRss)
 		rssRouter.GET("goods", baseApi.GoodsRss)
+		rssRouter.GET("/goods/tpl", baseApi.GoodsTableTemp)
 	}
 	return rssRouter
 }
