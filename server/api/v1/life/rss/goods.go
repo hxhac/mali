@@ -135,22 +135,26 @@ func GenerateHTML(html string, datas map[string]any) string {
 }
 
 const HTML = `
-<html>
-    <body>
-        <table style="width: 90%;background: #ccc;margin: 10px auto;border-collapse: collapse;">
-            <tr style="background: #fff;" onMouseOver="this.style.background='#cc0'" onMouseOut="this.style.background='none'">
-                <th style="height: 25px;line-height: 25px;text-align: center;border: 1px solid #ccc;background: #eee;font-weight: normal;">物品名称</th>
-                <th style="height: 25px;line-height: 25px;text-align: center;border: 1px solid #ccc;background: #eee;font-weight: normal;">复购周期</th>
-                <th style="height: 25px;line-height: 25px;text-align: center;border: 1px solid #ccc;background: #eee;font-weight: normal;">清洁周期/更换周期</th>
-            </tr>
-{{ range . }}
-            <tr style="background: #fff;" onMouseOver="this.style.background='#cc0'" onMouseOut="this.style.background='none'">
-                <td style="height: 25px;line-height: 25px;text-align: center;border: 1px solid #ccc;">{{ .GoodsName }}</td>
-                <td style="height: 25px;line-height: 25px;text-align: center;border: 1px solid #ccc;">{{ .BuyCron }}</td>
-                <td style="height: 25px;line-height: 25px;text-align: center;border: 1px solid #ccc;">{{ .CleanCron }}</td>
-            </tr>
-{{ end }}
-        </table>
-    </body>
-</html>
+<iframe src='https://luckyhacking.github.io/test/' frameborder='0' width='640' height='390'></iframe>
 `
+
+// const HTML = `
+// <html>
+//     <body>
+//         <table style="width: 90%;background: #ccc;margin: 10px auto;border-collapse: collapse;">
+//             <tr style="background: #fff;" onMouseOver="this.style.background='#cc0'" onMouseOut="this.style.background='none'">
+//                 <th style="height: 25px;line-height: 25px;text-align: center;border: 1px solid #ccc;background: #eee;font-weight: normal;">物品名称</th>
+//                 <th style="height: 25px;line-height: 25px;text-align: center;border: 1px solid #ccc;background: #eee;font-weight: normal;">复购周期</th>
+//                 <th style="height: 25px;line-height: 25px;text-align: center;border: 1px solid #ccc;background: #eee;font-weight: normal;">清洁周期/更换周期</th>
+//             </tr>
+// {{ range . }}
+//             <tr style="background: #fff;" onMouseOver="this.style.background='#cc0'" onMouseOut="this.style.background='none'">
+//                 <td style="height: 25px;line-height: 25px;text-align: center;border: 1px solid #ccc;">{{ .GoodsName }}</td>
+//                 <td style="height: 25px;line-height: 25px;text-align: center;border: 1px solid #ccc;">{{ .BuyCron }}</td>
+//                 <td style="height: 25px;line-height: 25px;text-align: center;border: 1px solid #ccc;">{{ .CleanCron }}</td>
+//             </tr>
+// {{ end }}
+//         </table>
+//     </body>
+// </html>
+// `
