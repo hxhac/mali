@@ -42,15 +42,17 @@ func (r RssApi) GoodsRss(ctx *gin.Context) {
 	resp.SendXML(ctx, res)
 }
 
-func (RssApi) GoodsTableTemp(ctx *gin.Context) {
+// GoodsTableTpl 用来生成表格的模版
+func (RssApi) GoodsTableTpl(ctx *gin.Context) {
 	label := ctx.Query("label")
+	tt := ctx.Query("time")
 	labelID, _ := strconv.ParseUint(label, 10, 64)
 	// 查出数据
 	items := []TableRes{}
 	_, goodsList, _ := goodsEvaluationService.GetGoodsEvaluationByLabel(uint(labelID))
 	for _, goodsInfo := range goodsList {
-		isBuy := CheckCronDefault(goodsInfo.BuyCron)
-		isClean := CheckCronDefault(goodsInfo.CleanCron)
+		isBuy := CheckCronSpecifiedTime(time.StrToTime(tt, "Y-m-d"), goodsInfo.BuyCron)
+		isClean := CheckCronSpecifiedTime(time.StrToTime(tt, "Y-m-d"), goodsInfo.CleanCron)
 		if isBuy || isClean {
 			table := TableRes{
 				GoodsName: fmt.Sprintf("%s-%s", goodsInfo.GoodsBrand.BrandName, goodsInfo.GoodsName),
@@ -93,8 +95,8 @@ func labelGoods() []rss.Item {
 			items := []TableRes{}
 			// TODO 如果没有匹配的cron，就直接移除该feed
 			for _, goodsInfo := range goodsList {
-				isBuy := CheckCronDefault(goodsInfo.BuyCron)
-				isClean := CheckCronDefault(goodsInfo.CleanCron)
+				isBuy := CheckCronNowDefault(goodsInfo.BuyCron)
+				isClean := CheckCronNowDefault(goodsInfo.CleanCron)
 				if isBuy || isClean {
 					table := TableRes{
 						GoodsName: fmt.Sprintf("%s-%s", goodsInfo.GoodsBrand.BrandName, goodsInfo.GoodsName),
@@ -107,7 +109,7 @@ func labelGoods() []rss.Item {
 
 			// 判断是否有数据，如果没有就说明没有匹配到的cron
 			if len(items) > 0 {
-				ct := fmt.Sprintf(IFrame, uint64(label.ID))
+				ct := fmt.Sprintf(IFrame, uint64(label.ID), gtime.Now().Format("Y-m-d"))
 				uuid, _ := gmd5.EncryptString(fmt.Sprintf("%s%s", time.GetToday().String(), ct))
 				title := fmt.Sprintf("[%s] - %s", gtime.Date(), label.LabelName)
 				ret = append(ret, rss.Item{
@@ -123,7 +125,7 @@ func labelGoods() []rss.Item {
 }
 
 func checkCronToIcon(cron string) string {
-	checkCron := CheckCronDefault(cron)
+	checkCron := CheckCronNowDefault(cron)
 	if checkCron {
 		return "✅"
 	}
@@ -131,13 +133,12 @@ func checkCronToIcon(cron string) string {
 }
 
 const IFrame = `
-<iframe src='https://mali-api.wrss.top/rss/goods/tpl?label=%d' frameborder='0' width='640' height='390'></iframe>
+<iframe src='https://mali-api.wrss.top/rss/goods/tpl?label=%d&time=%s' frameborder='0' width='640' height='390'></iframe>
 `
 
 const HTML = `
 <!DOCTYPE html>
 <html>
-
     <head>
         <title></title>
         <style type="text/css">

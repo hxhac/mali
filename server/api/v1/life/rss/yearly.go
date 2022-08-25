@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"regexp"
 	"strconv"
+	"time"
 
 	"github.com/flipped-aurora/gin-vue-admin/server/service"
 	"github.com/flipped-aurora/gin-vue-admin/server/utils/helper/html"
@@ -13,7 +14,7 @@ import (
 	"github.com/gogf/gf/container/garray"
 	"github.com/gogf/gf/text/gstr"
 
-	"github.com/flipped-aurora/gin-vue-admin/server/utils/helper/time"
+	htime "github.com/flipped-aurora/gin-vue-admin/server/utils/helper/time"
 
 	resp "github.com/flipped-aurora/gin-vue-admin/server/model/common/response"
 	"github.com/flipped-aurora/gin-vue-admin/server/utils/rss"
@@ -34,7 +35,7 @@ func (RssApi) HabitYearlyRss(ctx *gin.Context) {
 		},
 		Author:      "lry",
 		URL:         GetURL(ctx.Request),
-		UpdatedTime: time.GetToday(),
+		UpdatedTime: htime.GetToday(),
 	}, yearly())
 
 	resp.SendXML(ctx, res)
@@ -45,12 +46,12 @@ func yearly() []rss.Item {
 	items, _ := lifeYearlyService.FindAll()
 
 	for _, item := range items {
-		if !item.IsPause && CheckCronDefault(item.Cron) {
+		if !item.IsPause && CheckCronNowDefault(item.Cron) {
 			title := fmt.Sprintf("[%s] - [%s] - %s", item.Prefix, gtime.Date(), item.Task)
 			ret = append(ret, rss.Item{
 				Title:       title,
 				Contents:    fmt.Sprintf("%s\n%s", html.Md2HTML(item.Remark), html.Md2HTML(item.More)),
-				UpdatedTime: time.GetToday(),
+				UpdatedTime: htime.GetToday(),
 				ID:          rss.GenDateID("habit-notify", item.Task),
 			})
 		}
@@ -59,13 +60,24 @@ func yearly() []rss.Item {
 	return ret
 }
 
-func CheckCronDefault(cronTime string) bool {
-	return CheckCron(cronTime, carbon.Now().IsSaturday())
+// CheckCronNowDefault
+func CheckCronNowDefault(cronTime string) bool {
+	return CheckCronNow(cronTime, carbon.Now().IsSaturday())
+}
+
+// CheckCronSpecifiedTime
+func CheckCronSpecifiedTime(tt time.Time, cronTime string) bool {
+	return CheckCron(carbon.Time2Carbon(tt), cronTime, true)
+}
+
+// CheckCronNow
+func CheckCronNow(cronTime string, isWeekDay bool) bool {
+	cb := carbon.Now()
+	return CheckCron(cb, cronTime, isWeekDay)
 }
 
 // CheckCron
-func CheckCron(cronTime string, isWeekDay bool) bool {
-	cb := carbon.Now()
+func CheckCron(cb carbon.Carbon, cronTime string, isWeekDay bool) bool {
 	dayOfYear := cb.DayOfYear()
 	dayOfMonth := cb.DayOfMonth()
 	weekOfYear := cb.WeekOfYear()

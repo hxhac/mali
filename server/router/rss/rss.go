@@ -11,11 +11,11 @@ func (s *RssRouter) InitRssRouter(Router *gin.RouterGroup) (R gin.IRoutes) {
 	rssRouter := Router.Group("rss")
 	baseApi := v1.ApiGroupApp.SystemApiGroup.RssApi
 	{
-		rssRouter.GET("yearly", baseApi.HabitYearlyRss)
-		rssRouter.GET("everyday", baseApi.HabitEverydayRss)
-		rssRouter.GET("video/:uuid", baseApi.FeedRss)
-		rssRouter.GET("goods", baseApi.GoodsRss)
-		rssRouter.GET("/goods/tpl", baseApi.GoodsTableTemp)
+		rssRouter.GET("/yearly", baseApi.HabitYearlyRss)
+		rssRouter.GET("/everyday", baseApi.HabitEverydayRss)
+		rssRouter.GET("/video/:uuid", baseApi.FeedRss)
+		rssRouter.GET("/goods", baseApi.GoodsRss)
+		rssRouter.GET("/goods/tpl", baseApi.GoodsTableTpl)
 	}
 	return rssRouter
 }
