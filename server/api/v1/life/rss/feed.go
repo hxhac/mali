@@ -92,7 +92,7 @@ func feeds(allFeeds []*gofeed.Feed) []rss.Item {
 
 // isRssCategoryCron
 func isRssCategoryCron(cronTime string, isWeekDay bool, nn string) bool {
-	checkCron := CheckCron(cronTime, isWeekDay)
+	checkCron := CheckCronNow(cronTime, isWeekDay)
 	checkTime := time.CheckTimeLimit(nn)
 
 	return checkCron && checkTime
@@ -113,7 +113,6 @@ func fetchUrl(url string, ch chan<- *gofeed.Feed) {
 	}
 }
 
-//
 func fetchUrls(urls []string) []*gofeed.Feed {
 	allFeeds := make([]*gofeed.Feed, 0)
 	ch := make(chan *gofeed.Feed)
