@@ -68,6 +68,10 @@
                          min-width="30%">
           <template #default="scope">
             <el-link :href="scope.row.url" :underline="false">{{ scope.row.rssName }} &nbsp;</el-link>
+  
+            <el-tag v-if="scope.row.sourceUrl" size="small">
+              <el-link :href="scope.row.sourceUrl" _target="blank" :icon="Link" />
+            </el-tag>
             
             <el-tag v-if="scope.row.cateId" size="small" effect="dark">
               {{ scope.row.rss_category.cateName }}
@@ -78,6 +82,7 @@
                 <Check />
               </el-icon>
             </el-tag>
+            
             <el-tag v-if="scope.row.isPause" type="danger" size="small" effect="dark">
               <el-icon>
                 <Close />
@@ -187,7 +192,7 @@ import { getRssCategoryList } from '@/api/rssCategory'
 // 全量引入格式化工具 请按需保留
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { ref } from 'vue'
-import { Close, Check } from '@element-plus/icons-vue'
+import { Close, Check, Link } from '@element-plus/icons-vue'
 
 // 自动化生成的字典（可能为空）以及字段
 const formData = ref({

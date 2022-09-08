@@ -127,9 +127,12 @@ func labelGoods() []rss.Item {
 func checkCronToIcon(cron string) string {
 	checkCron := CheckCronNowDefault(cron)
 	if checkCron {
+		// 处理weekly
 		if cron != "@weekly" {
 			return "⭐️"
 		}
+		// 处理monthly
+		// 处理yearly
 		return "✅"
 	}
 	return ""

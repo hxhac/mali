@@ -38,6 +38,7 @@ func (rssFeedApi *RssFeedApi) CreateRssFeed(c *gin.Context) {
 		return
 	}
 	rssFeed.RssName = feed.Title
+	rssFeed.SourceUrl = feed.Link
 
 	if err := rssFeedService.CreateRssFeed(rssFeed); err != nil {
 		global.GVA_LOG.Error("创建失败!", zap.Error(err))
