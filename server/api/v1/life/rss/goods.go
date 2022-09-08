@@ -127,6 +127,9 @@ func labelGoods() []rss.Item {
 func checkCronToIcon(cron string) string {
 	checkCron := CheckCronNowDefault(cron)
 	if checkCron {
+		if cron != "@weekly" {
+			return "⭐️"
+		}
 		return "✅"
 	}
 	return ""
