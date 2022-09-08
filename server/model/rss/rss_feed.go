@@ -12,6 +12,7 @@ type RssFeed struct {
 	RssName     string      `json:"rssName" form:"rssName" gorm:"column:rss_name;comment:item名称;size:255;not null; unique;"`
 	CateId      *int        `json:"cateId" form:"cateId" gorm:"column:cate_id;comment:rss分类;size:10;"`
 	Url         string      `json:"url" form:"url" gorm:"column:url;comment:rss的url;size:255;"`
+	SourceUrl   string      `json:"sourceUrl" form:"sourceUrl" gorm:"column:source_url;comment:rss的源url;size:255;not null;"`
 	Keywords    string      `json:"keywords" form:"keywords" gorm:"column:keywords;comment:关键字过滤，逗号连接;size:255;"`
 	Remark      string      `json:"remark" form:"remark" gorm:"column:remark;comment:备注;size:255;"`
 	IsPause     *bool       `json:"isPause" form:"isPause" gorm:"column:is_pause;comment:是否暂停（0不暂停1暂停）;default:0"`
