@@ -64,15 +64,17 @@
         @selection-change="handleSelectionChange"
       >
         <el-table-column type="selection" width="55" />
-        <el-table-column align="left" label="rss名称" prop="rssName"
-                         min-width="30%">
+        <el-table-column align="left" label="rss名称" prop="rssName" min-width="30%">
           <template #default="scope">
             <el-link :href="scope.row.url" :underline="false">{{ scope.row.rssName }} &nbsp;</el-link>
-  
+
+<!--	          如果三个月未更新就标记-->
+            <el-tag v-if="scope.row.lastUpdated && Date.parse(scope.row.lastUpdated) < new Date(ShowDate(90))" size="small">⚠️</el-tag>
+
             <el-tag v-if="scope.row.sourceUrl" size="small">
               <el-link :href="scope.row.sourceUrl" _target="blank" :icon="Link" />
             </el-tag>
-            
+
             <el-tag v-if="scope.row.cateId" size="small" effect="dark">
               {{ scope.row.rss_category.cateName }}
             </el-tag>
@@ -91,7 +93,6 @@
           </template>
         </el-table-column>
         
-<!--        <el-table-column align="left" label="关键字" prop="keywords" min-width="30%" />-->
         <el-table-column align="left" label="评分" prop="score" min-width="20%">
           <template #default="scope">
             <el-rate v-model="scope.row.score" disabled />
@@ -133,6 +134,9 @@
         <el-form-item label="url:">
           <el-input v-model="formData.url" clearable placeholder="请输入" />
         </el-form-item>
+	      <el-form-item label="源url:">
+		      <el-input v-model="formData.sourceUrl" clearable placeholder="请输入" />
+	      </el-form-item>
         <el-form-item label="keywords:">
           <el-input v-model="formData.keywords" clearable placeholder="请输入" />
         </el-form-item>
@@ -145,9 +149,13 @@
         <el-form-item label="评分:">
           <el-rate v-model.number="formData.score" />
         </el-form-item>
-        <el-form-item label="备注:">
-          <el-input v-model="formData.remark" type="textarea" :autosize="{ minRows: 4 }" clearable placeholder="请输入" />
-        </el-form-item>
+	      <el-form-item label="最后更新时间:">
+		      <el-input v-model="formData.lastUpdated" disabled />
+	      </el-form-item>
+	      
+	      <el-form-item label="备注:">
+		      <el-input v-model="formData.remark" type="textarea" :autosize="{ minRows: 4 }" clearable placeholder="请输入" />
+	      </el-form-item>
       </el-form>
       <template #footer>
         <div class="dialog-footer">
@@ -172,7 +180,8 @@ export default {
         value: false,
         label: '否'
       }],
-      fileList: []
+      fileList: [],
+      date: '2021-09-01',
     }
   },
 }
@@ -192,7 +201,8 @@ import { getRssCategoryList } from '@/api/rssCategory'
 // 全量引入格式化工具 请按需保留
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { ref } from 'vue'
-import { Close, Check, Link } from '@element-plus/icons-vue'
+import { Close, Check, Link, WarningFilled } from '@element-plus/icons-vue'
+import { formatTimeToStr, ShowDate } from '@/utils/date.js'
 
 // 自动化生成的字典（可能为空）以及字段
 const formData = ref({
