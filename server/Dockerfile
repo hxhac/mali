@@ -4,7 +4,7 @@ FROM golang:alpine AS builder
 ENV GO111MODULE=on \
     CGO_ENABLED=0 \
     GOOS=linux \
-    GOPROXY=https://proxy.golang.com.cn,direct \
+#    GOPROXY=https://proxy.golang.com.cn,direct \
     GOARCH=amd64
 
 WORKDIR /build
