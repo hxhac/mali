@@ -5,7 +5,7 @@
 // (new Date()).Format("yyyy-M-d h:m:s.S")      ==> 2006-7-2 8:9:4.18
 // eslint-disable-next-line no-extend-native
 
-import { ref } from 'vue'
+import {ref} from 'vue'
 
 Date.prototype.Format = function(fmt) {
   var o = {
@@ -54,6 +54,28 @@ export function generateTimeStub(minute) {
     total += seconds
   }
   return timeStubOptions
+}
+
+// 当前时间的前n天或者后n天（支持负数）
+export function ShowDate(date) {
+  const n = date
+  const d = new Date()
+  let year = d.getFullYear()
+  let mon = d.getMonth() + 1
+  let day = d.getDate()
+  if (day <= n) {
+    if (mon > 1) {
+      mon = mon - 1
+    } else {
+      year = year - 1
+      mon = 12
+    }
+  }
+  d.setDate(d.getDate() - n)
+  year = d.getFullYear()
+  mon = d.getMonth() + 1
+  day = d.getDate()
+  return year + '-' + (mon < 10 ? ('0' + mon) : mon) + '-' + (day < 10 ? ('0' + day) : day)
 }
 
 function s(n) {

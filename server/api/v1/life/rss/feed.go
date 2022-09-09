@@ -1,12 +1,15 @@
 package rss
 
 import (
+	"fmt"
 	"log"
 	"sort"
 
 	"github.com/golang-module/carbon"
+	"gorm.io/gorm"
 
 	resp "github.com/flipped-aurora/gin-vue-admin/server/model/common/response"
+	rssModel "github.com/flipped-aurora/gin-vue-admin/server/model/rss"
 	"github.com/flipped-aurora/gin-vue-admin/server/service"
 	"github.com/flipped-aurora/gin-vue-admin/server/utils/helper/time"
 	"github.com/flipped-aurora/gin-vue-admin/server/utils/rss"
@@ -21,7 +24,10 @@ const (
 	TimeLimit        = 30 // 默认晚上8点后30min
 )
 
-var rssCategoryService = service.ServiceGroupApp.RssServiceGroup.RssCategoryService
+var (
+	rssCategoryService = service.ServiceGroupApp.RssServiceGroup.RssCategoryService
+	rssFeedService     = service.ServiceGroupApp.RssServiceGroup.RssFeedService
+)
 
 func (RssApi) FeedRss(ctx *gin.Context) {
 	uuid := ctx.Param("uuid")
@@ -66,6 +72,17 @@ func feeds(allFeeds []*gofeed.Feed) []rss.Item {
 	ret := []rss.Item{}
 
 	for _, sourceFeed := range allFeeds {
+
+		// 通过feed的源url匹配，并修改"最后更新时间"
+		var rssFeed rssModel.RssFeed
+		rssFeed.SourceUrl = sourceFeed.Link
+		rssFeed.LastUpdated = gorm.DeletedAt{Time: *sourceFeed.UpdatedParsed, Valid: true}
+		err := rssFeedService.UpdateUpdatedTime(rssFeed)
+		if err != nil {
+			fmt.Println(err)
+			return nil
+		}
+
 		for _, item := range sourceFeed.Items {
 			// 判断title是否命中关键字
 			if seen[item.Link] {
@@ -101,9 +118,7 @@ func isRssCategoryCron(cronTime string, isWeekDay bool, nn string) bool {
 func fetchUrl(url string, ch chan<- *gofeed.Feed) {
 	log.Printf("Fetching URL: %v\n", url)
 	fp := gofeed.NewParser()
-	// fp.Client = &http.Client{
-	// 	Timeout: time.Duration(TimeoutSeconds) * time.Second,
-	// }
+
 	feed, err := fp.ParseURL(url)
 	if err == nil {
 		ch <- feed
@@ -154,12 +169,8 @@ func (s byPublished) Less(i, j int) bool {
 // 获取item的author
 // TODO
 func getAuthor(author *gofeed.Person) string {
-	// if feed.Authors != nil {
-	// 	return feed.Authors[0].Name
-	// }
 	if author != nil {
 		return author.Name
 	}
-	// log.Printf("Could not determine author for %v", feed.Link)
 	return DefaultAuthor
 }
