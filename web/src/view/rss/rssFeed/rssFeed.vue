@@ -134,9 +134,7 @@
         <el-form-item label="url:">
           <el-input v-model="formData.url" clearable placeholder="请输入" />
         </el-form-item>
-	      <el-form-item label="源url:">
-		      <el-input v-model="formData.sourceUrl" clearable placeholder="请输入" />
-	      </el-form-item>
+
         <el-form-item label="keywords:">
           <el-input v-model="formData.keywords" clearable placeholder="请输入" />
         </el-form-item>
@@ -149,6 +147,9 @@
         <el-form-item label="评分:">
           <el-rate v-model.number="formData.score" />
         </el-form-item>
+	      <el-form-item label="源url:">
+		      <el-input v-model="formData.sourceUrl" disabled />
+	      </el-form-item>
 	      <el-form-item label="最后更新时间:">
 		      <el-input v-model="formData.lastUpdated" disabled />
 	      </el-form-item>
