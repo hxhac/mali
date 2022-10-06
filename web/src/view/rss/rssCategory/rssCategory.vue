@@ -45,6 +45,13 @@
               {{ scope.row.cron }} - {{ scope.row.updateTimeStub }}
             </el-tag>
 
+	          <!-- 判断图片数，如果有图片就展示图片数，没有图片就展示icon-->
+	          <el-tag v-if="scope.row.remark" size="small" effect="dark" :type="success">
+		          <el-icon>
+			          <Document />
+		          </el-icon>
+	          </el-tag>
+
             <el-tag v-if="scope.row.isMute" type="error" size="small" effect="dark">
               <el-icon>
                 <Close />
@@ -58,6 +65,8 @@
             </el-tag>
           </template>
         </el-table-column>
+	      
+	      
         <el-table-column align="left" label="url" min-width="35%">
           <template #default="scope">
             <span :id="['foo'+scope.row.uuid]">https://mali-api.wrss.top/rss/video/{{ scope.row.uuid }}</span>&nbsp;
@@ -75,11 +84,11 @@
             />
           </template>
         </el-table-column>
-        <el-table-column align="left" label="描述" prop="remark" min-width="35%" >
-          <template #default="scope">
-            {{ scope.row.remark }}
-          </template>
-        </el-table-column>
+<!--        <el-table-column align="left" label="描述" prop="remark" min-width="35%" >-->
+<!--          <template #default="scope">-->
+<!--            {{ scope.row.remark }}-->
+<!--          </template>-->
+<!--        </el-table-column>-->
 
         <el-table-column align="left" label="按钮组" min-width="10%">
           <template #default="scope">
@@ -108,9 +117,9 @@
         <el-form-item label="limit:">
           <el-input-number v-model.number="formData.num" clearable placeholder="请输入" />
         </el-form-item>
-        <el-form-item label="描述:">
-          <el-input v-model="formData.remark" type="textarea" :autosize="{ minRows: 4 }" clearable placeholder="请输入" />
-        </el-form-item>
+<!--        <el-form-item label="描述:">-->
+<!--          <el-input v-model="formData.remark" type="textarea" :autosize="{ minRows: 4 }" clearable placeholder="请输入" />-->
+<!--        </el-form-item>-->
         <el-form-item label="author:">
           <el-input v-model="formData.author" clearable placeholder="请输入" />
         </el-form-item>
@@ -139,6 +148,9 @@
             />
           </el-select>
         </el-form-item>
+	      <el-form-item label="备注:">
+		      <Md v-model="formData.remark" />
+	      </el-form-item>
       </el-form>
       <template #footer>
         <div class="dialog-footer">
@@ -184,7 +196,8 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 import { ref } from 'vue'
 import Clipboard from 'clipboard'
 import { generateTimeStub } from '@/utils/date'
-import { Close, Check } from '@element-plus/icons-vue'
+import { Close, Check, Document } from '@element-plus/icons-vue'
+import Md from '@/components/md/md.vue'
 
 // 自动化生成的字典（可能为空）以及字段
 const formData = ref({
