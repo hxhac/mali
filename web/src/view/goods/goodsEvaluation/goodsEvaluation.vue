@@ -278,7 +278,7 @@ export default {
     return {
       value: '请选择',
       fileList: [],
-      cronOptions: ['@daily', '@2daily', '@4daily', '@weekly', '@2weekly', '@4weekly', '@8weekly', '@6monthly', '@yearly'],
+      cronOptions: ['@daily', '@2daily', '@4daily', '@weekly', '@2weekly', '@4weekly', '@8weekly', '@12weekly', '@16weekly', '@24weekly', '@32weekly', '@6monthly', '@yearly'],
     }
   },
   computed: {},
