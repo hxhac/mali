@@ -47,8 +47,8 @@ func (goodsLabelService *GoodsLabelService) GetGoodsLabel(id uint) (err error, g
 // GetGoodsLabelInfoList 分页获取GoodsLabel记录
 // Author [piexlmax](https://github.com/piexlmax)
 func (goodsLabelService *GoodsLabelService) GetGoodsLabelInfoList(info goodsReq.GoodsLabelSearch) (err error, list interface{}, total int64) {
-	limit := info.PageSize
-	offset := info.PageSize * (info.Page - 1)
+	// limit := info.PageSize
+	// offset := info.PageSize * (info.Page - 1)
 	// 创建db
 	db := global.GVA_DB.Model(&goods.GoodsLabel{})
 	var goodsLabels []goods.GoodsLabel
@@ -57,7 +57,7 @@ func (goodsLabelService *GoodsLabelService) GetGoodsLabelInfoList(info goodsReq.
 	if err != nil {
 		return
 	}
-	err = db.Limit(limit).Offset(offset).Order("score DESC").Find(&goodsLabels).
+	err = db.Order("score DESC").Find(&goodsLabels).
 		Error
 	return err, goodsLabels, total
 }
