@@ -55,7 +55,7 @@ func (RssApi) GoodsTableTpl(ctx *gin.Context) {
 		isClean := CheckCronSpecifiedTime(time.StrToTime(tt, "Y-m-d"), goodsInfo.CleanCron)
 		if isBuy || isClean {
 			table := TableRes{
-				GoodsName: fmt.Sprintf("%s-%s", goodsInfo.GoodsBrand.BrandName, goodsInfo.GoodsName),
+				GoodsName: fmt.Sprintf("[%s] %s", goodsInfo.GoodsBrand.BrandName, goodsInfo.GoodsName),
 				BuyCron:   checkCronToIcon(goodsInfo.BuyCron),
 				CleanCron: checkCronToIcon(goodsInfo.CleanCron),
 			}
