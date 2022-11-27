@@ -12,6 +12,7 @@ type GoodsBrand struct {
 	BrandName string `json:"brandName" form:"brandName" gorm:"column:brand_name;comment:;size:255;unique;"`
 	More      string `json:"more" form:"more" gorm:"column:more;comment:;"`
 	Num       *int   `json:"num" form:"num" gorm:"column:num;default:0;comment:该品牌商品数"`
+	IsDisable *bool  `json:"isDisable" form:"isDisable" gorm:"is_disable;comment:是否disable某个品牌，默认不disable(0);default:0;not null;"`
 }
 
 // TableName GoodsBrand 表名

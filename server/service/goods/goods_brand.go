@@ -47,34 +47,29 @@ func (goodsBrandService *GoodsBrandService) GetGoodsBrand(id uint) (err error, g
 // GetGoodsBrandInfoList 分页获取GoodsBrand记录
 // Author [piexlmax](https://github.com/piexlmax)
 func (goodsBrandService *GoodsBrandService) GetGoodsBrandInfoList(info goodsReq.GoodsBrandSearch) (err error, list interface{}, total int64) {
-	limit := info.PageSize
-	offset := info.PageSize * (info.Page - 1)
+	// limit := info.PageSize
+	// offset := info.PageSize * (info.Page - 1)
 	// 创建db
 	db := global.GVA_DB.Model(&goods.GoodsBrand{})
 	var goodsBrands []goods.GoodsBrand
 	// 如果有条件搜索 下方会自动创建搜索语句
+	if info.IsDisable != nil {
+		db = db.Where("is_disable = ?", info.IsDisable)
+	}
 	err = db.Count(&total).Error
 	if err != nil {
 		return
 	}
-	// err = db.Table("goods_evaluation as ge").
-	// 	Select("gb.*, count(ge.brand) as num").
-	// 	Joins("left join goods_brand as gb on gb.id = ge.brand").
-	// 	Group("ge.brand").
-	// 	Order("count(ge.brand) DESC").
-	// 	Limit(limit).Offset(offset).Find(&goodsBrands).Error
+	err = db.Table("goods_evaluation as ge").
+		Select("gb.*, count(ge.brand) as num").
+		Joins("left join goods_brand as gb on gb.id = ge.brand").
+		Group("ge.brand").
+		Order("count(ge.brand) DESC").Find(&goodsBrands).Error
 
-	// err = db.Table("goods_evaluation as ge").
-	// 	Select("gb.*, count(ge.brand) as num").
-	// 	Joins("left join goods_brand as gb on gb.id = ge.brand").
-	// 	Group("ge.brand").
-	// 	Order("count(ge.brand) DESC").
-	// 	Limit(limit).Offset(offset).Find(&goodsBrands).Error
-
-	err = db.Raw(`select gb.*, count(ge.brand) as num
-from goods_brand as gb
-         left join goods_evaluation as ge on gb.id = ge.brand
-group by gb.id
-order by num desc;`).Limit(limit).Offset(offset).Find(&goodsBrands).Error
+	// err = db.Raw(`select gb.*, count(ge.brand) as num
+	// from goods_brand as gb
+	//          left join goods_evaluation as ge on gb.id = ge.brand
+	// group by gb.id
+	// order by num desc;`).Limit(limit).Offset(offset).Find(&goodsBrands).Error
 	return err, goodsBrands, total
 }
