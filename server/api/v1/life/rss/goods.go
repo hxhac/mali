@@ -5,11 +5,12 @@ import (
 	"fmt"
 	"log"
 	"strconv"
+	"time"
 
 	"github.com/alecthomas/template"
 	resp "github.com/flipped-aurora/gin-vue-admin/server/model/common/response"
 	"github.com/flipped-aurora/gin-vue-admin/server/service"
-	"github.com/flipped-aurora/gin-vue-admin/server/utils/helper/time"
+	htime "github.com/flipped-aurora/gin-vue-admin/server/utils/helper/time"
 	"github.com/flipped-aurora/gin-vue-admin/server/utils/rss"
 	"github.com/gin-gonic/gin"
 	"github.com/gogf/gf/crypto/gmd5"
@@ -36,7 +37,7 @@ func (r RssApi) GoodsRss(ctx *gin.Context) {
 		},
 		Author:      "lry",
 		URL:         GetURL(ctx.Request),
-		UpdatedTime: time.GetToday(),
+		UpdatedTime: htime.GetToday(),
 	}, labelGoods())
 
 	resp.SendXML(ctx, res)
@@ -50,14 +51,15 @@ func (RssApi) GoodsTableTpl(ctx *gin.Context) {
 	// 查出数据
 	items := []TableRes{}
 	_, goodsList, _ := goodsEvaluationService.GetGoodsEvaluationByLabel(uint(labelID))
+	specifiedTime := htime.StrToTime(tt, "Y-m-d")
 	for _, goodsInfo := range goodsList {
-		isBuy := CheckCronSpecifiedTime(time.StrToTime(tt, "Y-m-d"), goodsInfo.BuyCron)
-		isClean := CheckCronSpecifiedTime(time.StrToTime(tt, "Y-m-d"), goodsInfo.CleanCron)
+		isBuy := CheckCronSpecifiedTime(specifiedTime, goodsInfo.BuyCron)
+		isClean := CheckCronSpecifiedTime(specifiedTime, goodsInfo.CleanCron)
 		if isBuy || isClean {
 			table := TableRes{
 				GoodsName: fmt.Sprintf("[%s] %s", goodsInfo.GoodsBrand.BrandName, goodsInfo.GoodsName),
-				BuyCron:   checkCronToIcon(goodsInfo.BuyCron),
-				CleanCron: checkCronToIcon(goodsInfo.CleanCron),
+				BuyCron:   checkCronToIcon(specifiedTime, goodsInfo.BuyCron),
+				CleanCron: checkCronToIcon(specifiedTime, goodsInfo.CleanCron),
 			}
 			items = append(items, table)
 		}
@@ -93,29 +95,27 @@ func labelGoods() []rss.Item {
 		// 筛掉掉没有cron的label
 		if len(goodsList) != 0 {
 			items := []TableRes{}
-			// TODO 如果没有匹配的cron，就直接移除该feed
+			// 如果没有匹配的cron，就直接移除该feed
 			for _, goodsInfo := range goodsList {
 				isBuy := CheckCronNowDefault(goodsInfo.BuyCron)
 				isClean := CheckCronNowDefault(goodsInfo.CleanCron)
 				if isBuy || isClean {
 					table := TableRes{
 						GoodsName: fmt.Sprintf("%s-%s", goodsInfo.GoodsBrand.BrandName, goodsInfo.GoodsName),
-						BuyCron:   checkCronToIcon(goodsInfo.BuyCron),
-						CleanCron: checkCronToIcon(goodsInfo.CleanCron),
 					}
 					items = append(items, table)
 				}
 			}
 
-			// 判断是否有数据，如果没有就说明没有匹配到的cron
+			// 剔除掉不需要的label，判断是否有数据，如果没有就说明没有匹配到的cron
 			if len(items) > 0 {
 				ct := fmt.Sprintf(IFrame, uint64(label.ID), gtime.Now().Format("Y-m-d"))
-				uuid, _ := gmd5.EncryptString(fmt.Sprintf("%s%s", time.GetToday().String(), ct))
+				uuid, _ := gmd5.EncryptString(fmt.Sprintf("%s%s", htime.GetToday().String(), ct))
 				title := fmt.Sprintf("[%s] - %s", gtime.Date(), label.LabelName)
 				ret = append(ret, rss.Item{
 					Title:       title,
 					Contents:    ct,
-					UpdatedTime: time.GetToday(),
+					UpdatedTime: htime.GetToday(),
 					ID:          uuid,
 				})
 			}
@@ -124,8 +124,9 @@ func labelGoods() []rss.Item {
 	return ret
 }
 
-func checkCronToIcon(cron string) string {
-	checkCron := CheckCronNowDefault(cron)
+func checkCronToIcon(tt time.Time, cron string) string {
+	// checkCron := CheckCronNowDefault(cron)
+	checkCron := CheckCronSpecifiedTime(tt, cron)
 	if checkCron {
 		// 处理weekly
 		if cron != "@weekly" {
