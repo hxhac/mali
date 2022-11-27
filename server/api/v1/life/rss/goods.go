@@ -129,7 +129,7 @@ func checkCronToIcon(cron string) string {
 	if checkCron {
 		// 处理weekly
 		if cron != "@weekly" {
-			return "⭐️"
+			return fmt.Sprintf("⭐[%s]", cron)
 		}
 		// 处理monthly
 		// 处理yearly
