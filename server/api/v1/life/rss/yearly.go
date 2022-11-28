@@ -77,6 +77,7 @@ func CheckCronNow(cronTime string, isWeekDay bool) bool {
 }
 
 // CheckCron
+// isWeekDay 是否为周六
 func CheckCron(cb carbon.Carbon, cronTime string, isWeekDay bool) bool {
 	dayOfYear := cb.DayOfYear()
 	dayOfMonth := cb.DayOfMonth()
@@ -91,7 +92,8 @@ func CheckCron(cb carbon.Carbon, cronTime string, isWeekDay bool) bool {
 		return true
 	}
 	// 判断weekly
-	if gstr.Contains(cronTime, "weekly") && isWeekDay && (weekOfYear%number != 0 || !isMatched) {
+	wn := (weekOfYear - 1) % number
+	if gstr.Contains(cronTime, "weekly") && isWeekDay && (wn == 0 || !isMatched) {
 		return true
 	}
 	// 判断monthly
@@ -118,6 +120,7 @@ func GetURL(r *http.Request) string {
 }
 
 // ExtractTimeNumber 正则提取数字
+// isMatched
 func ExtractTimeNumber(t string) (isMatched bool, number int) {
 	isMatched = numberReg.MatchString(t)
 	if !isMatched {
