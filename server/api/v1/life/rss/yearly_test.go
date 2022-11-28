@@ -1,26 +1,26 @@
 package rss
 
 import (
+	"testing"
+
 	htime "github.com/flipped-aurora/gin-vue-admin/server/utils/helper/time"
 	"github.com/golang-module/carbon"
-	"testing"
 )
 
 const (
-	TwoDaily         = "@2daily"
-	ThreeDaily       = "@3daily"
-	FourDaily        = "@4daily"
-	SixDaily         = "@6daily"
-	Weekly           = "@weekly"
-	TwoWeekly        = "@2weekly"
-	FourWeekly       = "@4weekly"
-	EightWeekly      = "@8weekly"
-	TwentyFourWeekly = "@24weekly"
-	Monthly          = "@monthly"
-	TwoMonthly       = "@2monthly"
-	ThreeMonthly     = "@3monthly"
-	SixMonthly       = "@6monthly"
-	Yearly           = "@yearly"
+	TwoDaily     = "@2daily"
+	ThreeDaily   = "@3daily"
+	FourDaily    = "@4daily"
+	SixDaily     = "@6daily"
+	Weekly       = "@weekly"
+	TwoWeekly    = "@2weekly"
+	FourWeekly   = "@4weekly"
+	EightWeekly  = "@8weekly"
+	Monthly      = "@monthly"
+	TwoMonthly   = "@2monthly"
+	ThreeMonthly = "@3monthly"
+	SixMonthly   = "@6monthly"
+	Yearly       = "@yearly"
 )
 
 // TODO weekly的第二天有bug，但是暂时不用处理
@@ -104,7 +104,6 @@ func TestCheckCron(t *testing.T) {
 		{EightWeekly, args{xzb("2022-12-03"), EightWeekly, true}, false},
 		{EightWeekly, args{xzb("2022-12-10"), EightWeekly, true}, true},
 		{EightWeekly, args{xzb("2022-12-17"), EightWeekly, true}, false},
-		
 
 		// {Monthly, args{cronTime: Monthly, cb: xzb("2021-12-01")}, true},
 		// {Monthly, args{cronTime: Monthly, cb: xzb("2022-4-01")}, true},
