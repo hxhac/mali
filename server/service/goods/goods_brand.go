@@ -60,16 +60,18 @@ func (goodsBrandService *GoodsBrandService) GetGoodsBrandInfoList(info goodsReq.
 	if err != nil {
 		return
 	}
-	err = db.Table("goods_evaluation as ge").
-		Select("gb.*, count(ge.brand) as num").
-		Joins("left join goods_brand as gb on gb.id = ge.brand").
-		Group("ge.brand").
-		Order("count(ge.brand) DESC").Find(&goodsBrands).Error
+	// err = db.Table("goods_evaluation as ge").
+	// 	Select("gb.*, count(ge.brand) as num").
+	// 	Joins("left join goods_brand as gb on gb.id = ge.brand").
+	// 	Group("ge.brand").
+	// 	Order("count(ge.brand) DESC").Find(&goodsBrands).Error
 
 	// err = db.Raw(`select gb.*, count(ge.brand) as num
 	// from goods_brand as gb
 	//          left join goods_evaluation as ge on gb.id = ge.brand
 	// group by gb.id
 	// order by num desc;`).Limit(limit).Offset(offset).Find(&goodsBrands).Error
+	err = db.Order("num DESC").Find(&goodsBrands).
+		Error
 	return err, goodsBrands, total
 }
