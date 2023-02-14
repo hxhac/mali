@@ -4,7 +4,6 @@ import (
 	"github.com/flipped-aurora/gin-vue-admin/server/core"
 	"github.com/flipped-aurora/gin-vue-admin/server/global"
 	"github.com/flipped-aurora/gin-vue-admin/server/initialize"
-	"github.com/sirupsen/logrus"
 	"go.uber.org/zap"
 )
 
@@ -12,8 +11,6 @@ import (
 //go:generate go env -w GOPROXY=https://goproxy.cn,direct
 //go:generate go mod tidy
 //go:generate go mod download
-
-var logger = logrus.New()
 
 // @title Swagger Example API
 // @version 0.0.1
