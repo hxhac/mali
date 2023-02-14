@@ -1,18 +1,15 @@
 package rss
 
 import (
-	"errors"
 	"fmt"
+	"github.com/chanyipiaomiao/hlog"
 	"time"
 
 	"github.com/flipped-aurora/gin-vue-admin/server/utils/helper/slice"
-	"github.com/flipped-aurora/gin-vue-admin/server/utils/log"
 	"github.com/flipped-aurora/gin-vue-admin/server/utils/redis"
 
 	"github.com/gogf/gf/os/gtime"
 	"github.com/gogf/gf/util/gconv"
-
-	"github.com/sirupsen/logrus"
 
 	"github.com/gorilla/feeds"
 )
@@ -29,7 +26,6 @@ type Title struct {
 	Name   string
 }
 
-//
 type Item struct {
 	URL, Title, Contents, ID, Author, Description string
 	UpdatedTime                                   time.Time
@@ -37,7 +33,7 @@ type Item struct {
 }
 
 // Rss 输出rss
-func Rss(fe *Feed, items []Item) string {
+func Rss(fe *Feed, items []*Item) string {
 	if len(items) == 0 {
 		feed := feeds.Feed{
 			Title:   feedTitle(fe.Title),
@@ -56,7 +52,7 @@ func Rss(fe *Feed, items []Item) string {
 	return rss(fe, items)
 }
 
-func rss(fe *Feed, items []Item) string {
+func rss(fe *Feed, items []*Item) string {
 	feed := feeds.Feed{
 		Title:   feedTitle(fe.Title),
 		Link:    &feeds.Link{Href: fe.URL},
@@ -80,7 +76,7 @@ func rss(fe *Feed, items []Item) string {
 	// 输出atom，跟rsshub保持一致
 	atom, err := feed.ToAtom()
 	if err != nil {
-		logrus.WithFields(log.Text("", errors.New("rss generate failed")))
+		hlog.Error(hlog.D{"url": fe.URL}, "rss generate failed")
 		return ""
 	}
 	return atom
@@ -96,7 +92,7 @@ func feedTitle(tt Title) string {
 // 处理没有提供更新时间的feed
 // 根据item的UpdatedTime判断
 // TODO items[i] = item
-func feedWithoutTime(feed *Feed, items []Item) string {
+func feedWithoutTime(feed *Feed, items []*Item) string {
 	clt := redis.NewClient(redis.Conn())
 
 	m := []string{}
@@ -138,7 +134,7 @@ func feedWithoutTime(feed *Feed, items []Item) string {
 	return rss(feed, items)
 }
 
-func checkIsUpdate(clt *redis.Client, feed *Feed, items []Item) []string {
+func checkIsUpdate(clt *redis.Client, feed *Feed, items []*Item) []string {
 	// 通过对比相同name下的key，检查item是否更新
 	old := clt.Conn.HKeys(redis.Ctx, feed.URL).Val()
 
