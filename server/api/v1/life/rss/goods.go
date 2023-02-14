@@ -43,7 +43,7 @@ func (r RssApi) GoodsRss(ctx *gin.Context) {
 	resp.SendXML(ctx, res)
 }
 
-// GoodsTableTpl 用来生成表格的模版
+// GoodsTableTpl 用来生成表格的模版，GoodsRss只需要生成这个方法的url，就会请求该方法，生成HTML
 func (RssApi) GoodsTableTpl(ctx *gin.Context) {
 	label := ctx.Query("label")
 	tt := ctx.Query("time")
@@ -53,16 +53,17 @@ func (RssApi) GoodsTableTpl(ctx *gin.Context) {
 	_, goodsList, _ := goodsEvaluationService.GetGoodsEvaluationByLabel(uint(labelID))
 	specifiedTime := htime.StrToTime(tt, "Y-m-d")
 	for _, goodsInfo := range goodsList {
-		isBuy := CheckCronSpecifiedTime(specifiedTime, goodsInfo.BuyCron)
-		isClean := CheckCronSpecifiedTime(specifiedTime, goodsInfo.CleanCron)
-		if isBuy || isClean {
-			table := TableRes{
-				GoodsName: fmt.Sprintf("[%s] %s", goodsInfo.GoodsBrand.BrandName, goodsInfo.GoodsName),
-				BuyCron:   checkCronToIcon(specifiedTime, goodsInfo.BuyCron),
-				CleanCron: checkCronToIcon(specifiedTime, goodsInfo.CleanCron),
-			}
-			items = append(items, table)
+		// isBuy := CheckCronSpecifiedTime(specifiedTime, goodsInfo.BuyCron)
+		// isClean := CheckCronSpecifiedTime(specifiedTime, goodsInfo.CleanCron)
+		// if isBuy || isClean {
+		//
+		// }
+		table := TableRes{
+			GoodsName: fmt.Sprintf("[%s] %s", goodsInfo.GoodsBrand.BrandName, goodsInfo.GoodsName),
+			BuyCron:   checkCronToIcon(specifiedTime, goodsInfo.BuyCron),
+			CleanCron: checkCronToIcon(specifiedTime, goodsInfo.CleanCron),
 		}
+		items = append(items, table)
 	}
 	// 通过表格形式列出
 	tpl := template.Must(template.New("").Parse(HTML))
@@ -94,21 +95,21 @@ func labelGoods() []rss.Item {
 
 		// 筛掉掉没有cron的label
 		if len(goodsList) != 0 {
-			items := []TableRes{}
+			// items := []TableRes{}
 			// 如果没有匹配的cron，就直接移除该feed
-			for _, goodsInfo := range goodsList {
-				isBuy := CheckCronNowDefault(goodsInfo.BuyCron)
-				isClean := CheckCronNowDefault(goodsInfo.CleanCron)
-				if isBuy || isClean {
-					table := TableRes{
-						GoodsName: fmt.Sprintf("%s-%s", goodsInfo.GoodsBrand.BrandName, goodsInfo.GoodsName),
-					}
-					items = append(items, table)
-				}
-			}
+			// for _, goodsInfo := range goodsList {
+			// 	isBuy := CheckCronNowDefault(goodsInfo.BuyCron)
+			// 	isClean := CheckCronNowDefault(goodsInfo.CleanCron)
+			// 	if isBuy || isClean {
+			// 		table := TableRes{
+			// 			GoodsName: fmt.Sprintf("%s-%s", goodsInfo.GoodsBrand.BrandName, goodsInfo.GoodsName),
+			// 		}
+			// 		items = append(items, table)
+			// 	}
+			// }
 
 			// 剔除掉不需要的label，判断是否有数据，如果没有就说明没有匹配到的cron
-			if len(items) > 0 {
+			if len(goodsList) > 0 {
 				ct := fmt.Sprintf(IFrame, uint64(label.ID), gtime.Now().Format("Y-m-d"))
 				uuid, _ := gmd5.EncryptString(fmt.Sprintf("%s%s", htime.GetToday().String(), ct))
 				title := fmt.Sprintf("[%s] - %s", gtime.Date(), label.LabelName)
@@ -124,6 +125,7 @@ func labelGoods() []rss.Item {
 	return ret
 }
 
+// checkCronToIcon 检查cron是否触发，如果触发就返回对应的icon
 func checkCronToIcon(tt time.Time, cron string) string {
 	// checkCron := CheckCronNowDefault(cron)
 	checkCron := CheckCronSpecifiedTime(tt, cron)
