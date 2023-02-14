@@ -19,6 +19,7 @@ func (goodsEvaluationService *GoodsEvaluationService) CreateGoodsEvaluation(good
 // DeleteGoodsEvaluation 删除GoodsEvaluation记录
 // Author [piexlmax](https://github.com/piexlmax)
 func (goodsEvaluationService *GoodsEvaluationService) DeleteGoodsEvaluation(goodsEvaluation goods.GoodsEvaluation) (err error) {
+	// err = global.GVA_DB.Unscoped().Delete(&goods.GoodsEvaluation{GVA_MODEL: global.GVA_MODEL{ID: goodsEvaluation.ID}}).Error
 	err = global.GVA_DB.Unscoped().Delete(&goodsEvaluation).Error
 	return err
 }

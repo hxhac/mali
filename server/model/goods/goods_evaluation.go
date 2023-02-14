@@ -2,8 +2,6 @@
 package goods
 
 import (
-	"strings"
-
 	"github.com/flipped-aurora/gin-vue-admin/server/global"
 	"github.com/lib/pq"
 	"gorm.io/gorm"
@@ -33,6 +31,7 @@ func (GoodsEvaluation) TableName() string {
 }
 
 func (ge GoodsEvaluation) AfterCreate(tx *gorm.DB) (err error) {
+	// 拼接分类名称
 	res := []string{}
 	var goodsCategory GoodsCategory
 	for _, v := range ge.Category {
@@ -42,7 +41,11 @@ func (ge GoodsEvaluation) AfterCreate(tx *gorm.DB) (err error) {
 			res = append(res, goodsCategory.CateName)
 		}
 	}
-	tx.Model(ge).UpdateColumn("category_name", strings.Join(res, " / "))
+	// tx.Model(ge).UpdateColumn("category_name", strings.Join(res, " / "))
+
+	// 给该商品在goods_brand表中的num字段加1
+	var gb GoodsBrand
+	tx.Model(gb).Where("id = ?", ge.Brand).UpdateColumn("num", gorm.Expr("num + ?", 1))
 	return
 }
 
@@ -56,6 +59,16 @@ func (ge GoodsEvaluation) AfterUpdate(tx *gorm.DB) (err error) {
 			res = append(res, goodsCategory.CateName)
 		}
 	}
-	tx.Model(ge).UpdateColumn("category_name", strings.Join(res, " / "))
+	// tx.Model(ge).UpdateColumn("category_name", strings.Join(res, " / "))
+	return
+}
+
+// 因为是硬删除，所以要在BeforeDelete里操作
+func (ge GoodsEvaluation) BeforeDelete(tx *gorm.DB) (err error) {
+	// 把该商品在goods_brand表中的num字段减1
+	var gb GoodsBrand
+	// 子查询处理
+	sub := tx.Model(ge).Select("brand").Where("id", ge.GVA_MODEL.ID)
+	tx.Model(gb).Where("id = (?)", sub).UpdateColumn("num", gorm.Expr("num - ?", 1))
 	return
 }
