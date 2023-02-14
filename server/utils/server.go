@@ -25,9 +25,9 @@ type Server struct {
 
 type Os struct {
 	GOOS         string `json:"goos"`
-	NumCPU       int    `json:"numCpu"`
 	Compiler     string `json:"compiler"`
 	GoVersion    string `json:"goVersion"`
+	NumCPU       int    `json:"numCpu"`
 	NumGoroutine int    `json:"numGoroutine"`
 }
 

@@ -8,9 +8,9 @@ import (
 // LifeDoc 结构体
 // 如果含有time.Time 请自行import time包
 type LifeDoc struct {
-	global.GVA_MODEL
 	Title string `json:"title" form:"title" gorm:"column:title;comment:标题;size:255;"`
 	More  string `json:"more" form:"more" gorm:"column:more;comment:文章正文;"`
+	global.GVA_MODEL
 }
 
 // TableName LifeDoc 表名

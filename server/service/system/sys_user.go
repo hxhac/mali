@@ -118,7 +118,7 @@ func (userService *UserService) SetUserAuthorities(id uint, authorityIds []strin
 		useAuthority := []system.SysUseAuthority{}
 		for _, v := range authorityIds {
 			useAuthority = append(useAuthority, system.SysUseAuthority{
-				id, v,
+				v, id,
 			})
 		}
 		TxErr = tx.Create(&useAuthority).Error

@@ -8,18 +8,18 @@ import (
 
 // AutoCodeStruct 初始版本自动化代码工具
 type AutoCodeStruct struct {
-	StructName         string   `json:"structName"`         // Struct名称
-	TableName          string   `json:"tableName"`          // 表名
-	PackageName        string   `json:"packageName"`        // 文件名称
-	HumpPackageName    string   `json:"humpPackageName"`    // go文件名称
-	Abbreviation       string   `json:"abbreviation"`       // Struct简称
-	Description        string   `json:"description"`        // Struct中文名称
-	AutoCreateApiToSql bool     `json:"autoCreateApiToSql"` // 是否自动创建api
-	AutoMoveFile       bool     `json:"autoMoveFile"`       // 是否自动移动文件
-	Fields             []*Field `json:"fields"`
-	DictTypes          []string `json:"-"`
+	StructName         string   `json:"structName"`
+	TableName          string   `json:"tableName"`
+	PackageName        string   `json:"packageName"`
+	HumpPackageName    string   `json:"humpPackageName"`
+	Abbreviation       string   `json:"abbreviation"`
+	Description        string   `json:"description"`
 	Package            string   `json:"package"`
 	PackageT           string   `json:"-"`
+	Fields             []*Field `json:"fields"`
+	DictTypes          []string `json:"-"`
+	AutoCreateApiToSql bool     `json:"autoCreateApiToSql"`
+	AutoMoveFile       bool     `json:"autoMoveFile"`
 }
 
 type Field struct {
@@ -37,8 +37,8 @@ type Field struct {
 var AutoMoveErr error = errors.New("创建代码成功并移动文件成功")
 
 type SysAutoCode struct {
-	global.GVA_MODEL
 	PackageName string `json:"packageName" gorm:"comment:包名"`
 	Label       string `json:"label" gorm:"comment:展示名"`
 	Desc        string `json:"desc" gorm:"comment:描述"`
+	global.GVA_MODEL
 }
