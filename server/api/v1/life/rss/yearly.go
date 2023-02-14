@@ -41,14 +41,14 @@ func (RssApi) HabitYearlyRss(ctx *gin.Context) {
 	resp.SendXML(ctx, res)
 }
 
-func yearly() []rss.Item {
-	ret := []rss.Item{}
+func yearly() []*rss.Item {
+	ret := []*rss.Item{}
 	items, _ := lifeYearlyService.FindAll()
 
 	for _, item := range items {
 		if !item.IsPause && CheckCronNowDefault(item.Cron) {
 			title := fmt.Sprintf("[%s] - [%s] - %s", item.Prefix, gtime.Date(), item.Task)
-			ret = append(ret, rss.Item{
+			ret = append(ret, &rss.Item{
 				Title:       title,
 				Contents:    fmt.Sprintf("%s\n%s", html.Md2HTML(item.Remark), html.Md2HTML(item.More)),
 				UpdatedTime: htime.GetToday(),

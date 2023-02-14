@@ -35,6 +35,8 @@ services:
     #      image: registry.cn-hangzhou.aliyuncs.com/91go/lm-server:latest
     container_name: gva-server
     restart: always
+    volumes:
+      - ./server/log:./server/log
     ports:
       - '8888:8888'
     depends_on:

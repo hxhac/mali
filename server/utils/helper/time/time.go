@@ -5,7 +5,6 @@ import (
 	"time"
 
 	"github.com/gogf/gf/os/gtime"
-	"github.com/sirupsen/logrus"
 )
 
 // GetToday 获取今天的零点时间
@@ -27,10 +26,6 @@ func StrToTime(str, format string) time.Time {
 func TransTime(str string) time.Time {
 	format, err := gtime.StrToTimeFormat(str, "Y/n/d H:i:s")
 	if err != nil {
-		logrus.WithFields(logrus.Fields{
-			"time": str,
-			"err":  err,
-		}).Warn("transTime failed")
 		return time.Time{}
 	}
 	return format.Time

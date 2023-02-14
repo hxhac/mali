@@ -78,8 +78,8 @@ func (RssApi) GoodsTableTpl(ctx *gin.Context) {
 }
 
 // 不同label的物品
-func labelGoods() []rss.Item {
-	ret := []rss.Item{}
+func labelGoods() []*rss.Item {
+	ret := []*rss.Item{}
 	const GoodsLabelHighScore = 4
 	// 获取所有label>4的标签
 	err, labelList, _ := goodsLabelService.GetGoodsLabelInfoListByScore(GoodsLabelHighScore)
@@ -113,7 +113,7 @@ func labelGoods() []rss.Item {
 				ct := fmt.Sprintf(IFrame, uint64(label.ID), gtime.Now().Format("Y-m-d"))
 				uuid, _ := gmd5.EncryptString(fmt.Sprintf("%s%s", htime.GetToday().String(), ct))
 				title := fmt.Sprintf("[%s] - %s", gtime.Date(), label.LabelName)
-				ret = append(ret, rss.Item{
+				ret = append(ret, &rss.Item{
 					Title:       title,
 					Contents:    ct,
 					UpdatedTime: htime.GetToday(),

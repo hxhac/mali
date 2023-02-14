@@ -10,6 +10,7 @@ require (
 	github.com/aws/aws-sdk-go v1.44.94
 	github.com/casbin/casbin/v2 v2.54.0
 	github.com/casbin/gorm-adapter/v3 v3.0.2
+	github.com/chanyipiaomiao/hlog v1.0.4
 	github.com/flipped-aurora/ws v1.0.2
 	github.com/fsnotify/fsnotify v1.5.1
 	github.com/fvbock/endless v0.0.0-20170109170031-447134032cb6
@@ -102,6 +103,8 @@ require (
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/klauspost/compress v1.10.3 // indirect
 	github.com/leodido/go-urn v1.2.1 // indirect
+	github.com/lestrrat-go/file-rotatelogs v2.3.0+incompatible // indirect
+	github.com/lestrrat-go/strftime v1.0.1 // indirect
 	github.com/magiconair/properties v1.8.5 // indirect
 	github.com/mailru/easyjson v0.7.7 // indirect
 	github.com/mattn/go-colorable v0.1.9 // indirect
@@ -119,6 +122,7 @@ require (
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/richardlehane/mscfb v1.0.3 // indirect
 	github.com/richardlehane/msoleps v1.0.1 // indirect
+	github.com/rifflock/lfshook v0.0.0-20180920164130-b9218ef580f5 // indirect
 	github.com/rivo/uniseg v0.3.4 // indirect
 	github.com/rogpeppe/go-internal v1.8.0 // indirect
 	github.com/spf13/afero v1.6.0 // indirect

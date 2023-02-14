@@ -1,12 +1,10 @@
 package rss
 
 import (
-	"fmt"
+	"github.com/chanyipiaomiao/hlog"
+	"gorm.io/gorm"
 	"log"
 	"sort"
-
-	"github.com/golang-module/carbon"
-	"gorm.io/gorm"
 
 	resp "github.com/flipped-aurora/gin-vue-admin/server/model/common/response"
 	rssModel "github.com/flipped-aurora/gin-vue-admin/server/model/rss"
@@ -14,6 +12,7 @@ import (
 	"github.com/flipped-aurora/gin-vue-admin/server/utils/helper/time"
 	"github.com/flipped-aurora/gin-vue-admin/server/utils/rss"
 	"github.com/gin-gonic/gin"
+	"github.com/golang-module/carbon"
 	"github.com/mmcdole/gofeed"
 )
 
@@ -53,7 +52,7 @@ func (RssApi) FeedRss(ctx *gin.Context) {
 	if *r.IsUpdate || isCron && !*r.IsMute {
 		// 正常更新的情况
 		_, urls := rssCategoryService.GetRssURLs(r.Uuid)
-		allFeeds := fetchUrls(urls)
+		allFeeds := fetchURLs(urls)
 
 		res := rss.Rss(feed, feeds(allFeeds))
 		resp.SendXML(ctx, res)
@@ -64,41 +63,58 @@ func (RssApi) FeedRss(ctx *gin.Context) {
 	resp.SendXML(ctx, res)
 }
 
-func feeds(allFeeds []*gofeed.Feed) []rss.Item {
+func feeds(allFeeds []*gofeed.Feed) []*rss.Item {
+
+	// 移除所有没有时间戳字段的feed
+	filteredFeeds := allFeeds[:0]
+	for _, feed := range allFeeds {
+		if feed.PublishedParsed != nil || feed.UpdatedParsed != nil {
+			filteredFeeds = append(filteredFeeds, feed)
+			hlog.Info(hlog.D{"url": feed.FeedLink}, "missing params published_time, cause error")
+		}
+	}
 	// 根据发布时间排序
-	// TODO 无法处理没有pubDate参数的rss源
-	sort.Sort(sort.Reverse(byPublished(allFeeds)))
+	bp := byPublished(filteredFeeds)
+	sort.Sort(sort.Reverse(bp))
 	seen := make(map[string]bool)
-	ret := []rss.Item{}
+	ret := []*rss.Item{}
 
 	for _, sourceFeed := range allFeeds {
 
 		// 通过feed的源url匹配，并修改"最后更新时间"
 		var rssFeed rssModel.RssFeed
 		rssFeed.SourceUrl = sourceFeed.Link
-		rssFeed.LastUpdated = gorm.DeletedAt{Time: *sourceFeed.UpdatedParsed, Valid: true}
-		err := rssFeedService.UpdateUpdatedTime(rssFeed)
-		if err != nil {
-			fmt.Println(err)
-			return nil
+		// 判断updated_time是否存在
+		if sourceFeed.UpdatedParsed != nil {
+			rssFeed.LastUpdated = gorm.DeletedAt{Time: *sourceFeed.UpdatedParsed, Valid: true}
+			err := rssFeedService.UpdateUpdatedTime(rssFeed)
+			if err != nil {
+				// fmt.Println(err)
+				hlog.Error(hlog.D{"url": sourceFeed.FeedLink}, "err: %v", err)
+				return nil
+			}
 		}
 
 		for _, item := range sourceFeed.Items {
-			// 判断title是否命中关键字
+			// TODO 判断title是否命中关键字
 			if seen[item.Link] {
 				continue
 			}
-			created := item.PublishedParsed
-			if created == nil {
-				created = item.UpdatedParsed
+			// 判断
+			created := time.GetToday()
+			if item.UpdatedParsed != nil {
+				created = *item.UpdatedParsed
 			}
-			ret = append(ret, rss.Item{
+			if item.PublishedParsed != nil {
+				created = *item.PublishedParsed
+			}
+			ret = append(ret, &rss.Item{
 				Title:       item.Title,
 				URL:         item.Link,
 				Description: item.Description,
 				Author:      getAuthor(item.Author),
 				Contents:    item.Content,
-				UpdatedTime: *created,
+				UpdatedTime: created,
 				ID:          item.GUID,
 			})
 			seen[item.Link] = true
@@ -115,7 +131,8 @@ func isRssCategoryCron(cronTime string, isWeekDay bool, nn string) bool {
 	return checkCron && checkTime
 }
 
-func fetchUrl(url string, ch chan<- *gofeed.Feed) {
+// fetchURL
+func fetchURL(url string, ch chan<- *gofeed.Feed) {
 	log.Printf("Fetching URL: %v\n", url)
 	fp := gofeed.NewParser()
 
@@ -128,11 +145,12 @@ func fetchUrl(url string, ch chan<- *gofeed.Feed) {
 	}
 }
 
-func fetchUrls(urls []string) []*gofeed.Feed {
+// fetchURLs
+func fetchURLs(urls []string) []*gofeed.Feed {
 	allFeeds := make([]*gofeed.Feed, 0)
 	ch := make(chan *gofeed.Feed)
 	for _, url := range urls {
-		go fetchUrl(url, ch)
+		go fetchURL(url, ch)
 	}
 	for range urls {
 		feed := <-ch
@@ -143,7 +161,6 @@ func fetchUrls(urls []string) []*gofeed.Feed {
 	return allFeeds
 }
 
-// TODO: there must be a shorter syntax for this
 type byPublished []*gofeed.Feed
 
 func (s byPublished) Len() int {

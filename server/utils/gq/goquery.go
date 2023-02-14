@@ -1,14 +1,11 @@
 package gq
 
 import (
+	"github.com/chanyipiaomiao/hlog"
 	"io"
 	"net/http"
 
-	"github.com/flipped-aurora/gin-vue-admin/server/utils/log"
-
 	"github.com/gogf/gf/net/ghttp"
-
-	"github.com/sirupsen/logrus"
 
 	query "github.com/PuerkitoBio/goquery"
 )
@@ -17,13 +14,13 @@ import (
 func FetchHTML(url string) *query.Document {
 	resp, err := ghttp.NewClient().Get(url)
 	if err != nil {
-		logrus.WithFields(log.Text(url, nil)).Error("http request failed")
+		hlog.Error(hlog.D{"url": url}, "http request failed")
 		return &query.Document{}
 	}
 
 	defer func(Body io.ReadCloser) {
 		if err := Body.Close(); err != nil {
-			logrus.WithFields(log.Text(url, nil)).Error("http close failed")
+			hlog.Error(hlog.D{"url": url}, "http close failed")
 		}
 	}(resp.Body)
 
@@ -38,7 +35,7 @@ func PostHTML(url string, m map[string]any) *query.Document {
 	}
 	defer func(Body io.ReadCloser) {
 		if err := Body.Close(); err != nil {
-			logrus.WithFields(log.Text(url, nil)).Error("http close failed")
+			hlog.Error(hlog.D{"url": url}, "http close failed")
 		}
 	}(resp.Response.Body)
 
@@ -49,7 +46,7 @@ func PostHTML(url string, m map[string]any) *query.Document {
 func DocQuery(resp *http.Response) *query.Document {
 	doc, err := query.NewDocumentFromReader(resp.Body)
 	if err != nil {
-		logrus.WithFields(log.Text(resp.Request.URL.String(), err)).Error("goquery failed")
+		hlog.Error(hlog.D{"url": resp.Request.URL.String()}, "goquery failed")
 		return &query.Document{}
 	}
 

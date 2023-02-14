@@ -32,8 +32,8 @@ func (RssApi) HabitEverydayRss(ctx *gin.Context) {
 	resp.SendXML(ctx, res)
 }
 
-func everyday() []rss.Item {
-	ret := []rss.Item{}
+func everyday() []*rss.Item {
+	ret := []*rss.Item{}
 	items, _ := lifeEverydayService.FindAll()
 
 	for _, item := range items {
@@ -42,7 +42,7 @@ func everyday() []rss.Item {
 		prefix := item.Prefix
 
 		if time.CheckDateTime(item.TimeStub).Before(gtime.Now()) {
-			ret = append(ret, rss.Item{
+			ret = append(ret, &rss.Item{
 				Title:       fmt.Sprintf("(从%s%s开始)%s", prefix, formatTime, item.Task),
 				Contents:    fmt.Sprintf("%s\n%s", html.Md2HTML(item.Remark), html.Md2HTML(item.More)),
 				UpdatedTime: dateTime.Time,
