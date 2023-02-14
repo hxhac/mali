@@ -17,9 +17,9 @@ func NewDefaultRedisStore() *RedisStore {
 }
 
 type RedisStore struct {
-	Expiration time.Duration
-	PreKey     string
 	Context    context.Context
+	PreKey     string
+	Expiration time.Duration
 }
 
 func (rs *RedisStore) UseWithCtx(ctx context.Context) base64Captcha.Store {

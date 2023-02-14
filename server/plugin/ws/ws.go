@@ -9,13 +9,12 @@ import (
 )
 
 type wsPlugin struct {
-	logger               *zap.Logger                       // 日志输出对象
-	manageBuf            int64                             // buffer
-	registeredMsgHandler map[int32]func(biz.IMessage) bool // 消息处理
-	checkMap             map[string]biz.CheckFunc          // 用户校验
-
-	admin     biz.IManage
-	adminCase *biz.AdminCase
+	admin                biz.IManage
+	logger               *zap.Logger
+	registeredMsgHandler map[int32]func(biz.IMessage) bool
+	checkMap             map[string]biz.CheckFunc
+	adminCase            *biz.AdminCase
+	manageBuf            int64
 }
 
 func DefaultRegisteredMsgHandler(admin biz.IManage, logger *zap.Logger) map[int32]func(biz.IMessage) bool {

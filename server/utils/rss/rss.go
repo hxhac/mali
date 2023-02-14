@@ -28,9 +28,14 @@ type Title struct {
 }
 
 type Item struct {
-	URL, Title, Contents, ID, Author, Description string
-	UpdatedTime                                   time.Time
-	Enclosure                                     *feeds.Enclosure
+	UpdatedTime time.Time
+	Enclosure   *feeds.Enclosure
+	URL         string
+	Title       string
+	Contents    string
+	ID          string
+	Author      string
+	Description string
 }
 
 // Rss 输出rss

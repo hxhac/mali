@@ -10,13 +10,13 @@ import (
 // LifeEveryday 结构体
 // 如果含有time.Time 请自行import time包
 type LifeEveryday struct {
+	Prefix   string `json:"prefix" form:"prefix" gorm:"column:prefix;comment:前缀;size:255;"`
+	Task     string `json:"task" form:"task" gorm:"column:task;comment:;size:255;"`
+	Remark   string `json:"remark" form:"remark" gorm:"column:remark;comment:任务备注;size:255;"`
+	More     string `json:"more" form:"more" gorm:"column:more;"`
+	TimeStub string `json:"timeStub" form:"timeStub" gorm:"column:time_stub;comment:;size:255;"`
 	global.GVA_MODEL
-	Prefix            string `json:"prefix" form:"prefix" gorm:"column:prefix;comment:前缀;size:255;"`
-	Task              string `json:"task" form:"task" gorm:"column:task;comment:;size:255;"`
-	Remark            string `json:"remark" form:"remark" gorm:"column:remark;comment:任务备注;size:255;"`
-	More              string `json:"more" form:"more" gorm:"column:more;"`
-	TimeStub          string `json:"timeStub" form:"timeStub" gorm:"column:time_stub;comment:;size:255;"`
-	TimeStubTimestamp int64  `json:"timeStubTimestamp" form:"timeStubTimestamp" gorm:"column:time_stub_timestamp;comment:;"`
+	TimeStubTimestamp int64 `json:"timeStubTimestamp" form:"timeStubTimestamp" gorm:"column:time_stub_timestamp;comment:;"`
 }
 
 // TableName LifeEveryday 表名

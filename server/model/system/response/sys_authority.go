@@ -7,6 +7,6 @@ type SysAuthorityResponse struct {
 }
 
 type SysAuthorityCopyResponse struct {
+	OldAuthorityId string              `json:"oldAuthorityId"`
 	Authority      system.SysAuthority `json:"authority"`
-	OldAuthorityId string              `json:"oldAuthorityId"` // 旧角色ID
 }
