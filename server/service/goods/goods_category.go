@@ -67,7 +67,7 @@ func (goodsCategoryService *GoodsCategoryService) GetGoodsCategoryInfoList(info 
 }
 
 func (goodsCategoryService *GoodsCategoryService) findChildrenCategory(category *goods.GoodsCategory) (err error) {
-	err = global.GVA_DB.Where("pid = ?", category.ID).Order("is_wish_list DESC").Order("is_disable ASC").Order("id DESC").Find(&category.Children).Error
+	err = global.GVA_DB.Where("pid = ?", category.ID).Order("is_wish_list DESC").Order("is_disable ASC").Order("id ASC").Find(&category.Children).Error
 	if len(category.Children) > 0 {
 		for k := range category.Children {
 			err = goodsCategoryService.findChildrenCategory(&category.Children[k])
