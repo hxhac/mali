@@ -15,7 +15,11 @@ import (
 // 初始化总路由
 
 func Routers() *gin.Engine {
-	Router := gin.Default()
+	// Router := gin.Default()
+
+	var Router = gin.New()
+	Router.Use(middleware.ZapLogger(), middleware.ZapRecovery(true))
+
 	rssRouter := router.RouterGroupApp.Rss
 	lifeRouter := router.RouterGroupApp.Life
 	dailyRouter := router.RouterGroupApp.Daily

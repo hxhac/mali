@@ -1,10 +1,13 @@
 package middleware
 
 import (
-	"bytes"
-	"encoding/json"
-	"fmt"
-	"io/ioutil"
+	"github.com/flipped-aurora/gin-vue-admin/server/global"
+	"go.uber.org/zap"
+	"net"
+	"net/http"
+	"net/http/httputil"
+	"os"
+	"runtime/debug"
 	"strings"
 	"time"
 
@@ -38,50 +41,82 @@ type Logger struct {
 	Source string
 }
 
-func (l Logger) SetLoggerMiddleware() gin.HandlerFunc {
+// ZapLogger 接收gin框架的路由日志
+func ZapLogger() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		start := time.Now()
 		path := c.Request.URL.Path
 		query := c.Request.URL.RawQuery
-		var body []byte
-		if l.Filter != nil && !l.Filter(c) {
-			body, _ = c.GetRawData()
-			// 将原body塞回去
-			c.Request.Body = ioutil.NopCloser(bytes.NewBuffer(body))
-		}
 		c.Next()
+
 		cost := time.Since(start)
-		layout := LogLayout{
-			Time:      time.Now(),
-			Path:      path,
-			Query:     query,
-			IP:        c.ClientIP(),
-			UserAgent: c.Request.UserAgent(),
-			Error:     strings.TrimRight(c.Errors.ByType(gin.ErrorTypePrivate).String(), "\n"),
-			Cost:      cost,
-			Source:    l.Source,
-		}
-		if l.Filter != nil && !l.Filter(c) {
-			layout.Body = string(body)
-		}
-		// 处理鉴权需要的信息
-		l.AuthProcess(c, &layout)
-		if l.FilterKeyword != nil {
-			// 自行判断key/value 脱敏等
-			l.FilterKeyword(&layout)
-		}
-		// 自行处理日志
-		l.Print(layout)
+		global.GVA_LOG.Info(path,
+			zap.Int("status", c.Writer.Status()),
+			zap.String("method", c.Request.Method),
+			zap.String("path", path),
+			zap.String("query", query),
+			zap.String("ip", c.ClientIP()),
+			zap.String("user-agent", c.Request.UserAgent()),
+			zap.String("errors", c.Errors.ByType(gin.ErrorTypePrivate).String()),
+			zap.Duration("cost", cost),
+		)
 	}
 }
 
-func DefaultLogger() gin.HandlerFunc {
-	return Logger{
-		Print: func(layout LogLayout) {
-			// 标准输出,k8s做收集
-			v, _ := json.Marshal(layout)
-			fmt.Println(string(v))
-		},
-		Source: "GVA",
-	}.SetLoggerMiddleware()
+// ZapRecovery recover掉项目可能出现的panic，并使用zap记录相关日志
+func ZapRecovery(stack bool) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		defer func() {
+			if err := recover(); err != nil {
+				// Check for a broken connection, as it is not really a
+				// condition that warrants a panic stack trace.
+				var brokenPipe bool
+				if ne, ok := err.(*net.OpError); ok {
+					if se, ok := ne.Err.(*os.SyscallError); ok {
+						if strings.Contains(strings.ToLower(se.Error()), "broken pipe") || strings.Contains(strings.ToLower(se.Error()), "connection reset by peer") {
+							brokenPipe = true
+						}
+					}
+				}
+
+				httpRequest, _ := httputil.DumpRequest(c.Request, false)
+				if brokenPipe {
+					global.GVA_LOG.Error(c.Request.URL.Path,
+						zap.Any("error", err),
+						zap.String("request", string(httpRequest)),
+					)
+					// If the connection is dead, we can't write a status to it.
+					_ = c.Error(err.(error)) // nolint: errcheck
+					c.Abort()
+					return
+				}
+
+				if stack {
+					global.GVA_LOG.Error("[Recovery from panic]",
+						zap.Any("error", err),
+						zap.String("request", string(httpRequest)),
+						zap.String("stack", string(debug.Stack())),
+					)
+				} else {
+					global.GVA_LOG.Error("[Recovery from panic]",
+						zap.Any("error", err),
+						zap.String("request", string(httpRequest)),
+					)
+				}
+				c.AbortWithStatus(http.StatusInternalServerError)
+			}
+		}()
+		c.Next()
+	}
 }
+
+// func DefaultLogger() gin.HandlerFunc {
+// 	return Logger{
+// 		Print: func(layout LogLayout) {
+// 			// 标准输出,k8s做收集
+// 			v, _ := json.Marshal(layout)
+// 			fmt.Println(string(v))
+// 		},
+// 		Source: "GVA",
+// 	}.SetLoggerMiddleware()
+// }

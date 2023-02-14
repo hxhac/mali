@@ -36,7 +36,7 @@ services:
     container_name: gva-server
     restart: always
     volumes:
-      - ./server/log:./server/log
+      - ./log:./server/log
     ports:
       - '8888:8888'
     depends_on:
