@@ -1,7 +1,8 @@
 package rss
 
 import (
-	"github.com/chanyipiaomiao/hlog"
+	"github.com/flipped-aurora/gin-vue-admin/server/global"
+	"go.uber.org/zap"
 	"gorm.io/gorm"
 	"log"
 	"sort"
@@ -70,7 +71,8 @@ func feeds(allFeeds []*gofeed.Feed) []*rss.Item {
 	for _, feed := range allFeeds {
 		if feed.PublishedParsed != nil || feed.UpdatedParsed != nil {
 			filteredFeeds = append(filteredFeeds, feed)
-			hlog.Info(hlog.D{"url": feed.FeedLink}, "missing params published_time, cause error")
+		} else {
+			global.GVA_LOG.Error("function feeds() Failed, missing params published_time, cause error", zap.String("url", feed.FeedLink))
 		}
 	}
 	// 根据发布时间排序
@@ -89,8 +91,7 @@ func feeds(allFeeds []*gofeed.Feed) []*rss.Item {
 			rssFeed.LastUpdated = gorm.DeletedAt{Time: *sourceFeed.UpdatedParsed, Valid: true}
 			err := rssFeedService.UpdateUpdatedTime(rssFeed)
 			if err != nil {
-				// fmt.Println(err)
-				hlog.Error(hlog.D{"url": sourceFeed.FeedLink}, "err: %v", err)
+				global.GVA_LOG.Error("function PostHTML() failed", zap.String("url", sourceFeed.FeedLink), zap.String("err", err.Error()))
 				return nil
 			}
 		}
