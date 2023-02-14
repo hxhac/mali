@@ -2,7 +2,8 @@ package rss
 
 import (
 	"fmt"
-	"github.com/chanyipiaomiao/hlog"
+	"github.com/flipped-aurora/gin-vue-admin/server/global"
+	"go.uber.org/zap"
 	"time"
 
 	"github.com/flipped-aurora/gin-vue-admin/server/utils/helper/slice"
@@ -76,7 +77,7 @@ func rss(fe *Feed, items []*Item) string {
 	// 输出atom，跟rsshub保持一致
 	atom, err := feed.ToAtom()
 	if err != nil {
-		hlog.Error(hlog.D{"url": fe.URL}, "rss generate failed")
+		global.GVA_LOG.Error("function rss() failed, rss generate failed", zap.String("url", fe.URL), zap.String("err", err.Error()))
 		return ""
 	}
 	return atom
