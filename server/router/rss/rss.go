@@ -7,6 +7,7 @@ import (
 
 type RssRouter struct{}
 
+// http://127.0.0.1:8888/rss/goods
 func (s *RssRouter) InitRssRouter(Router *gin.RouterGroup) (R gin.IRoutes) {
 	rssRouter := Router.Group("rss")
 	baseApi := v1.ApiGroupApp.SystemApiGroup.RssApi
