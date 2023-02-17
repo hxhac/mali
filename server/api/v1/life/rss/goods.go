@@ -78,6 +78,53 @@ func (RssApi) GoodsTableTpl(ctx *gin.Context) {
 }
 
 // 不同label的物品
+//
+//	func labelGoods() []*rss.Item {
+//		ret := []*rss.Item{}
+//		const GoodsLabelHighScore = 4
+//		// 获取所有label>4的标签
+//		err, labelList, _ := goodsLabelService.GetGoodsLabelInfoListByScore(GoodsLabelHighScore)
+//		if err != nil {
+//			return nil
+//		}
+//
+//		// 直接根据查询结果生成md文件，每个label一个feed
+//		for _, label := range labelList {
+//			// 根据label筛选，以及cron字段是否有数据？
+//			// cron是否触发？
+//			_, goodsList, _ := goodsEvaluationService.GetGoodsEvaluationByLabel(label.ID)
+//
+//			// 筛掉掉没有cron的label
+//			if len(goodsList) != 0 {
+//				items := []TableRes{}
+//				//如果没有匹配的cron，就直接移除该feed
+//				for _, goodsInfo := range goodsList {
+//					isBuy := CheckCronNowDefault(goodsInfo.BuyCron)
+//					isClean := CheckCronNowDefault(goodsInfo.CleanCron)
+//					if isBuy || isClean {
+//						table := TableRes{
+//							GoodsName: fmt.Sprintf("%s-%s", goodsInfo.GoodsBrand.BrandName, goodsInfo.GoodsName),
+//						}
+//						items = append(items, table)
+//					}
+//				}
+//
+//				// 剔除掉不需要的label，判断是否有数据，如果没有就说明没有匹配到的cron
+//				if len(goodsList) > 0 {
+//					ct := fmt.Sprintf(IFrame, uint64(label.ID), gtime.Now().Format("Y-m-d"))
+//					uuid, _ := gmd5.EncryptString(fmt.Sprintf("%s%s", htime.GetToday().String(), ct))
+//					title := fmt.Sprintf("[%s] - %s", gtime.Date(), label.LabelName)
+//					ret = append(ret, &rss.Item{
+//						Title:       title,
+//						Contents:    ct,
+//						UpdatedTime: htime.GetToday(),
+//						ID:          uuid,
+//					})
+//				}
+//			}
+//		}
+//		return ret
+//	}
 func labelGoods() []*rss.Item {
 	ret := []*rss.Item{}
 	const GoodsLabelHighScore = 4
@@ -95,21 +142,21 @@ func labelGoods() []*rss.Item {
 
 		// 筛掉掉没有cron的label
 		if len(goodsList) != 0 {
-			// items := []TableRes{}
+			items := []TableRes{}
 			// 如果没有匹配的cron，就直接移除该feed
-			// for _, goodsInfo := range goodsList {
-			// 	isBuy := CheckCronNowDefault(goodsInfo.BuyCron)
-			// 	isClean := CheckCronNowDefault(goodsInfo.CleanCron)
-			// 	if isBuy || isClean {
-			// 		table := TableRes{
-			// 			GoodsName: fmt.Sprintf("%s-%s", goodsInfo.GoodsBrand.BrandName, goodsInfo.GoodsName),
-			// 		}
-			// 		items = append(items, table)
-			// 	}
-			// }
+			for _, goodsInfo := range goodsList {
+				isBuy := CheckCronNowDefault(goodsInfo.BuyCron)
+				isClean := CheckCronNowDefault(goodsInfo.CleanCron)
+				if isBuy || isClean {
+					table := TableRes{
+						GoodsName: fmt.Sprintf("%s-%s", goodsInfo.GoodsBrand.BrandName, goodsInfo.GoodsName),
+					}
+					items = append(items, table)
+				}
+			}
 
 			// 剔除掉不需要的label，判断是否有数据，如果没有就说明没有匹配到的cron
-			if len(goodsList) > 0 {
+			if len(items) > 0 {
 				ct := fmt.Sprintf(IFrame, uint64(label.ID), gtime.Now().Format("Y-m-d"))
 				uuid, _ := gmd5.EncryptString(fmt.Sprintf("%s%s", htime.GetToday().String(), ct))
 				title := fmt.Sprintf("[%s] - %s", gtime.Date(), label.LabelName)

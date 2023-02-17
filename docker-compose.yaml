@@ -11,13 +11,14 @@ networks:
 volumes:
   mysql:
   redis:
+  mali_log:
 
 services:
   web:
     build:
       context: ./web
       dockerfile: ./Dockerfile
-    #      image: registry.cn-hangzhou.aliyuncs.com/91go/lm-web:latest
+#      image: luckyhacking/mali-web:latest
     container_name: gva-web
     restart: always
     ports:
@@ -32,11 +33,11 @@ services:
     build:
       context: ./server
       dockerfile: ./Dockerfile
-    #      image: registry.cn-hangzhou.aliyuncs.com/91go/lm-server:latest
+#      image: luckyhacking/mali-server:latest
     container_name: gva-server
     restart: always
     volumes:
-      - ./log:./server/log
+      - mali_log:/server/log
     ports:
       - '8888:8888'
     depends_on:

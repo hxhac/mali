@@ -1,11 +1,11 @@
 package rss
 
 import (
-	"github.com/flipped-aurora/gin-vue-admin/server/global"
-	"go.uber.org/zap"
-	"gorm.io/gorm"
 	"log"
 	"sort"
+
+	"github.com/flipped-aurora/gin-vue-admin/server/global"
+	"go.uber.org/zap"
 
 	resp "github.com/flipped-aurora/gin-vue-admin/server/model/common/response"
 	rssModel "github.com/flipped-aurora/gin-vue-admin/server/model/rss"
@@ -65,7 +65,6 @@ func (RssApi) FeedRss(ctx *gin.Context) {
 }
 
 func feeds(allFeeds []*gofeed.Feed) []*rss.Item {
-
 	// 移除所有没有时间戳字段的feed
 	filteredFeeds := allFeeds[:0]
 	for _, feed := range allFeeds {
@@ -88,7 +87,7 @@ func feeds(allFeeds []*gofeed.Feed) []*rss.Item {
 		rssFeed.SourceUrl = sourceFeed.Link
 		// 判断updated_time是否存在
 		if sourceFeed.UpdatedParsed != nil {
-			rssFeed.LastUpdated = gorm.DeletedAt{Time: *sourceFeed.UpdatedParsed, Valid: true}
+			rssFeed.LastUpdated = *sourceFeed.UpdatedParsed
 			err := rssFeedService.UpdateUpdatedTime(rssFeed)
 			if err != nil {
 				global.GVA_LOG.Error("function PostHTML() failed", zap.String("url", sourceFeed.FeedLink), zap.String("err", err.Error()))
