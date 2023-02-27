@@ -75,13 +75,13 @@ func (rssFeedService *RssFeedService) GetRssFeedInfoList(info rssReq.RssFeedSear
 		Order("is_starred DESC").
 		Order("is_pause ASC").
 		Order("score DESC").
-		Order("last_updated DESC").
+		Order("updated_at DESC").
 		Order("id DESC").
 		Find(&rssFeeds).Error
 	return err, rssFeeds, total
 }
 
 func (rssFeedService *RssFeedService) UpdateUpdatedTime(rssFeed rss.RssFeed) (err error) {
-	err = global.GVA_DB.Select("last_updated").Where("source_url", rssFeed.SourceUrl).Updates(rssFeed).Error
+	err = global.GVA_DB.Select("updated_at").Where("source_url", rssFeed.SourceUrl).Updates(rssFeed).Error
 	return err
 }

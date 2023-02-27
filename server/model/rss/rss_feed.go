@@ -2,8 +2,6 @@
 package rss
 
 import (
-	"time"
-
 	"github.com/flipped-aurora/gin-vue-admin/server/global"
 )
 
@@ -15,7 +13,6 @@ type RssFeed struct {
 	IsStarred   *bool       `json:"isStarred" form:"isStarred" gorm:"column:is_starred;comment:是否收藏;default:0;not null;"`
 	Score       *int        `json:"score" form:"score" gorm:"column:score;comment:评分;size:10;not null;"`
 	RssCategory RssCategory `json:"rss_category" gorm:"foreignKey:CateId"`
-	LastUpdated time.Time   `json:"lastUpdated" form:"lastUpdated" gorm:"column:last_updated;comment:最后更新时间;"`
 	RssName     string      `json:"rssName" form:"rssName" gorm:"column:rss_name;comment:item名称;size:255;not null; unique;"`
 	Url         string      `json:"url" form:"url" gorm:"column:url;comment:rss的url;size:255;"`
 	SourceUrl   string      `json:"sourceUrl" form:"sourceUrl" gorm:"column:source_url;comment:rss的源url;size:255;not null;"`
