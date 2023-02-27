@@ -12,6 +12,7 @@ import (
 	"github.com/mmcdole/gofeed"
 	"go.uber.org/zap"
 	"log"
+	"time"
 )
 
 const (
@@ -79,14 +80,10 @@ func feeds(allFeeds []*gofeed.Feed) (ret []*rss.Item) {
 		var rssFeed rssModel.RssFeed
 		rssFeed.SourceUrl = sourceFeed.Link
 		// 判断updated_time是否存在
-		if sourceFeed.UpdatedParsed == nil {
-			global.GVA_LOG.Error("function Feeds() failed", zap.String("url", rssFeed.SourceUrl))
-		}
-		rssFeed.UpdatedAt = *sourceFeed.UpdatedParsed
-		err := rssFeedService.UpdateUpdatedTime(rssFeed)
-		if err != nil {
-			global.GVA_LOG.Error("function PostHTML() failed", zap.String("url", sourceFeed.FeedLink), zap.String("err", err.Error()))
-			return nil
+		if sourceFeed.UpdatedParsed != nil {
+			rssFeed.UpdatedAt = *sourceFeed.UpdatedParsed
+			err := rssFeedService.UpdateUpdatedTime(rssFeed)
+			global.GVA_LOG.Error("function Feeds() failed", zap.String("url", rssFeed.SourceUrl), zap.String("err", err.Error()))
 		}
 
 		for _, item := range sourceFeed.Items {
@@ -100,6 +97,9 @@ func feeds(allFeeds []*gofeed.Feed) (ret []*rss.Item) {
 			}
 			if item.PublishedParsed != nil {
 				created = *item.PublishedParsed
+			}
+			if item.UpdatedParsed == nil && item.PublishedParsed == nil {
+				created = time.Now()
 			}
 			ret = append(ret, &rss.Item{
 				Title:       item.Title,
