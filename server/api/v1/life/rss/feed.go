@@ -18,10 +18,7 @@ import (
 )
 
 const (
-	DefaultAuthor    = ""
-	FeedLimitPerFeed = 99
-	TimeoutSeconds   = 60
-	TimeLimit        = 30 // 默认晚上8点后30min
+	DefaultAuthor = ""
 )
 
 var (
@@ -87,7 +84,7 @@ func feeds(allFeeds []*gofeed.Feed) []*rss.Item {
 		rssFeed.SourceUrl = sourceFeed.Link
 		// 判断updated_time是否存在
 		if sourceFeed.UpdatedParsed != nil {
-			rssFeed.LastUpdated = *sourceFeed.UpdatedParsed
+			rssFeed.UpdatedAt = *sourceFeed.UpdatedParsed
 			err := rssFeedService.UpdateUpdatedTime(rssFeed)
 			if err != nil {
 				global.GVA_LOG.Error("function PostHTML() failed", zap.String("url", sourceFeed.FeedLink), zap.String("err", err.Error()))
