@@ -149,7 +149,7 @@ timer:
     interval: 168h
 zap:
   level: info
-  format: json
+  format: console
   prefix: 'MALI'
   director: log
   show-line: true

@@ -1,20 +1,17 @@
 package rss
 
 import (
-	"log"
-	"sort"
-
 	"github.com/flipped-aurora/gin-vue-admin/server/global"
-	"go.uber.org/zap"
-
 	resp "github.com/flipped-aurora/gin-vue-admin/server/model/common/response"
 	rssModel "github.com/flipped-aurora/gin-vue-admin/server/model/rss"
 	"github.com/flipped-aurora/gin-vue-admin/server/service"
-	"github.com/flipped-aurora/gin-vue-admin/server/utils/helper/time"
+	ht "github.com/flipped-aurora/gin-vue-admin/server/utils/helper/time"
 	"github.com/flipped-aurora/gin-vue-admin/server/utils/rss"
 	"github.com/gin-gonic/gin"
 	"github.com/golang-module/carbon"
 	"github.com/mmcdole/gofeed"
+	"go.uber.org/zap"
+	"log"
 )
 
 const (
@@ -40,7 +37,7 @@ func (RssApi) FeedRss(ctx *gin.Context) {
 		},
 		Author:      r.Author,
 		URL:         GetURL(ctx.Request),
-		UpdatedTime: time.GetToday(),
+		UpdatedTime: ht.GetToday(),
 	}
 
 	// 如果禁止，则停止更新
@@ -61,7 +58,7 @@ func (RssApi) FeedRss(ctx *gin.Context) {
 	resp.SendXML(ctx, res)
 }
 
-func feeds(allFeeds []*gofeed.Feed) []*rss.Item {
+func feeds(allFeeds []*gofeed.Feed) (ret []*rss.Item) {
 	// 移除所有没有时间戳字段的feed
 	filteredFeeds := allFeeds[:0]
 	for _, feed := range allFeeds {
@@ -72,10 +69,9 @@ func feeds(allFeeds []*gofeed.Feed) []*rss.Item {
 		}
 	}
 	// 根据发布时间排序
-	bp := byPublished(filteredFeeds)
-	sort.Sort(sort.Reverse(bp))
-	seen := make(map[string]bool)
-	ret := []*rss.Item{}
+	//bp := byPublished(filteredFeeds)
+	//sort.Sort(sort.Reverse(bp))
+	//seen := make(map[string]bool)
 
 	for _, sourceFeed := range allFeeds {
 
@@ -83,22 +79,22 @@ func feeds(allFeeds []*gofeed.Feed) []*rss.Item {
 		var rssFeed rssModel.RssFeed
 		rssFeed.SourceUrl = sourceFeed.Link
 		// 判断updated_time是否存在
-		if sourceFeed.UpdatedParsed != nil {
-			rssFeed.UpdatedAt = *sourceFeed.UpdatedParsed
-			err := rssFeedService.UpdateUpdatedTime(rssFeed)
-			if err != nil {
-				global.GVA_LOG.Error("function PostHTML() failed", zap.String("url", sourceFeed.FeedLink), zap.String("err", err.Error()))
-				return nil
-			}
+		if sourceFeed.UpdatedParsed == nil {
+			global.GVA_LOG.Error("function Feeds() failed", zap.String("url", rssFeed.SourceUrl))
+		}
+		rssFeed.UpdatedAt = *sourceFeed.UpdatedParsed
+		err := rssFeedService.UpdateUpdatedTime(rssFeed)
+		if err != nil {
+			global.GVA_LOG.Error("function PostHTML() failed", zap.String("url", sourceFeed.FeedLink), zap.String("err", err.Error()))
+			return nil
 		}
 
 		for _, item := range sourceFeed.Items {
-			// TODO 判断title是否命中关键字
-			if seen[item.Link] {
-				continue
-			}
+			//if seen[item.Link] {
+			//	continue
+			//}
 			// 判断
-			created := time.GetToday()
+			created := ht.GetToday()
 			if item.UpdatedParsed != nil {
 				created = *item.UpdatedParsed
 			}
@@ -114,16 +110,16 @@ func feeds(allFeeds []*gofeed.Feed) []*rss.Item {
 				UpdatedTime: created,
 				ID:          item.GUID,
 			})
-			seen[item.Link] = true
+			//seen[item.Link] = true
 		}
 	}
-	return ret
+	return
 }
 
 // isRssCategoryCron
 func isRssCategoryCron(cronTime string, isWeekDay bool, nn string) bool {
 	checkCron := CheckCronNow(cronTime, isWeekDay)
-	checkTime := time.CheckTimeLimit(nn)
+	checkTime := ht.CheckTimeLimit(nn)
 
 	return checkCron && checkTime
 }
@@ -158,27 +154,27 @@ func fetchURLs(urls []string) []*gofeed.Feed {
 	return allFeeds
 }
 
-type byPublished []*gofeed.Feed
+//type byPublished []*gofeed.Feed
 
-func (s byPublished) Len() int {
-	return len(s)
-}
-
-func (s byPublished) Swap(i, j int) {
-	s[i], s[j] = s[j], s[i]
-}
-
-func (s byPublished) Less(i, j int) bool {
-	date1 := s[i].Items[0].PublishedParsed
-	if date1 == nil {
-		date1 = s[i].Items[0].UpdatedParsed
-	}
-	date2 := s[j].Items[0].PublishedParsed
-	if date2 == nil {
-		date2 = s[j].Items[0].UpdatedParsed
-	}
-	return date1.Before(*date2)
-}
+//func (s byPublished) Len() int {
+//	return len(s)
+//}
+//
+//func (s byPublished) Swap(i, j int) {
+//	s[i], s[j] = s[j], s[i]
+//}
+//
+//func (s byPublished) Less(i, j int) bool {
+//	date1 := s[i].Items[0].PublishedParsed
+//	if date1 == nil {
+//		date1 = s[i].Items[0].UpdatedParsed
+//	}
+//	date2 := s[j].Items[0].PublishedParsed
+//	if date2 == nil {
+//		date2 = s[j].Items[0].UpdatedParsed
+//	}
+//	return date1.Before(*date2)
+//}
 
 // 获取item的author
 // TODO
