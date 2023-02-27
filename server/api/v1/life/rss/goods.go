@@ -189,7 +189,7 @@ func checkCronToIcon(tt time.Time, cron string) string {
 }
 
 const IFrame = `
-<iframe src='https://mali-api.wrss.top/rss/goods/tpl?label=%d&time=%s' frameborder='0' width='640' height='390'></iframe>
+<iframe id="goods" src='https://mali-api.wrss.top/rss/goods/tpl?label=%d&time=%s' onload="adjustIframe();" frameborder='0' scrolling="auto"></iframe>
 `
 
 const HTML = `
@@ -233,6 +233,13 @@ const HTML = `
                 text-decoration: underline;
             }
         </style>
+		<script type="text/javascript">
+			function adjustIframe(){
+				var ifm= document.getElementById("goods");
+				ifm.height=document.documentElement.clientHeight;
+				ifm.width=document.documentElement.clientWidth;
+			}
+		</script>
     </head>
     <body>
         <table>
