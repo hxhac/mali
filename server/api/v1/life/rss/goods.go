@@ -53,11 +53,7 @@ func (RssApi) GoodsTableTpl(ctx *gin.Context) {
 	_, goodsList, _ := goodsEvaluationService.GetGoodsEvaluationByLabel(uint(labelID))
 	specifiedTime := htime.StrToTime(tt, "Y-m-d")
 	for _, goodsInfo := range goodsList {
-		// isBuy := CheckCronSpecifiedTime(specifiedTime, goodsInfo.BuyCron)
-		// isClean := CheckCronSpecifiedTime(specifiedTime, goodsInfo.CleanCron)
-		// if isBuy || isClean {
-		//
-		// }
+
 		table := TableRes{
 			GoodsName: fmt.Sprintf("[%s] %s", goodsInfo.GoodsBrand.BrandName, goodsInfo.GoodsName),
 			BuyCron:   checkCronToIcon(specifiedTime, goodsInfo.BuyCron),
@@ -125,6 +121,8 @@ func (RssApi) GoodsTableTpl(ctx *gin.Context) {
 //		}
 //		return ret
 //	}
+
+// 根据label生成feed
 func labelGoods() []*rss.Item {
 	ret := []*rss.Item{}
 	const GoodsLabelHighScore = 4
@@ -189,12 +187,12 @@ func checkCronToIcon(tt time.Time, cron string) string {
 }
 
 const IFrame = `
-<iframe id="goods" src='https://mali-api.wrss.top/rss/goods/tpl?label=%d&time=%s' onload="adjustIframe();" frameborder='0' scrolling="auto"></iframe>
+<iframe id="goods" src='https://mali-api.wrss.top/rss/goods/tpl?label=%d&time=%s' border="0" scrolling="auto" onload="adjustIframe()" id="goods" style="position: absolute; width: 100%; height: 100%; top: 0;"></iframe>
 `
 
 const HTML = `
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <title></title>
         <style type="text/css">

@@ -16,7 +16,7 @@ import (
 )
 
 const (
-	DefaultAuthor = ""
+	DefaultAuthor = "jeffcott"
 )
 
 var (
