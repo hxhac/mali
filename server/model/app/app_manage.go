@@ -14,6 +14,7 @@ type AppManage struct {
 	AppName    string `json:"appName" form:"appName" gorm:"column:app_name;comment:app名称;size:255;"`
 	AppRemark  string `json:"appRemark" form:"appRemark" gorm:"column:app_remark;comment:app备注;size:255;"`
 	AppUrl     string `json:"appUrl" form:"appUrl" gorm:"column:app_url;comment:app的url;size:255;"`
+	Score      *int   `json:"score" form:"score" gorm:"column:score;comment:评分;size:10;"`
 	CategoryId *int   `json:"categoryId" form:"categoryId" gorm:"column:category_id;comment:分类id;size:10;"`
 }
 
