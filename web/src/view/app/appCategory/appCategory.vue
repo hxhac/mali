@@ -31,11 +31,9 @@
         @selection-change="handleSelectionChange"
         >
         <el-table-column type="selection" width="55" />
-        <el-table-column align="left" label="日期" width="180">
-            <template #default="scope">{{ formatDate(scope.row.CreatedAt) }}</template>
-        </el-table-column>
-        <el-table-column align="left" label="分类名称" prop="categoryName" width="120" />
-        <el-table-column align="left" label="备注" prop="more" width="120" />
+
+        <el-table-column align="left" label="分类名称" prop="categoryName" min-width="30%" />
+<!--        <el-table-column align="left" label="备注" prop="more" min-width="30%" />-->
         <el-table-column align="left" label="按钮组">
             <template #default="scope">
             <el-button type="text" icon="edit" size="small" class="table-button" @click="updateAppCategoryFunc(scope.row)">变更</el-button>
@@ -60,8 +58,12 @@
         <el-form-item label="分类名称:">
           <el-input v-model="formData.categoryName" clearable placeholder="请输入" />
         </el-form-item>
-        <el-form-item label="备注:">
-          <el-input v-model="formData.more" clearable placeholder="请输入" />
+<!--        <el-form-item label="备注:">-->
+<!--          <el-input v-model="formData.more" clearable placeholder="请输入" />-->
+<!--        </el-form-item>-->
+
+        <el-form-item label="more:">
+            <Md v-model="formData.more" />
         </el-form-item>
       </el-form>
       <template #footer>
@@ -94,6 +96,7 @@ import {
 import { getDictFunc, formatDate, formatBoolean, filterDict } from '@/utils/format'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { ref } from 'vue'
+import Md from "@/components/md/md.vue";
 
 // 自动化生成的字典（可能为空）以及字段
 const formData = ref({

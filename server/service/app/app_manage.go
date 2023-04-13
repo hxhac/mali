@@ -54,10 +54,19 @@ func (appManageService *AppManageService) GetAppManageInfoList(info xxxReq.AppMa
 	db := global.GVA_DB.Model(&app.AppManage{})
 	var appManages []app.AppManage
 	// 如果有条件搜索 下方会自动创建搜索语句
+	if info.CategoryId != nil {
+		db = db.Where("`category_id` = ?", info.CategoryId)
+	}
+	if info.AppLabel != nil {
+		db = db.Where("`app_label` = ?", info.AppLabel)
+	}
+	if info.AppName != "" {
+		db = db.Where("`app_name` LIKE ?", "%"+info.AppName+"%")
+	}
 	err = db.Count(&total).Error
 	if err != nil {
 		return
 	}
-	err = db.Limit(limit).Offset(offset).Find(&appManages).Error
+	err = db.Order("score desc").Limit(limit).Offset(offset).Find(&appManages).Error
 	return err, appManages, total
 }
