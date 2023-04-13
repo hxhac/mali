@@ -1,7 +1,6 @@
 package rss
 
 import (
-	"github.com/flipped-aurora/gin-vue-admin/server/global"
 	resp "github.com/flipped-aurora/gin-vue-admin/server/model/common/response"
 	rssModel "github.com/flipped-aurora/gin-vue-admin/server/model/rss"
 	"github.com/flipped-aurora/gin-vue-admin/server/service"
@@ -10,7 +9,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/golang-module/carbon"
 	"github.com/mmcdole/gofeed"
-	"go.uber.org/zap"
 	"log"
 	"time"
 )
@@ -61,14 +59,14 @@ func (RssApi) FeedRss(ctx *gin.Context) {
 
 func feeds(allFeeds []*gofeed.Feed) (ret []*rss.Item) {
 	// 移除所有没有时间戳字段的feed
-	filteredFeeds := allFeeds[:0]
-	for _, feed := range allFeeds {
-		if feed.PublishedParsed != nil || feed.UpdatedParsed != nil {
-			filteredFeeds = append(filteredFeeds, feed)
-		} else {
-			global.GVA_LOG.Error("function feeds() Failed, missing params published_time, cause error", zap.String("url", feed.FeedLink))
-		}
-	}
+	//filteredFeeds := allFeeds[:0]
+	//for _, feed := range allFeeds {
+	//	if feed.PublishedParsed != nil || feed.UpdatedParsed != nil {
+	//		filteredFeeds = append(filteredFeeds, feed)
+	//	} else {
+	//		global.GVA_LOG.Error("function feeds() Failed, missing params published_time, cause error", zap.String("url", feed.FeedLink))
+	//	}
+	//}
 	// 根据发布时间排序
 	//bp := byPublished(filteredFeeds)
 	//sort.Sort(sort.Reverse(bp))
@@ -80,11 +78,11 @@ func feeds(allFeeds []*gofeed.Feed) (ret []*rss.Item) {
 		var rssFeed rssModel.RssFeed
 		rssFeed.SourceUrl = sourceFeed.Link
 		// 判断updated_time是否存在
-		if sourceFeed.UpdatedParsed != nil {
-			rssFeed.UpdatedAt = *sourceFeed.UpdatedParsed
-			err := rssFeedService.UpdateUpdatedTime(rssFeed)
-			global.GVA_LOG.Error("function Feeds() failed", zap.String("url", rssFeed.SourceUrl), zap.String("err", err.Error()))
-		}
+		//if sourceFeed.UpdatedParsed != nil {
+		//	rssFeed.UpdatedAt = *sourceFeed.UpdatedParsed
+		//	err := rssFeedService.UpdateUpdatedTime(rssFeed)
+		//	global.GVA_LOG.Error("function Feeds() failed", zap.String("url", rssFeed.SourceUrl), zap.String("err", err.Error()))
+		//}
 
 		for _, item := range sourceFeed.Items {
 			//if seen[item.Link] {
