@@ -71,11 +71,12 @@
         <el-table-column align="left" label="app名称" prop="appName" min-width="20%">
           <template #default="scope">
 
-            {{ scope.row.appName }} &nbsp;
-
-            <el-tag v-if="scope.row.appUrl" size="small">
-              <el-link :href="scope.row.appUrl" _target="blank" :icon="Link" />
-            </el-tag>
+            <el-link v-if="scope.row.appUrl" :href="scope.row.appUrl" type="primary">
+              {{ scope.row.appName }}
+            </el-link> &nbsp;
+            <template v-else>
+              {{ scope.row.appName }}
+            </template> &nbsp;
 
             <el-tag v-if="scope.row.appLabel >= 0" :type="labelOptions[scope.row.appLabel].color" size="small" effect="dark" :hit="false">
               {{ labelOptions[scope.row.appLabel].label }}
