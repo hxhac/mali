@@ -78,7 +78,7 @@
             </template>
         </el-table-column>
 
-        <el-table-column align="left" label="app备注" prop="appRemark" min-width="30%" />
+        <el-table-column align="left" label="评价" prop="appRemark" min-width="30%" />
 
         <el-table-column align="left" label="按钮组" min-width="30%">
           <template #default="scope">
@@ -134,7 +134,7 @@
             <el-rate v-model.number="formData.score" />
         </el-form-item>
 
-        <el-form-item label="app备注:">
+        <el-form-item label="评价:">
           <el-input v-model="formData.appRemark" clearable placeholder="请输入" />
         </el-form-item>
         <el-form-item label="more字段:">
