@@ -205,7 +205,7 @@ const formData = ref({
 // =========== 表格控制部分 ===========
 const page = ref(1)
 const total = ref(0)
-const pageSize = ref(10)
+const pageSize = ref(30)
 const tableData = ref([])
 const searchInfo = ref({
   categoryId: 1,
@@ -223,7 +223,7 @@ const onReset = () => {
 // 搜索
 const onSubmit = () => {
   page.value = 1
-  pageSize.value = 10
+  pageSize.value = 30
   getTableData()
 }
 
