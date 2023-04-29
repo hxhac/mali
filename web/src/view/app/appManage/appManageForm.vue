@@ -11,7 +11,7 @@
         <el-form-item label="app名称:">
           <el-input v-model="formData.appName" clearable placeholder="请输入" />
         </el-form-item>
-        <el-form-item label="app备注:">
+        <el-form-item label="评价:">
           <el-input v-model="formData.appRemark" clearable placeholder="请输入" />
         </el-form-item>
         <el-form-item label="app的url:">
