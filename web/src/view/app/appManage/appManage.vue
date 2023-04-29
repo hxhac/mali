@@ -12,8 +12,17 @@
             />
           </el-select>
         </el-form-item>
-
-        <el-form-item label="标签" :rules="[{required: true}]">
+        <el-form-item label="是否使用中" :rules="[{required: true}]">
+          <el-select v-model="searchInfo.isUse" clearable filterable>
+            <el-option
+              v-for="item in isUseOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="标签">
           <el-select v-model="searchInfo.appLabel" clearable filterable>
             <el-option
               v-for="item in labelOptions"
@@ -56,14 +65,18 @@
         @selection-change="handleSelectionChange"
       >
         <el-table-column type="selection" width="55" />
+
+        <el-table-column align="left" label="app功能" prop="target" min-width="10%" />
+
         <el-table-column align="left" label="app名称" prop="appName" min-width="20%">
           <template #default="scope">
 
-            {{ scope.row.appName }} &nbsp;
-
-            <el-tag v-if="scope.row.appUrl" size="small">
-              <el-link :href="scope.row.appUrl" _target="blank" :icon="Link" />
-            </el-tag>
+            <el-link v-if="scope.row.appUrl" :href="scope.row.appUrl" type="primary">
+              {{ scope.row.appName }}
+            </el-link> &nbsp;
+            <template v-else>
+              {{ scope.row.appName }}
+            </template> &nbsp;
 
             <el-tag v-if="scope.row.appLabel >= 0" :type="labelOptions[scope.row.appLabel].color" size="small" effect="dark" :hit="false">
               {{ labelOptions[scope.row.appLabel].label }}
@@ -73,14 +86,14 @@
         </el-table-column>
 
         <el-table-column align="left" label="评分" prop="score" min-width="15%">
-            <template #default="scope">
-                <el-rate v-model="scope.row.score" disabled />
-            </template>
+          <template #default="scope">
+            <el-rate v-model="scope.row.score" disabled />
+          </template>
         </el-table-column>
 
-        <el-table-column align="left" label="app备注" prop="appRemark" min-width="30%" />
+        <el-table-column align="left" label="评价" prop="appRemark" min-width="35%" />
 
-        <el-table-column align="left" label="按钮组" min-width="30%">
+        <el-table-column align="left" label="按钮组" min-width="20%">
           <template #default="scope">
             <el-button type="text" icon="edit" size="small" class="table-button" @click="updateAppManageFunc(scope.row)">变更</el-button>
             <el-button type="text" icon="delete" size="small" @click="deleteRow(scope.row)">删除</el-button>
@@ -101,6 +114,9 @@
     </div>
     <el-dialog v-model="dialogFormVisible" :before-close="closeDialog" title="弹窗操作">
       <el-form :model="formData" label-position="right" label-width="80px">
+        <el-form-item label="app功能:">
+          <el-input v-model="formData.target" clearable placeholder="请输入" />
+        </el-form-item>
 
         <el-form-item label="app名称:">
           <el-input v-model="formData.appName" clearable placeholder="请输入" />
@@ -131,10 +147,10 @@
         </el-form-item>
 
         <el-form-item label="评分:">
-            <el-rate v-model.number="formData.score" />
+          <el-rate v-model.number="formData.score" />
         </el-form-item>
 
-        <el-form-item label="app备注:">
+        <el-form-item label="评价:">
           <el-input v-model="formData.appRemark" clearable placeholder="请输入" />
         </el-form-item>
         <el-form-item label="more字段:">
@@ -168,6 +184,13 @@ export default {
         value: 2,
         label: '已删除工具',
         color: 'danger'
+      }],
+      isUseOptions: [{
+        value: 1,
+        label: '使用中'
+      }, {
+        value: 0,
+        label: '已删除'
       }]
     }
   }
@@ -200,30 +223,34 @@ const formData = ref({
   appRemark: '',
   appUrl: '',
   categoryId: 1,
+  isUse: 1,
+  target: ''
 })
 
 // =========== 表格控制部分 ===========
 const page = ref(1)
 const total = ref(0)
-const pageSize = ref(10)
+const pageSize = ref(30)
 const tableData = ref([])
 const searchInfo = ref({
   categoryId: 1,
-  appLabel: 0,
+  // appLabel: 0,
+  isUse: 1,
 })
 
 // 重置
 const onReset = () => {
   searchInfo.value = {
     categoryId: 1,
-    appLabel: 0,
+    // appLabel: 0,
+    isUse: 1
   }
 }
 
 // 搜索
 const onSubmit = () => {
   page.value = 1
-  pageSize.value = 10
+  pageSize.value = 30
   getTableData()
 }
 
@@ -362,6 +389,7 @@ const closeDialog = () => {
     appRemark: '',
     appUrl: '',
     categoryId: 1,
+    isUse: 1
   }
 }
 // 弹窗确定

@@ -60,8 +60,11 @@ func (appManageService *AppManageService) GetAppManageInfoList(info xxxReq.AppMa
 	if info.AppLabel != nil {
 		db = db.Where("`app_label` = ?", info.AppLabel)
 	}
+	if info.IsUse != nil {
+		db = db.Where("`is_use` = ?", info.IsUse)
+	}
 	if info.AppName != "" {
-		db = db.Where("`app_name` LIKE ?", "%"+info.AppName+"%")
+		db = db.Where("`app_name` LIKE ? Or `app_remark` LIKE ? Or `target` LIKE ?", "%"+info.AppName+"%", "%"+info.AppName+"%", "%"+info.AppName+"%")
 	}
 	err = db.Count(&total).Error
 	if err != nil {
