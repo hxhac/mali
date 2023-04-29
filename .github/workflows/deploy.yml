@@ -2,11 +2,9 @@ name: deploy
 on:
   push:
     tags: [v*]
-  pull_request:
-    branches: [main] # 当pr被合并到main分支时
+
 permissions:
   contents: read
-
 jobs:
   server:
     name: push server image to ACR
