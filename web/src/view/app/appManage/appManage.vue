@@ -135,6 +135,16 @@
             />
           </el-select>
         </el-form-item>
+        <el-form-item label="isUse:">
+          <el-select v-model="formData.isUse" placeholder="请选择" clearable filterable>
+            <el-option
+              v-for="item in isUseOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </el-form-item>
         <el-form-item label="app标签:">
           <el-select v-model="formData.appLabel" placeholder="请选择" clearable filterable>
             <el-option
