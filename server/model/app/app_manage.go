@@ -16,6 +16,7 @@ type AppManage struct {
 	AppUrl     string `json:"appUrl" form:"appUrl" gorm:"column:app_url;comment:app的url;size:255;"`
 	Score      *int   `json:"score" form:"score" gorm:"column:score;comment:评分;size:10;"`
 	CategoryId *int   `json:"categoryId" form:"categoryId" gorm:"column:category_id;comment:分类id;size:10;"`
+	IsUse      *bool  `json:"isUse" form:"isUse" gorm:"is_use;comment:是否使用，默认不disable(0);default:1;not null;"`
 }
 
 // TableName AppManage 表名

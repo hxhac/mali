@@ -12,8 +12,17 @@
             />
           </el-select>
         </el-form-item>
-
-        <el-form-item label="标签" :rules="[{required: true}]">
+        <el-form-item label="是否使用中" :rules="[{required: true}]">
+            <el-select v-model="searchInfo.isUse" clearable filterable>
+                <el-option
+                        v-for="item in isUseOptions"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value"
+                />
+            </el-select>
+        </el-form-item>
+        <el-form-item label="标签">
           <el-select v-model="searchInfo.appLabel" clearable filterable>
             <el-option
               v-for="item in labelOptions"
@@ -168,6 +177,13 @@ export default {
         value: 2,
         label: '已删除工具',
         color: 'danger'
+      }],
+      isUseOptions: [{
+        value: 1,
+        label: '使用中'
+      }, {
+        value: 0,
+        label: '已删除'
       }]
     }
   }
@@ -200,6 +216,7 @@ const formData = ref({
   appRemark: '',
   appUrl: '',
   categoryId: 1,
+  isUse: 1
 })
 
 // =========== 表格控制部分 ===========
@@ -209,14 +226,16 @@ const pageSize = ref(30)
 const tableData = ref([])
 const searchInfo = ref({
   categoryId: 1,
-  appLabel: 0,
+  // appLabel: 0,
+  isUse: 1,
 })
 
 // 重置
 const onReset = () => {
   searchInfo.value = {
     categoryId: 1,
-    appLabel: 0,
+    // appLabel: 0,
+    isUse: 1
   }
 }
 
@@ -362,6 +381,7 @@ const closeDialog = () => {
     appRemark: '',
     appUrl: '',
     categoryId: 1,
+    isUse: 1
   }
 }
 // 弹窗确定
