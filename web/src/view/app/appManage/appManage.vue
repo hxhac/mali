@@ -66,7 +66,7 @@
       >
         <el-table-column type="selection" width="55" />
 
-        <el-table-column align="left" label="app功能" prop="target" min-width="10%" />
+        <el-table-column align="left" label="app功能" prop="target" min-width="20%" />
 
         <el-table-column align="left" label="app名称" prop="appName" min-width="20%">
           <template #default="scope">
@@ -91,7 +91,7 @@
           </template>
         </el-table-column>
 
-        <el-table-column align="left" label="评价" prop="appRemark" min-width="35%" />
+        <el-table-column align="left" label="评价" prop="appRemark" min-width="25%" />
 
         <el-table-column align="left" label="按钮组" min-width="20%">
           <template #default="scope">
@@ -174,15 +174,15 @@ export default {
     return {
       labelOptions: [{
         value: 0,
-        label: '核心工具',
+        label: 'CORE',
         color: 'success'
       }, {
         value: 1,
-        label: '增强型工具',
+        label: 'ENHANCE',
         color: 'warning'
       }, {
         value: 2,
-        label: '已删除工具',
+        label: 'DEL',
         color: 'danger'
       }],
       isUseOptions: [{
