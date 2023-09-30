@@ -57,15 +57,29 @@ func (appManageService *AppManageService) GetAppManageInfoList(info xxxReq.AppMa
 	if info.CategoryId != nil {
 		db = db.Where("`category_id` = ?", info.CategoryId)
 	}
-	if info.AppLabel != nil {
-		db = db.Where("`app_label` = ?", info.AppLabel)
-	}
+	//if info.AppLabel != nil {
+	//	db = db.Where("`app_label` = ?", info.AppLabel)
+	//}
+
+	// 根据score判断是否使用
 	if info.IsUse != nil {
-		db = db.Where("`is_use` = ?", info.IsUse)
+		if *info.IsUse == true {
+			db = db.Where("`score` > ?", 3)
+		} else {
+			db = db.Where("`score` <= ?", 3)
+		}
 	}
-	if info.AppName != "" {
-		db = db.Where("`app_name` LIKE ? Or `app_remark` LIKE ? Or `target` LIKE ?", "%"+info.AppName+"%", "%"+info.AppName+"%", "%"+info.AppName+"%")
+
+	//if info.AppName != "" {
+	//	db = db.Where("`app_name` LIKE ? Or `app_remark` LIKE ? Or `target` LIKE ?", "%"+info.AppName+"%", "%"+info.AppName+"%", "%"+info.AppName+"%")
+	//}
+
+	// 根据关键字从功能、名称、备注和Markdown更多中查找
+	if info.Target != "" {
+		//db = db.Where("`target` LIKE ?", "%"+info.Target+"%")
+		db = db.Where("`app_name` LIKE ? Or `app_remark` LIKE ? Or `target` LIKE ? Or `app_more` LIKE ?", "%"+info.Target+"%", "%"+info.Target+"%", "%"+info.Target+"%", "%"+info.Target+"%")
 	}
+
 	err = db.Count(&total).Error
 	if err != nil {
 		return
