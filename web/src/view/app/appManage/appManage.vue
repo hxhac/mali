@@ -1,8 +1,14 @@
 <template>
   <div>
     <div class="gva-search-box">
+
       <el-form :inline="true" :model="searchInfo" class="demo-form-inline">
-        <el-form-item label="分类:" :rules="[{required: true}]">
+
+        <el-form-item label="功能:">
+          <el-input v-model="searchInfo.target" placeholder="APP功能" clearable />
+        </el-form-item>
+
+        <el-form-item label="分类:">
           <el-select v-model="searchInfo.categoryId" placeholder="请选择" clearable filterable required>
             <el-option
               v-for="item in categoryOptions"
@@ -12,7 +18,8 @@
             />
           </el-select>
         </el-form-item>
-        <el-form-item label="是否使用中" :rules="[{required: true}]">
+
+        <el-form-item label="是否使用中">
           <el-select v-model="searchInfo.isUse" clearable filterable>
             <el-option
               v-for="item in isUseOptions"
@@ -22,20 +29,21 @@
             />
           </el-select>
         </el-form-item>
-        <el-form-item label="标签">
-          <el-select v-model="searchInfo.appLabel" clearable filterable>
-            <el-option
-              v-for="item in labelOptions"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            />
-          </el-select>
-        </el-form-item>
+<!--        <el-form-item label="标签">-->
+<!--          <el-select v-model="searchInfo.appLabel" clearable filterable>-->
+<!--            <el-option-->
+<!--              v-for="item in labelOptions"-->
+<!--              :key="item.value"-->
+<!--              :label="item.label"-->
+<!--              :value="item.value"-->
+<!--            />-->
+<!--          </el-select>-->
+<!--        </el-form-item>-->
 
-        <el-form-item label="工具名称:">
-          <el-input v-model="searchInfo.appName" placeholder="工具名称" clearable />
-        </el-form-item>
+<!--        <el-form-item label="工具名称:">-->
+<!--          <el-input v-model="searchInfo.appName" placeholder="工具名称" clearable />-->
+<!--        </el-form-item>-->
+
         <el-form-item>
           <el-button size="small" type="primary" icon="search" @click="onSubmit">查询</el-button>
           <el-button size="small" icon="refresh" @click="onReset">重置</el-button>
@@ -78,7 +86,7 @@
               {{ scope.row.appName }}
             </template> &nbsp;
 
-            <el-tag v-if="scope.row.appLabel >= 0" :type="labelOptions[scope.row.appLabel].color" size="small" effect="dark" :hit="false">
+            <el-tag v-if="scope.row.appLabel >= 0" :type="labelOptions[scope.row.appLabel].color"  size="small" effect="dark" :hit="false">
               {{ labelOptions[scope.row.appLabel].label }}
             </el-tag>
 
@@ -135,16 +143,7 @@
             />
           </el-select>
         </el-form-item>
-        <el-form-item label="isUse:">
-          <el-select v-model="formData.isUse" placeholder="请选择" clearable filterable>
-            <el-option
-              v-for="item in isUseOptions"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            />
-          </el-select>
-        </el-form-item>
+
         <el-form-item label="app标签:">
           <el-select v-model="formData.appLabel" placeholder="请选择" clearable filterable>
             <el-option
@@ -184,16 +183,20 @@ export default {
     return {
       labelOptions: [{
         value: 0,
-        label: 'CORE',
-        color: 'success'
+        label: '核心',
+        color: 'success',
       }, {
         value: 1,
-        label: 'ENHANCE',
+        label: '工具',
         color: 'warning'
       }, {
         value: 2,
         label: 'DEL',
         color: 'danger'
+      }, {
+        value: 3,
+        label: '平台',
+        color: 'primary'
       }],
       isUseOptions: [{
         value: 1,
@@ -232,8 +235,6 @@ const formData = ref({
   appName: '',
   appRemark: '',
   appUrl: '',
-  categoryId: 1,
-  isUse: 1,
   target: ''
 })
 
@@ -243,17 +244,14 @@ const total = ref(0)
 const pageSize = ref(30)
 const tableData = ref([])
 const searchInfo = ref({
-  categoryId: 1,
-  // appLabel: 0,
-  isUse: 1,
 })
 
 // 重置
 const onReset = () => {
   searchInfo.value = {
-    categoryId: 1,
-    // appLabel: 0,
-    isUse: 1
+    // categoryId: 1,
+    // // appLabel: 0,
+    // isUse: 1
   }
 }
 
@@ -398,8 +396,6 @@ const closeDialog = () => {
     appName: '',
     appRemark: '',
     appUrl: '',
-    categoryId: 1,
-    isUse: 1
   }
 }
 // 弹窗确定
