@@ -23,6 +23,7 @@
               <el-option value="tencent-cos" />
               <el-option value="aliyun-oss" />
               <el-option value="huawei-obs" />
+              <el-option value="aws-s3" />
             </el-select>
           </el-form-item>
           <el-form-item label="多点登录拦截">
