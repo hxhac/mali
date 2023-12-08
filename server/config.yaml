@@ -6,29 +6,29 @@ aliyun-oss:
   bucket-url: https://jeffcott.oss-cn-beijing.aliyuncs.com
   base-path: mali
 autocode:
-  transfer-restart: true
+  server-request: /model/%s/request/
   root: /Users/lhgtqb7bll/Downloads/mali
   server: /server
   server-api: /api/v1/%s
   server-initialize: /initialize
   server-model: /model/%s
-  server-request: /model/%s/request/
   server-router: /router/%s
   server-service: /service/%s
   web: /web/src
   web-api: /api
   web-form: /view
   web-table: /view
+  transfer-restart: true
 aws-s3:
-  bucket: xxxxx-10005608
-  region: ap-shanghai
-  endpoint: ""
+  bucket: hhacking
+  region: auto
+  endpoint: https://96540bd100b82adba941163704660c31.r2.cloudflarestorage.com
+  secret-id: beab647508ecd650f9de54b89d534015
+  secret-key: 05db374023894a52659b5e08bcff20cea691e624901ff2ca459f8a53f27c4e48
+  base-url: https://cdn.wrss.top
+  path-prefix: mali
   s3-force-path-style: false
   disable-ssl: false
-  secret-id: xxxxxxxx
-  secret-key: xxxxxxxx
-  base-url: https://gin.vue.admin
-  path-prefix: github.com/flipped-aurora/gin-vue-admin/server
 captcha:
   key-long: 4
   img-width: 240
@@ -51,27 +51,27 @@ cors:
       Content-Type
     allow-credentials: true
 db-list:
-- disable: false
+- db-name: ""
   type: ""
   alias-name: ""
   path: ""
   port: ""
   config: ""
-  db-name: ""
   username: ""
   password: ""
+  log-mode: ""
   max-idle-conns: 10
   max-open-conns: 100
-  log-mode: ""
+  disable: false
   log-zap: false
 email:
   to: xxx@qq.com
-  port: 465
   from: xxx@163.com
   host: smtp.163.com
-  is-ssl: true
   secret: xxx
   nickname: test
+  port: 465
+  is-ssl: true
 excel:
   dir: ./resource/excel/
 hua-wei-obs:
@@ -82,9 +82,9 @@ hua-wei-obs:
   secret-key: you-secret-key
 jwt:
   signing-key: 7a7332e7-70a6-4a17-af03-01a263068fb2
+  issuer: qmPlus
   expires-time: 604800
   buffer-time: 86400
-  issuer: qmPlus
 local:
   path: uploads/file
 mysql:
@@ -94,9 +94,9 @@ mysql:
   db-name: gva
   username: root
   password: Aa@6447985
+  log-mode: ""
   max-idle-conns: 10
   max-open-conns: 100
-  log-mode: ""
   log-zap: false
 pgsql:
   path: ""
@@ -105,31 +105,31 @@ pgsql:
   db-name: ""
   username: ""
   password: ""
+  log-mode: ""
   max-idle-conns: 10
   max-open-conns: 100
-  log-mode: ""
   log-zap: false
 qiniu:
   zone: ZoneHuaDong
   bucket: ""
   img-path: ""
-  use-https: false
   access-key: ""
   secret-key: ""
+  use-https: false
   use-cdn-domains: false
 redis:
-  db: 0
   addr: 127.0.0.1:6379
   password: ""
+  db: 0
 system:
   env: public
-  addr: 8888
   db-type: mysql
-  oss-type: aliyun-oss
-  use-multipoint: false
-  use-redis: false
+  oss-type: aws-s3
+  addr: 8888
   iplimit-count: 15000
   iplimit-time: 3600
+  use-multipoint: false
+  use-redis: false
 tencent-cos:
   bucket: xxxxx-10005608
   region: ap-shanghai
@@ -138,7 +138,6 @@ tencent-cos:
   base-url: https://gin.vue.admin
   path-prefix: github.com/flipped-aurora/gin-vue-admin/server
 timer:
-  start: true
   spec: '@daily'
   detail:
   - tableName: sys_operation_records
@@ -147,12 +146,13 @@ timer:
   - tableName: jwt_blacklists
     compareField: created_at
     interval: 168h
+  start: true
 zap:
   level: info
   format: console
-  prefix: 'MALI'
+  prefix: MALI
   director: log
-  show-line: true
   encode-level: LowercaseColorLevelEncoder
   stacktrace-key: stacktrace
+  show-line: true
   log-in-console: true

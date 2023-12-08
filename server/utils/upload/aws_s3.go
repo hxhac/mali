@@ -30,7 +30,7 @@ func (*AwsS3) UploadFile(file *multipart.FileHeader) (string, string, error) {
 	uploader := s3manager.NewUploader(session)
 
 	fileKey := fmt.Sprintf("%d%s", time.Now().Unix(), file.Filename)
-	filename := global.GVA_CONFIG.AwsS3.PathPrefix + "/" + fileKey
+	filename := global.GVA_CONFIG.AwsS3.PathPrefix + "/" + time.Now().Format("2006-01-02") + "/" + fileKey
 	f, openError := file.Open()
 	if openError != nil {
 		global.GVA_LOG.Error("function file.Open() Filed", zap.Any("err", openError.Error()))
